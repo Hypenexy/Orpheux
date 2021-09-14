@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" style="background-color: #2c2c2c">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- name idea: ChorusTune -->
+    <title>ChordTune</title>
+	<link rel="shortcut icon" href="ChordNote.png" type="image/x-icon">
+    <link rel="stylesheet" href="default.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <div class="mainContent">
+        <div class="songs">
+            <i class="fa fa-play" onclick="play()"></i><st>Shattered</st><a>Hypenexy</a><dur>1:50</dur>
+        </div>
+    </div>
+    <div class="player">
+        <div class="song">
+            <img src="songimage.png">
+            <div class="description">
+                <songtitle>Shattered</songtitle>
+                <artist>Hypenexy</artist>
+            </div>
+        </div>
+        <div class="controls">
+            <div class="buttons">
+                <button><i class="fa fa-random"></i></button><button><i class="fa fa-step-backward"></i></button><button id="play"><i class="fa fa-play"></i></button><button><i class="fa fa-step-forward"></i></button><button><i class="fa fa-repeat"></i></button>
+            </div>
+            <a id="timenow">0:00</a><input type="range" step="0.25" id="seek" value="0"/><a id="duration">0:00</a>
+        </div>
+        <div class="volume">
+            <div>
+                <button id="volumeButton"><i class="fa fa-volume-up"></i></button><input type="range" min="0" max="100" value="100" class="slider" id="volume">
+            </div>
+        </div>
+    </div>
+    <script src="player.js"></script>
+</body>
+</html>

@@ -1,0 +1,253 @@
+/*
+#2c2c2c - main background
+#555 - between backgrounds color
+#111 - darker background
+#fff - text color
+#bbb - darker text color
+#0a0a0a - darkest background
+
+brand color idea 1: #658bff
+brand color idea 2: #65baff
+
+*/
+*{font-family: 'Segoe UI';}
+body{background-color:#2c2c2c;margin:0}
+.mainContent{
+    background-color: #2c2c2c;
+    height: calc(100vh - 101px);
+    width: 100%;
+}
+.player{
+    display: inline-flex;
+    color: #fff;
+    background-color: #111;
+    border-top: 1px solid #444;
+    height: 100px;
+    width: 100%;
+}
+
+.player .song{
+    width: 30%;
+}
+
+.player .song img{
+    width: 80px;
+    height: 80px;
+    padding: 10px;
+    vertical-align: middle
+}
+
+.player .song .description{
+    display: inline;
+    position: relative;
+}
+
+.player .song .description *{
+    width: 200px;
+}
+
+.player .song .description songtitle{
+    position: absolute;
+    top: -10px;
+}
+.player .song .description artist{
+    position: absolute;
+    top: 10px;
+    font-size: 14px;
+    color: #bbb
+}
+
+.player .controls{
+    width: 40%;
+}
+
+.player .controls .buttons{
+    text-align: center;
+    margin-top: 10px;
+}
+
+.player .controls .buttons button{
+    user-select: none;
+    cursor: pointer;
+    background: none;
+    color: #bbb;
+    width: 28px;
+    height: 28px;
+    border: 1px solid #111;
+    border-radius: 50%;
+    margin: 5px;
+    font-size: 12px;
+    transition: 0.15s;
+}
+.player .controls .buttons button:hover{
+    color: #fff;
+}
+.player .controls .buttons button:active{
+    border: 2px solid #fff;
+}
+
+#play{
+    font-size: 12px;
+    color: #000;
+    background: #fff;
+}
+#play:hover{
+    background: #bbb;
+}
+#play:active{
+    color: #bbb/*rgb(49, 7, 7)*/;
+    background: #0a0a0a;
+}
+
+.player .controls{
+    text-align: center;
+}
+
+.player .controls a{
+    color: #bbb;
+    font-size: 14px;
+    padding: 0 6px;
+}
+
+.player .controls input{
+    cursor: pointer;
+    background-color: #222;
+    /* border: 1px solid #ccc;*/
+    border-radius: 50px;
+    -webkit-appearance: none;
+    margin: 0;
+    width: 85%;
+}
+
+@media screen and (max-width: 1257px) {
+    .player .controls a{
+        padding: 0;
+    }
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    .player .controls input {
+        overflow: hidden;
+        -webkit-appearance: none;
+        background-color: #222;
+    }
+    
+    .player .controls input::-webkit-slider-runnable-track {
+        height: 10px;
+        -webkit-appearance: none;
+        color: #65baff;
+        margin-top: -1px;
+    }
+    
+    .player .controls input::-webkit-slider-thumb {
+        width: 10px;
+        -webkit-appearance: none;
+        height: 10px;
+        background: #fff;
+        box-shadow: -4000px 0 0 4000px #65baff;
+    }
+}
+
+input[type="range"]::-moz-range-progress {
+  background-color: #65baff; 
+}
+input[type="range"]::-moz-range-track {  
+  background-color: #222;
+}
+
+input[type="range"]::-ms-fill-lower {
+  background-color: #65baff; 
+}
+input[type="range"]::-ms-fill-upper {  
+  background-color: #222;
+}
+
+
+
+
+
+
+
+
+
+
+.player .volume{
+    width: 30%;
+    text-align: right;
+}
+
+.player .volume div{
+    padding: 31px;
+}
+
+.player .volume button{
+    user-select: none;
+    cursor: pointer;
+    background: none;
+    color: #bbb;
+    width: 28px;
+    height: 28px;
+    border: 1px solid #111;
+    border-radius: 50%;
+    margin: 5px;
+    font-size: 12px;
+    transition: 0.15s;
+}
+.player .volume button:hover{
+    color: #fff;
+}
+.player .volume button:active{
+    border: 2px solid #fff;
+}
+
+
+.slider {
+    -webkit-appearance: none;
+    width: 100%;
+    max-width: 200px;
+    height: 4px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    transition: 0.15s;
+  }
+  
+  .slider:hover {
+    opacity: 1;
+  }
+  
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #65baff;
+    cursor: pointer;
+  }
+
+@media (max-width: 660px) {
+    
+    .player .controls{
+        margin-left: 12%;
+        width: 55%;
+    }
+    .player .volume{
+        display: none;
+        width: 0%;
+    }
+}
+
+@media (max-width: 500px) {
+    
+    .player .controls{
+        margin-left: 0;
+        width: calc(100% - 110px);
+    }
+    .player .song{
+        width: 100px;
+    }
+    .player .song .description{
+        display: none;
+    }
+}
