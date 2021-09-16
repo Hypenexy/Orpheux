@@ -12,7 +12,24 @@
 <body>
     <div class="mainContent">
         <div class="songs">
-            <i class="fa fa-play" onclick="play()"></i><st>Shattered</st><a>Hypenexy</a><dur>1:50</dur>
+            <table>
+                <tr class="tablesort">
+                    <th>Title</th>
+                    <th>Album</th>
+                    <th>Duration</th>
+                </tr>
+                <tr onclick="play('shattered')">
+                    <td><st> Shattered</st></td>
+                    <td><a>destruction</a></td>
+                    <td><dur>1:50</dur></td>
+                </tr>
+                <tr onclick="play('structure')">
+                    <td><st> Structure</st></td>
+                    <td><a>destruction</a></td>
+                    <td><dur>2:13</dur></td>
+                </tr>
+              </table>
+              <!-- transform this into <div>s and elements cuz it's epicer -->
         </div>
     </div>
     <div class="player">

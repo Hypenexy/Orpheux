@@ -8,10 +8,10 @@ const timenow = document.getElementById("timenow");
 const duration = document.getElementById("duration");
 var song;
 
-function play(){
+function play(selection){
     playerStatus = "playing";
     playButton.innerHTML = '<i class="fa fa-pause"></i>';
-    song = new Audio('shattered.mp3');
+    song = new Audio(selection + '.mp3');
     song.play();
     song.ontimeupdate = function(){playbacktimeupdate()};
     song.onpause = function(){toggleplaybackstatus("paused")};
