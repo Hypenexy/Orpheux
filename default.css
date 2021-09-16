@@ -165,12 +165,6 @@ input[type="range"]::-ms-fill-upper {
 
 
 
-
-
-
-
-
-
 .player .volume{
     width: 30%;
     text-align: right;
@@ -250,4 +244,8 @@ input[type="range"]::-ms-fill-upper {
     .player .song .description{
         display: none;
     }
+}
+
+.mainContent .songs {
+    
 }
