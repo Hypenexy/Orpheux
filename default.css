@@ -298,6 +298,10 @@ input[type="range"]::-ms-fill-upper{
     padding: 10px;
 }
 
+.mainContent header img{
+    margin: -8px 0;
+}
+
 .mainContent header h2{
     font-weight: 400;
     display: inline;
