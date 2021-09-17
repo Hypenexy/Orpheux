@@ -9,6 +9,9 @@ const duration = document.getElementById("duration");
 var song;
 
 function play(selection){
+    if(song){
+        song.pause();
+    }
     playerStatus = "playing";
     playButton.innerHTML = '<i class="fa fa-pause"></i>';
     song = new Audio(selection + '.mp3');

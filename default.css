@@ -265,7 +265,6 @@ input[type="range"]::-ms-fill-upper{
 
 .mainContent .songs tr{
     cursor: pointer;
-    background: #111;
 }
 
 .mainContent .songs tr:hover {background-color: #333}
@@ -289,4 +288,38 @@ input[type="range"]::-ms-fill-upper{
 }
 .mainContent .songs st:hover:before{
     opacity: 1.0;
+}
+
+.mainContent header{
+    user-select: none;
+    color: #fff;
+    width: calc(100% - 20px);
+    background-color: #111;
+    padding: 10px;
+}
+
+.mainContent header h2{
+    font-weight: 400;
+    display: inline;
+    margin: 0;
+}
+.mainContent header h2 strong{
+    background: rgb(101,186,255);
+    background: linear-gradient(117deg, rgba(101,186,255,1) 0%, rgba(208,187,255,1) 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.mainContent header a{
+    cursor: pointer;
+    float: right;
+    color: #bbb;
+    border: 1px solid #bbb;
+    margin-left: 5px;
+    padding: 5px 10px;
+}
+.mainContent header a:hover{
+    color: #fff;
+    border: 1px solid #fff;
 }
