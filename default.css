@@ -245,13 +245,18 @@ input[type="range"]::-ms-fill-upper{
     }
 }
 
-.mainContent .songs table{
+.mainContent .songs{
     color: #fff;
-    border-collapse: collapse;
     width: 100%;
 }
 
-.mainContent .songs th{
+.mainContent .songs div{
+    display: grid;
+    grid-template-columns: auto auto auto;
+}
+
+.mainContent .songs .sorter{
+    margin-left: 80px;
     text-transform: uppercase;
     font-weight: 400;
     color: #bbb;
