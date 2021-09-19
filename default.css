@@ -304,6 +304,7 @@ input[type="range"]::-ms-fill-upper{
 
 .mainContent header img{
     margin: -8px 0;
+    height: 36px;
 }
 
 .mainContent header h2{
@@ -326,8 +327,13 @@ input[type="range"]::-ms-fill-upper{
     border: 1px solid #bbb;
     margin-left: 5px;
     padding: 5px 10px;
+    border-image-source: linear-gradient(117deg, rgba(101,186,255,1) 0%, rgba(208,187,255,1) 100%);
+    border-image-slice: 1;
 }
 .mainContent header a:hover{
     color: #fff;
     border: 1px solid #fff;
+}
+.mainContent header .fb{
+    border-image-source: linear-gradient(294deg, rgba(101,186,255,1) 0%, rgba(208,187,255,1) 100%);
 }
