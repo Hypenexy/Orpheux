@@ -250,9 +250,8 @@ input[type="range"]::-ms-fill-upper{
     width: 100%;
 }
 
-.mainContent .songs div{
-    display: grid;
-    grid-template-columns: auto auto auto;
+.mainContent .songs div *{
+    width: 33vw;
 }
 
 .mainContent .songs .sorter{
