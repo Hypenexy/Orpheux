@@ -245,20 +245,29 @@ input[type="range"]::-ms-fill-upper{
     }
 }
 
+
 .mainContent .songs{
+    text-align: center;
     color: #fff;
     width: 100%;
 }
 
-.mainContent .songs div *{
-    width: 33vw;
+.mainContent .songs .title{
+    text-align: left;
+    float: none;
 }
 
-.mainContent .songs .sorter{
-    margin-left: 80px;
+.mainContent .songs div *{
+    float: right;
+    width: 33.33%;
+}
+
+.mainContent .songs .headings{
     text-transform: uppercase;
     font-weight: 400;
     color: #bbb;
+    width: 80%;
+    margin-left: 10%;
 }
 
 .mainContent .songs th, td{
@@ -292,6 +301,30 @@ input[type="range"]::-ms-fill-upper{
 }
 .mainContent .songs st:hover:before{
     opacity: 1.0;
+}
+
+.mainContent .songs st{
+    float: left;
+}
+
+.mainContent .songs .song{
+    cursor: pointer;
+    padding: 10px;
+    margin-top: 20px;
+    border: 1px solid #444;
+    height: 24px;
+    width: 80%;
+    margin-left: calc(10% - 10px);
+    border-radius: 5px;
+    transition: 0.3s;
+}
+.mainContent .songs .song:hover{
+    border: 1px solid #ccc;
+}
+
+.mainContent .songs .song img{
+    width: 56px;
+    height: 56px;
 }
 
 .mainContent header{
