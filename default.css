@@ -304,15 +304,14 @@ input[type="range"]::-ms-fill-upper{
 }
 
 .mainContent .songs st{
-    float: left;
+    float: none;
 }
 
 .mainContent .songs .song{
     cursor: pointer;
-    padding: 10px;
+    padding: 30px 10px;
     margin-top: 20px;
     border: 1px solid #444;
-    height: 24px;
     width: 80%;
     margin-left: calc(10% - 10px);
     border-radius: 5px;
@@ -323,6 +322,16 @@ input[type="range"]::-ms-fill-upper{
 }
 
 .mainContent .songs .song img{
+    width: 52px;
+    height: 52px;
+    margin: -15px;
+    margin-left: 10px;
+    float: left;
+}
+songimage.png
+
+.mainContent .songs .song img{
+    float: left;
     width: 56px;
     height: 56px;
 }
