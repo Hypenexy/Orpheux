@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" style="background-color: #2c2c2c">
+
+
 <head>
+    <style>
+    .loading{ position: fixed; background: black; height: 100vh; width: 100vw; z-index: 99; transition: 0.5s;}
+    #circle-orbit-container{ position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%); border-radius: 50%; position: relative; height: 400px; width: 400px;}
+    #circle-orbit-container *{ position: absolute; border-radius: 100%;}
+    #inner-orbit{ top: 75px; left: 75px; width: 250px; height: 300px; animation: spin 6s linear infinite;}
+    .inner-orbit-cirlces{ top: 62px; height: 10px; width: 10px; background-color: rgb(101,186,255);}
+    #middle-orbit{ top: 35px; left: 35px; width: 300px; height: 325px; animation: spin 9s linear infinite;}
+    .middle-orbit-cirlces{ top: 25px; left: 17px; height: 20px; width: 20px; background-color: rgb(208,187,255);} #outer-orbit{ width: 400px; height: 400px; animation: spin 9s linear infinite;} .outer-orbit-cirlces{ top: -17px; left: 125px; height: 30px; width: 30px; background-color: rgb(187, 188, 255);}
+    @keyframes spin{ 100%{ -webkit-transform: rotate(360deg); -moz-transform: rotate(360deg); -ms-transform: rotate(360deg); -o-transform: rotate(360deg); transform: rotate(360deg);}}
+    </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- name idea: ChorusTune -->
@@ -9,32 +21,75 @@
     <link rel="stylesheet" href="default.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-<body>
+<body style="margin:0">
+    <div class="loading"><div id="circle-orbit-container"><img width="100%" src="ChordNote.png"><div id="inner-orbit"><div class="inner-orbit-cirlces"></div></div><div id="middle-orbit"><div class="middle-orbit-cirlces"></div></div><div id="outer-orbit"><div class="outer-orbit-cirlces"></div></div></div></div>
     <div class="mainContent">
-    <header>
-        <img src="ChordNote.png">
-        <h2>ChordTune <strong>BETA</strong></h2>
-        <a><i class="fa fa-plus-square-o"></i> Add a song</a>
-        <a class="fb">Feedback</a>
-    </header>
+        <header>
+            <img src="ChordNote.png">
+            <h2>ChordTune <strong>BETA</strong></h2>
+            <a><i class="fa fa-plus-square-o"></i> Add a song</a>
+            <a class="fb">Feedback</a>
+        </header>
+        <div class="sidebar">
+            <svg style="display:none;">
+                <defs>
+                    <g id="home">
+                    <path d="M42,48H6c-3.3,0-6-2.7-6-6V6c0-3.3,2.7-6,6-6h36c3.3,0,6,2.7,6,6v36C48,45.3,45.3,48,42,48z"/>
+                    <path fill="#111" d="M20.8,35.5v-9.6h6.4v9.6h8V22.7H40L24,8.3L8,22.7h4.8v12.8H20.8z"/>
+                    </g>
+                    <g id="search">
+                    <path d="M22.9,20.1h-1.5l-0.5-0.5c1.8-2.1,2.9-4.8,2.9-7.7C23.8,5.3,18.5,0,11.9,0S0,5.3,0,11.9s5.3,11.9,11.9,11.9
+                        c3,0,5.7-1.1,7.7-2.9l0.5,0.5v1.4l9.1,9.1l2.7-2.7L22.9,20.1z M11.9,20.1c-4.5,0-8.2-3.7-8.2-8.2s3.7-8.2,8.2-8.2s8.2,3.7,8.2,8.2
+                        S16.4,20.1,11.9,20.1z"/>
+                    </g>
+                    <g id="map">
+                    <path d="M16,14.2c-1,0-1.8,0.8-1.8,1.8s0.8,1.8,1.8,1.8c1,0,1.8-0.8,1.8-1.8S17,14.2,16,14.2z M16,0
+                        C7.2,0,0,7.2,0,16c0,8.8,7.2,16,16,16s16-7.2,16-16C32,7.2,24.8,0,16,0z M19.5,19.5L6.4,25.6l6.1-13.1l13.1-6.1L19.5,19.5z"/>
+                    </g>
+                </defs>
+            </svg>
+              
+              
+            <nav>
+                <svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+                    <g>
+                     <path stroke="#ffffff" id="svg_3" d="m31.98918,252.99999c0,0 190.42762,0 190.17933,-0.16492c0.24829,0.16492 0.24784,-126.00736 0,-126.17229c0,0.16468 31.64419,0.16493 31.39363,0c0.25313,0 -125.5334,-124.97671 -125.57454,-125.34763c0.20653,0.20616 -125.74247,125.92759 -125.98761,125.34763c0.03979,0.37261 29.58742,-0.2474 29.32826,0c0.2535,0 0.66092,126.33721 0.66092,126.33721z" stroke-width="9" fill="none"/>
+                     <rect id="svg_4" height="84" width="48" y="168.24672" x="104" stroke-width="9" stroke="#ffffff" fill="none"/>
+                    </g>
+                </svg>
+
+                <svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+                    <g>
+                     <path id="svg_1" d="m99.77778,99.11111c0,0 -48,104.44444 -48.22222,104.44444c0.22222,0.00001 103.77778,-47.1111 103.55555,-47.11111c0.22223,0.00001 48.22223,-104.88888 48,-104.88888c0.22223,0 -103.33332,47.55556 -103.33332,47.55556z" stroke-width="9" stroke="#ffffff" fill="none"/>
+                     <ellipse ry="13.11111" rx="13.11111" id="svg_2" cy="127.77778" cx="127.11111" stroke-width="9" stroke="#ffffff" fill="none"/>
+                     <ellipse ry="126" rx="126" id="svg_3" cy="128" cx="128.00001" stroke-width="9" stroke="#ffffff" fill="none"/>
+                    </g>
+                </svg>
+
+                <svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+                    <line stroke="#ffffff" id="svg_9" y2="146.4677" x2="146.4677" y1="254" x1="254" stroke-width="9" fill="none"/>
+                    <ellipse stroke="#ffffff" stroke-width="9" ry="84.44976" rx="84.44976" id="svg_10" cy="86.44976" cx="86.44977" fill="none"/>
+                </svg>
+            </nav>
+
+        </div>
         <div class="songs">
             <div class="headings">
                 <a class="title">Title</a><a>Album</a><a>Duration</a>
             </div>
-            <div class="song" onclick="play('shattered')">
+            <hr>
+            <div class="song" tabindex=0 onclick="play('shattered')">
                 <img src="songimage.png">
                 <st> Shattered</st>
                 <a>destruction</a>
                 <dur>0:34</dur>
             </div>
-            <div class="song" onclick="play('construction')">
+            <div class="song" tabindex=0 onclick="play('construction')">
+                <img src="songimage.png">
                 <st> Construction</st>
                 <a>destruction</a>
                 <dur>0:25</dur>
             </div>
-
-              <!-- transform this into <div>s and elements cuz it's epicer 
-                   also update both sliders to look the same and look normal!-->
         </div>
     </div>
     <div class="player">

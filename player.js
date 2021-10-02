@@ -22,7 +22,8 @@ function play(selection){
     setTimeout(function () {
         volumeSeek.max = song.duration;
         duration.innerHTML = formatTime(song.duration);
-    }, 100);
+        //probably not the problem!
+    }, 400);
 }
 
 function playbacktimeupdate(){
@@ -68,7 +69,9 @@ playButton.addEventListener("click", toggleplayback);
 
 document.body.onkeyup = function(e){
     if(e.keyCode == 32){
-        toggleplayback();
+        if(document.activeElement != playButton){
+            toggleplayback();
+        }
     }
 }
 
@@ -107,3 +110,18 @@ function seekplayback(){
 volumeSeek.addEventListener("change", seekplayback);
 
 //play();
+
+
+window.addEventListener('load', function () {
+    var loading = document.getElementsByClassName('loading');
+    var loopedclass;
+    for(i = 0; i < loading.length; i++) {
+        loading[i].style.opacity = 0;
+        loopedclass = loading[i];
+    }
+    setTimeout(function()
+    {
+        loopedclass.style.display = "none";
+
+    }, 500);
+})
