@@ -423,12 +423,33 @@ input[type="range"]::-ms-fill-upper{
     padding-top: 2rem;
     position: relative;
     width: 36px;
+    stroke: #bbb;
+}
+.mainContent .sidebar svg:hover{
+    stroke: #fff;
 }
 
-.mainContent .welcome h1 {
-    padding: 20px;
+.mainContent .welcome {
+    padding: 60px;
     color: #fff;
+    border-radius: 12px;
+}
+.mainContent .welcome h1{
+    font-size: 56px;
     font-weight: 400;
+    margin: 0;
+    margin-bottom: 40px;
+}
+.mainContent .welcome div{
+    user-select: none;
+    cursor: pointer;
+    display: inline;
+    padding: 20px;
+    border: 1px solid #bbb;
+    transition: 0.1s;
+}
+.mainContent .welcome div:hover{
+    border: 1px solid #fff;
 }
 
 #home, #discover, #search, #options {
