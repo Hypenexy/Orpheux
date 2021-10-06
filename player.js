@@ -112,16 +112,41 @@ volumeSeek.addEventListener("change", seekplayback);
 //play();
 
 
-window.addEventListener('load', function () {
-    var loading = document.getElementsByClassName('loading');
-    var loopedclass;
-    for(i = 0; i < loading.length; i++) {
-        loading[i].style.opacity = 0;
-        loopedclass = loading[i];
-    }
-    setTimeout(function()
-    {
-        loopedclass.style.display = "none";
+// window.addEventListener('load', function () {
+//     var loading = document.getElementsByClassName('loading');
+//     var loopedclass;
+//     for(i = 0; i < loading.length; i++) {
+//         loading[i].style.opacity = 0;
+//         loopedclass = loading[i];
+//     }
+//     setTimeout(function()
+//     {
+//         loopedclass.style.display = "none";
 
-    }, 500);
-})
+//     }, 500);
+// })
+
+
+//App sidebar
+const homeicon = document.getElementById("homeicon"); 
+const discovericon = document.getElementById("discovericon");
+const searchicon = document.getElementById("searchicon");
+const optionsicon = document.getElementById("optionsicon");
+const windows = ["home", "discover", "search", "options"]
+
+function openWindow(window){
+    for (const n of windows) { 
+        document.getElementById(n).style.display = "none";
+        document.getElementById(n + "icon").style.removeProperty("stroke");
+    }
+
+    document.getElementById(window).style.display = "block";
+    document.getElementById(window + "icon").style.stroke = "url(#gradient)";
+}
+
+homeicon.onclick = function() {openWindow("home")};
+discovericon.onclick = function() {openWindow("discover")};
+searchicon.onclick = function() {openWindow("search")};
+optionsicon.onclick = function() {openWindow("options")};
+
+openWindow("home")

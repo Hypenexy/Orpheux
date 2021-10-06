@@ -400,13 +400,12 @@ input[type="range"]::-ms-fill-upper{
 
 
 
-.mainContent .sidebar nav{
+.mainContent .sidebar{
     user-select: none;
-    position: fixed;
     float: left;
     z-index: 0;
     width: 60px;
-    height: 1000px;
+    height: calc(100% - 52px);
     background-color: #111;
 }
 /*    overflow: hidden;
@@ -424,4 +423,15 @@ input[type="range"]::-ms-fill-upper{
     padding-top: 2rem;
     position: relative;
     width: 36px;
+}
+
+.mainContent .welcome h1 {
+    padding: 20px;
+    color: #fff;
+    font-weight: 400;
+}
+
+#home, #discover, #search, #options {
+    width: calc(100% - 60px);
+    margin-left: 60px;
 }
