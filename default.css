@@ -10,7 +10,7 @@ brand color idea 1: #658bff
 brand color idea 2: #65baff
 
 */
-*{font-family: 'Segoe UI';}
+*{font-family:'Roboto',sans-serif}
 body{background-color:#2c2c2c;margin:0}
 .mainContent{
     background-color: #2c2c2c;
@@ -361,7 +361,7 @@ input[type="range"]::-ms-fill-upper{
     padding: 10px;
 }
 
-.mainContent header img{
+.mainContent header img, .mainContent header svg{
     margin: -8px 0;
     height: 36px;
 }
@@ -379,19 +379,29 @@ input[type="range"]::-ms-fill-upper{
     -webkit-text-fill-color: transparent;
 }
 
-.mainContent header a{
+.mainContent header a,.mainContent header svg{
     cursor: pointer;
     float: right;
     color: #bbb;
-    border: 1px solid #bbb;
     margin-left: 5px;
     padding: 5px 10px;
-    border-image-source: linear-gradient(117deg, rgba(101,186,255,1) 0%, rgba(208,187,255,1) 100%);
+    transition: 0.3s;
+}
+.mainContent header svg:hover{
+    stroke: #fff;
+    stroke-width: 23;
+}
+.mainContent header .fb {
+    border: 1px solid #bbb;
     border-image-slice: 1;
+    border-image-source: linear-gradient(117deg, rgba(101,186,255,1) 0%, rgba(208,187,255,1) 100%);
+
+}
+.mainContent header .fb:hover {
+    border: 1px solid #fff;
 }
 .mainContent header a:hover{
     color: #fff;
-    border: 1px solid #fff;
 }
 .mainContent header .fb{
     border-image-source: linear-gradient(294deg, rgba(101,186,255,1) 0%, rgba(208,187,255,1) 100%);
@@ -424,6 +434,7 @@ input[type="range"]::-ms-fill-upper{
     position: relative;
     width: 36px;
     stroke: #bbb;
+    transition: 0.1s;
 }
 .mainContent .sidebar svg:hover{
     stroke: #fff;
