@@ -111,20 +111,60 @@ body{background-color:#2c2c2c;margin:0}
     padding: 0 6px;
 }
 
-.player .controls input{
+
+
+
+
+
+
+
+
+.player .controls input {
     cursor: pointer;
-    background-color: #222;
-    /* border: 1px solid #ccc;*/
-    border-radius: 50px;
+    width: 400px;
+    height: 10px;
     -webkit-appearance: none;
-    margin: 0;
-    width: 85%;
+    background: #111;
+    outline: none;
+    background: #333;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+
+.player .controls input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #65baff;
+    border: 2px solid #65baff;
+    box-shadow: -405px 0 0 400px #65baff;
+    transition: 0.2s;
+}
+
+.player .controls .wholeseek {
+    display: inline;
+}
+.wholeseek:hover input[type="range"]::-webkit-slider-thumb{
+    background: #ddd;
+    border: 2px solid #fff;
 }
 
 @media screen and (max-width: 1257px){
     .player .controls a{
         padding: 0;
     }
+}
+/* 
+.player .controls input{
+    cursor: pointer;
+    background-color: #222;
+     border: 1px solid #ccc;
+    border-radius: 50px;
+    -webkit-appearance: none;
+    margin: 0;
+    width: 85%;
 }
 
 @media screen and (-webkit-min-device-pixel-ratio:0){
@@ -162,7 +202,7 @@ input[type="range"]::-ms-fill-lower{
 }
 input[type="range"]::-ms-fill-upper{  
   background-color: #222;
-}
+} */
 
 
 
@@ -379,9 +419,12 @@ input[type="range"]::-ms-fill-upper{
     -webkit-text-fill-color: transparent;
 }
 
+.mainContent header .add, .mainContent header .fb{
+    float: right;
+}
+
 .mainContent header a,.mainContent header svg{
     cursor: pointer;
-    float: right;
     color: #bbb;
     margin-left: 5px;
     padding: 5px 10px;
@@ -415,7 +458,7 @@ input[type="range"]::-ms-fill-upper{
     float: left;
     z-index: 0;
     width: 60px;
-    height: calc(100% - 52px);
+    height: calc(100% - 49px);
     background-color: #111;
 }
 /*    overflow: hidden;
@@ -466,4 +509,32 @@ input[type="range"]::-ms-fill-upper{
 #home, #discover, #search, #options {
     width: calc(100% - 60px);
     margin-left: 60px;
+}
+
+.tooltip {
+    position: relative;
+    display: inline;
+}
+  
+.tooltip .tooltiptext {
+    visibility: hidden;
+    opacity: 0;
+    width: 120px;
+    background-color: #444;
+    border: 1px solid #bbb;
+    color: #fff;
+    text-align: center;
+    border-radius: 12px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    top: 150%;
+    left: 50%;
+    margin-left: -60px;
+    transition: 0.2s;
+}
+.tooltip:hover .tooltiptext {
+    transition-delay: 0.4s;
+    opacity: 0.7;
+    visibility: visible;
 }
