@@ -121,7 +121,7 @@ body{background-color:#2c2c2c;margin:0}
 
 .player .controls input {
     cursor: pointer;
-    width: 400px;
+    width: 85%;
     height: 10px;
     -webkit-appearance: none;
     background: #111;
