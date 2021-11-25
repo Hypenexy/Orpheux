@@ -8,6 +8,8 @@ const timenow = document.getElementById("timenow");
 const duration = document.getElementById("duration");
 var song;
 
+var firstStart;
+
 function play(selection){
     if(song){
         song.pause();
@@ -112,19 +114,29 @@ volumeSeek.addEventListener("change", seekplayback);
 //play();
 
 
-// window.addEventListener('load', function () {
-//     var loading = document.getElementsByClassName('loading');
-//     var loopedclass;
-//     for(i = 0; i < loading.length; i++) {
-//         loading[i].style.opacity = 0;
-//         loopedclass = loading[i];
-//     }
-//     setTimeout(function()
-//     {
-//         loopedclass.style.display = "none";
+window.addEventListener('load', function () {
+    var loading = document.getElementsByClassName('loading');
+    var loopedclass;
+    if(firstStart==true){
+        for(i = 0; i < loading.length; i++) {
+            loading[i].style.opacity = 0;
+            loopedclass = loading[i];
+        }
+        setTimeout(function()
+        {
+            loopedclass.style.display = "none";
 
-//     }, 500);
-// })
+        }, 500);
+    }
+    else{
+        for(i = 0; i < loading.length; i++) {
+            loopedclass = loading[i];
+        }
+        loopedclass.style.background = "#000000ee";
+        loopedclass.style.width = "130%"
+        loopedclass.innerHTML = loopedclass.innerHTML + "<div class='login'> <h1>Sign in to do so much more!</h1> </div>"
+    }
+})
 
 
 //App sidebar
