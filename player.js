@@ -132,9 +132,27 @@ window.addEventListener('load', function () {
         for(i = 0; i < loading.length; i++) {
             loopedclass = loading[i];
         }
-        loopedclass.style.background = "#000000ee";
-        loopedclass.style.width = "130%"
-        loopedclass.innerHTML = loopedclass.innerHTML + "<div class='login'> <h1>Sign in to do so much more!</h1> </div>"
+        //loopedclass.innerHTML = loopedclass.innerHTML + "<div id='login'> <h1>Sign in to do so much more!</h1> </div>"
+        var login = document.getElementById("login")
+        login.innerHTML = "<h1>Sign in to do so much more!</h1>";
+        var loc = document.getElementById("loc")
+        setTimeout(function()
+        {
+            loopedclass.style.background = "#000000bb";
+            loc.style.transition = "1s"
+            loc.style.transform = "translate(30%, -50%)"
+            //loc.style.float = "right"
+            //loc.style.left = "initial"
+            loc.style.right = "15%"
+            setTimeout(function()
+            {
+                login.style.transition = "1s"
+                login.style.background = "#000"
+                login.style.border = "2px solid #333"
+                login.style.borderRadius = "12px"
+                login.style.color = "#fff"
+            }, 1000);
+        }, 200);
     }
 })
 

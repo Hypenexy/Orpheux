@@ -543,24 +543,25 @@ input[type="range"]::-ms-fill-upper{
 
 
 
-.login{
+#login{
     z-index: -1;
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-80%, -55%);
+    transform: translate(-50%, -50%);
 
-    width: 50%;
-    height: 70%;
+    width: 80%;
+    height: 80%;
     padding: 20px;
 
     color: #fff;
-    background: rgba(0, 0, 0);
-    /* backdrop-filter: blur( 12px );
-    -webkit-backdrop-filter: blur( 12px ); */
-    border: 1px solid #ccc;
-    border-radius: 12px;
+    
+    border: 2px solid #00000000;
 
-    color: #fff;
+    color: #000;
     opacity: 1;
+}
+#login h1{
+    margin: 30px 70px;
+    font-weight: 400;
 }
