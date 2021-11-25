@@ -4,9 +4,9 @@
 
 <head>
     <style>
-    .loading{ position: fixed; background: black; height: 100vh; width: 100vw; z-index: 99; transition: 0.5s;}
+    .loading{ position: fixed; background: black; height: 100vh; width: 100vw; z-index: 99; transition: background 19s,opacity 0.5s}
     .centered{
-        position: absolute;
+        position: absolute; float: right;
         top: 45%;
         left: 50%;
         transform: translate(-50%, -50%);
@@ -25,8 +25,8 @@
         animation: spin 9s linear infinite;
     }
 
-    #circle-orbit-container{ position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%); position: relative; height: 400px; width: 400px;}
-    #circle-orbit-container *{ position: absolute; border-radius: 100%;}
+    #loc{ position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%); position: relative; height: 400px; width: 400px;}
+    #loc *{ position: absolute; border-radius: 100%;}
     #inner-orbit{ top: 75px; left: 75px; width: 250px; height: 300px; animation: spin 6s linear infinite;}
     .inner-orbit-cirlces{ top: 62px; height: 10px; width: 10px; background-color: rgb(101,186,255);}
     #middle-orbit{ top: 35px; left: 35px; width: 300px; height: 325px; animation: spin 9s linear infinite;}
@@ -46,7 +46,7 @@
 </head>
 <body style="margin:0">
     <div class="loading">
-        <div id="circle-orbit-container">
+        <div id="loc">
             <img width="100%" src="ChordNote.png">
             <div id="inner-orbit">
                 <div class="inner-orbit-cirlces">
@@ -59,11 +59,12 @@
                 </div>
             </div>
             <div id="outer-orbit">
-                <div class="outer-orbit-cirlces">
+                <div class="outer-orbit-cirlces"1>
 
                 </div>
             </div>
         </div>
+        <div id=login></div>
     </div>
 
     <!-- <div class="loading">
