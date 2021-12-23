@@ -134,11 +134,11 @@ window.addEventListener('load', function () {
         }
         //loopedclass.innerHTML = loopedclass.innerHTML + "<div id='login'> <h1>Sign in to do so much more!</h1> </div>"
         var login = document.getElementById("login")
-        login.innerHTML = "<h1>Sign in to do so much more!</h1>";
+        login.innerHTML = "<h1>Sign in to do so much more!</h1>" + login.innerHTML //remove this later
         var loc = document.getElementById("loc")
         setTimeout(function()
         {
-            loopedclass.style.background = "#000000bb";
+            loopedclass.style.background = "#000000bb"
             loc.style.transition = "1s"
             loc.style.transform = "translate(30%, -50%)"
             //loc.style.float = "right"
@@ -155,6 +155,15 @@ window.addEventListener('load', function () {
         }, 200);
     }
 })
+
+function switchform(form){
+    if(form=="login"){
+
+    }
+    if(form=="register"){
+
+    }
+}
 
 
 //App sidebar

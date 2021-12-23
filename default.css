@@ -565,3 +565,27 @@ input[type="range"]::-ms-fill-upper{
     margin: 30px 70px;
     font-weight: 400;
 }
+#login .forms{
+    border: 1px solid #666;
+    border-radius: 12px;
+    max-width: 470px;
+}
+#login .navbar{
+    padding: 12px;
+    text-align: center;
+}
+#login p{
+    text-transform: uppercase;
+    font-size: 12px;
+    color: #bbb;
+    font-weight: 900;
+}
+#login .navbar a{
+    cursor: pointer;
+    color: #eee;
+    padding: 12px;
+}
+#login .navbar a:hover{
+    color: #fff;
+    background: #33333366;
+}
