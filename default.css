@@ -700,18 +700,49 @@ input[type="range"]::-ms-fill-upper{
 }
 
 #together .options{
+    user-select: none;
     display: block;
     padding: 12px;
     margin: 16px;
     border: 1px solid #65baff;
     border-radius: 8px;
+    background: #11111166;
 
     color: #bbb;
 }
 
-#together .options a{
+#together .options a,#together .options input{
+    display: inline-block;
     cursor: pointer;
     padding: 12px;
+    border-radius: 8px;
     color: #fff;
-    background: #11111166;
+    border: 1px solid #bbb;
+    background: #11111144;
+    transition: 0.1s;
+}
+#together .options a:hover{
+    background: #11111199;
+    transform: scale(1.04);
+}
+#together .options input{
+    font-size: 16px;
+    cursor:auto;
+    outline: 0;
+}
+#together .options input:focus{
+    border: 1px solid #65baff;
+}
+#together .options a:active{
+    transform: none;
+}
+#together .options p{
+    margin: 0
+}
+#together .options p:active{
+    color: #bbbbbbee
+}
+
+#togetheroptions1{
+    padding: 100px 60px;
 }

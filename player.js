@@ -218,3 +218,34 @@ optionsicon.onclick = function() {openWindow("options")};
 togethericon.onclick = function() {openWindow("together")};
 
 openWindow("home")
+
+//Together
+
+const togetheroptions1 = document.getElementById("togetheroptions1")
+
+var joinoptionhtml = "<p>Party code</p> <input id='joincode'> <a>Join</a> <a onclick='exitjoinoption()'><i class='fa fa-times'></i></a>"
+var togetherprevious;
+
+function definetogetheroptions(){
+    var joinoption = document.getElementById("joinoption")
+    joinoption.onclick = function() {
+        togetherprevious = togetheroptions1.innerHTML
+        togetheroptions1.innerHTML = joinoptionhtml
+    }
+}
+
+definetogetheroptions()
+
+function exitjoinoption(){
+    togetheroptions1.innerHTML = togetherprevious
+    togetherprevious = ""
+    definetogetheroptions()
+}
+
+//online services
+
+const online = new EventSource("app/online.php");
+
+online.onmessage = function(event) {
+    
+}
