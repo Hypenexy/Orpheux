@@ -115,37 +115,32 @@ volumeSeek.addEventListener("change", seekplayback);
 
 
 window.addEventListener('load', function () {
+    
+    firstStart = true;
+    
     var loading = document.getElementsByClassName('loading');
-    var loopedclass;
     if(firstStart==true){
-        for(i = 0; i < loading.length; i++) {
-            loading[i].style.opacity = 0;
-            loopedclass = loading[i];
-        }
+        loading[0].style.opacity = 0;
         setTimeout(function()
         {
-            loopedclass.style.display = "none";
+            loading[0].style.display = "none";
 
         }, 500);
     }
     else{
-        for(i = 0; i < loading.length; i++) {
-            loopedclass = loading[i];
-        }
-        //loopedclass.innerHTML = loopedclass.innerHTML + "<div id='login'> <h1>Sign in to do so much more!</h1> </div>"
         var login = document.getElementById("login")
 
         var load = document.createElement("div");
-        load.id = 'lo';
+        load.id = 'loadlol';
         load.innerHTML = "<i onclick='closeWelcome()' class='x fa fa-times'></i><div class=\"forms\"><div class=\"navbar\"><a id=\"switchlogin\" onclick=\"switchform('login')\">Login</a><a id=\"switchregister\" onclick=\"switchform('register')\">Register</a></div><h1>Midelight</h1><form id=\"loginform\"><label><p>Username</p><input type=\"text\" required></label><label><p>Password</p><input type=\"password\" required></label><a tabindex=\"0\" type=\"submit\" class=\"btn btna\">Login</a></form><form id=\"registerform\"><label><p>Email</p><input type=\"text\" required></label><label><p>Username</p><input type=\"text\" required></label><label><p>Password</p><input type=\"password\" required></label><a tabindex=\"0\" type=\"submit\" class=\"btn btna\">Register</a></form><a tabindex=\"0\" onclick=\"closeWelcome()\" class='btn'>Continue without an account</a></div><div class='info'><h2>Listen with your friends</h2><a>Invite other people and listen to music with them!</a></div><div class='info'><h2>Upload your own music</h2><a>And then listen or even download it on all devices!</a></div><div class='info'><h2>Sync your settings</h2><a>Instead of disabling that one option every time, keep all your settings on your account to all devices.</a></div>" //remove this later
         login.appendChild(load);
         var loc = document.getElementById("loc")
         setTimeout(function()
         {
-            loopedclass.style.background = "#000000bb"
+            loading[0].style.background = "#000000bb"
             loc.style.transition = "1s"
             loc.style.transform = "translate(30%, -50%)"
-            //loc.style.float = "right"
+            //loc.style.float = "right" bruh
             //loc.style.left = "initial"
             loc.style.right = "15%"
             setTimeout(function()
@@ -161,7 +156,7 @@ window.addEventListener('load', function () {
                 opacitystyle.innerHTML = '#login .forms{opacity: 1}#login .info{opacity: 1}#login .x{opacity: 1}'
                 document.head.appendChild(opacitystyle)
             }, 1000);
-        }, 200);
+        }, 100);
     }
 })
 
@@ -199,11 +194,12 @@ function closeWelcome(){
 }
 
 //App sidebar
-const homeicon = document.getElementById("homeicon"); 
-const discovericon = document.getElementById("discovericon");
-const searchicon = document.getElementById("searchicon");
-const optionsicon = document.getElementById("optionsicon");
-const windows = ["home", "discover", "search", "options"]
+const homeicon = document.getElementById("homeicon")
+const discovericon = document.getElementById("discovericon")
+const searchicon = document.getElementById("searchicon")
+const optionsicon = document.getElementById("optionsicon")
+const togethericon = document.getElementById("togethericon")
+const windows = ["home", "discover", "search", "options", "together"]
 
 function openWindow(window){
     for (const n of windows) { 
@@ -219,5 +215,6 @@ homeicon.onclick = function() {openWindow("home")};
 discovericon.onclick = function() {openWindow("discover")};
 searchicon.onclick = function() {openWindow("search")};
 optionsicon.onclick = function() {openWindow("options")};
+togethericon.onclick = function() {openWindow("together")};
 
 openWindow("home")

@@ -510,7 +510,7 @@ input[type="range"]::-ms-fill-upper{
     border: 1px solid #fff;
 }
 
-#home, #discover, #search, #options {
+#home, #discover, #search, #options, #together {
     width: calc(100% - 60px);
     margin-left: 60px;
 }
@@ -697,4 +697,21 @@ input[type="range"]::-ms-fill-upper{
     display: block;
     padding: 0 12px;
     margin-bottom: 20px;
+}
+
+#together .options{
+    display: block;
+    padding: 12px;
+    margin: 16px;
+    border: 1px solid #65baff;
+    border-radius: 8px;
+
+    color: #bbb;
+}
+
+#together .options a{
+    cursor: pointer;
+    padding: 12px;
+    color: #fff;
+    background: #11111166;
 }
