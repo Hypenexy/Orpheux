@@ -22,7 +22,7 @@
         animation: spin 9s linear infinite;
     }
 
-    #loc{ position: absolute; transform: translate(-50%, -50%); position: relative; height: 400px; width: 400px;}
+    #loc{ position: absolute; transform: translate(-50%, -50%); height: 400px; width: 400px;}
     #loc *{ position: absolute; border-radius: 100%;}
     #inner-orbit{ top: 75px; left: 75px; width: 250px; height: 300px; animation: spin 6s linear infinite;}
     .inner-orbit-cirlces{ top: 62px; height: 10px; width: 10px; background-color: rgb(101,186,255);}
@@ -43,43 +43,72 @@
 </head>
 <body style="margin:0">
     <div class="loading">
-        <div id="loc">
-            <img width="100%" src="ChordNote.png">
-            <div id="inner-orbit">
-                <div class="inner-orbit-cirlces">
-
-                </div>
-            </div>
-            <div id="middle-orbit">
-                <div class="middle-orbit-cirlces">
-
-                </div>
-            </div>
-            <div id="outer-orbit">
-                <div class="outer-orbit-cirlces"1>
-
-                </div>
-            </div>
-        </div>
         <div id=login>
-            <div class="forms">
-                <div class="navbar"><a>Login</a><a>Register</a></div>
+            <div id="loc">
+                <img width="100%" src="ChordNote.png">
+                <div id="inner-orbit">
+                    <div class="inner-orbit-cirlces"></div>
+                </div>
+                <div id="middle-orbit">
+                    <div class="middle-orbit-cirlces"></div>
+                </div>
+                <div id="outer-orbit">
+                    <div class="outer-orbit-cirlces"></div>
+                </div>
+            </div>
+            
+            <!--
+                <i onclick='closeWelcome()' class='x fa fa-times'></i>
+                <div class="forms">
+                <div class="navbar"><a id="switchlogin" onclick="switchform('login')">Login</a><a id="switchregister" onclick="switchform('register')">Register</a></div>
+                <h1>Midelight</h1>
                 <form id="loginform">
-                    <!-- <h1>Login</h1> -->
                     <label>
                         <p>Username</p>
-                        <input type="text">
+                        <input type="text" required>
                     </label>
                     <label>
                         <p>Password</p>
-                        <input type="password">
+                        <input type="password" required>
                     </label>
+                    <a tabindex="0" type="submit" class="btn btna">Login</a>
                 </form>
+                <form id="registerform">
+                    <label>
+                        <p>Email</p>
+                        <input type="text" required>
+                    </label>
+                    <label>
+                        <p>Username</p>
+                        <input type="text" required>
+                    </label>
+                    <label>
+                        <p>Password</p>
+                        <input type="password" required>
+                    </label>
+                    <a tabindex="0" type="submit" class="btn btna">Register</a>
+                </form>
+                <a tabindex="0" onclick="closeWelcome()" class="btn">Continue without an account</a>
             </div>
+            <h1>Here are some reasons to have an account</h1>
+            <div class="info">
+                <h2>Listen with your friends</h2>
+                <a>Invite other people and listen to music with them!</a>
+            </div>
+            <div class="info">
+                <h2>Upload your own music</h2>
+                <a>And then listen or even download it on all devices!</a>
+            </div>
+            <div class="info">
+                <h2>Sync your settings</h2>
+                <a>Instead of disabling that one option every time, keep all your settings on your account to all devices.</a>
+            </div> -->
         </div>
     </div>
 
-    <!-- <div class="loading">
+    <!-- 
+        this one is really shit    
+    <div class="loading">
         <div class="centered">
             <img width="100%" src="ChordNote.png">
             <div class="circles">

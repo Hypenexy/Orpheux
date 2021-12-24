@@ -134,7 +134,11 @@ window.addEventListener('load', function () {
         }
         //loopedclass.innerHTML = loopedclass.innerHTML + "<div id='login'> <h1>Sign in to do so much more!</h1> </div>"
         var login = document.getElementById("login")
-        login.innerHTML = "<h1>Sign in to do so much more!</h1>" + login.innerHTML //remove this later
+
+        var load = document.createElement("div");
+        load.id = 'lo';
+        load.innerHTML = "<i onclick='closeWelcome()' class='x fa fa-times'></i><div class=\"forms\"><div class=\"navbar\"><a id=\"switchlogin\" onclick=\"switchform('login')\">Login</a><a id=\"switchregister\" onclick=\"switchform('register')\">Register</a></div><h1>Midelight</h1><form id=\"loginform\"><label><p>Username</p><input type=\"text\" required></label><label><p>Password</p><input type=\"password\" required></label><a tabindex=\"0\" type=\"submit\" class=\"btn btna\">Login</a></form><form id=\"registerform\"><label><p>Email</p><input type=\"text\" required></label><label><p>Username</p><input type=\"text\" required></label><label><p>Password</p><input type=\"password\" required></label><a tabindex=\"0\" type=\"submit\" class=\"btn btna\">Register</a></form><a tabindex=\"0\" onclick=\"closeWelcome()\" class='btn'>Continue without an account</a></div><div class='info'><h2>Listen with your friends</h2><a>Invite other people and listen to music with them!</a></div><div class='info'><h2>Upload your own music</h2><a>And then listen or even download it on all devices!</a></div><div class='info'><h2>Sync your settings</h2><a>Instead of disabling that one option every time, keep all your settings on your account to all devices.</a></div>" //remove this later
+        login.appendChild(load);
         var loc = document.getElementById("loc")
         setTimeout(function()
         {
@@ -146,25 +150,53 @@ window.addEventListener('load', function () {
             loc.style.right = "15%"
             setTimeout(function()
             {
-                login.style.transition = "1s"
+                switchform("register")
+                login.style.transition = "0.5s"
                 login.style.background = "#000"
                 login.style.border = "2px solid #333"
                 login.style.borderRadius = "12px"
                 login.style.color = "#fff"
+                loc.style.transform = "translate(30%, -80%)"
+                var opacitystyle = document.createElement('style')
+                opacitystyle.innerHTML = '#login .forms{opacity: 1}#login .info{opacity: 1}#login .x{opacity: 1}'
+                document.head.appendChild(opacitystyle)
             }, 1000);
         }, 200);
     }
 })
 
-function switchform(form){
-    if(form=="login"){
 
+function switchform(form){
+    var loginform = document.getElementById("loginform")
+    var registerform = document.getElementById("registerform")
+    var switchlogin = document.getElementById("switchlogin")
+    var switchregister = document.getElementById("switchregister")
+    if(form=="login"){
+        loginform.style.display = "block"
+        registerform.style.display = "none"
+        switchlogin.style.borderBottom =  "2px solid #65baff"
+        switchlogin.style.color = "#65baff"
+        switchregister.style.removeProperty("border-bottom")
+        switchregister.style.removeProperty("color")
     }
     if(form=="register"){
-
+        loginform.style.display = "none"
+        registerform.style.display = "block"
+        switchregister.style.borderBottom =  "2px solid #65baff"
+        switchregister.style.color = "#65baff"
+        switchlogin.style.removeProperty("border-bottom")
+        switchlogin.style.removeProperty("color")
     }
 }
 
+function closeWelcome(){
+    var loading = document.getElementsByClassName('loading');
+    loading[0].style.opacity = 0
+    setTimeout(function()
+    {
+        loading[0].style.display = "none"
+    }, 500);
+}
 
 //App sidebar
 const homeicon = document.getElementById("homeicon"); 
