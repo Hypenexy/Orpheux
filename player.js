@@ -116,7 +116,7 @@ volumeSeek.addEventListener("change", seekplayback);
 
 window.addEventListener('load', function () {
     
-    firstStart = true;
+    firstStart = false;
     
     var loading = document.getElementsByClassName('loading');
     if(firstStart==true){
