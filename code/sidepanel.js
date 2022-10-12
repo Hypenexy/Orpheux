@@ -1,0 +1,1 @@
+sidepanel.innerHTML = "<h1>Orpheux</h1>"
