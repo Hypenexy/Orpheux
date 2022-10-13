@@ -23,6 +23,7 @@ player.innerHTML = `
   <div>
     <i class='m-i'>equalizer</i>
     <i class='m-i'>volume_up</i>
+    <volmixer><input type='range' value='100'></volmixer>
   </div>
 </options>
 `
@@ -39,6 +40,85 @@ ButtonEvent(playerbuttons[2], function(){
     else{
         button.innerText = "play_arrow"
     }
+})
+
+function appVolumeChange(){
+  if(volumeslider.value>75){
+    playerbuttons[6].innerText = "volume_up"
+  }
+  else{
+    if(volumeslider.value==0){
+      playerbuttons[6].innerText = "volume_off"
+    }
+    else{
+      playerbuttons[6].innerText = "volume_down"
+    }
+  }
+}
+
+var volmixer = player.getElementsByTagName("volmixer")[0]
+var volumeslider = volmixer.getElementsByTagName("input")[0]
+volmixer.addEventListener("wheel", function(e){
+  if(e.deltaY < 0){
+    volumeslider.value = volumeslider.value*1 + 4
+  }
+  else{
+    volumeslider.value -= 4
+  }
+  appVolumeChange()
+})
+
+volumeslider.addEventListener("change", function(){
+  appVolumeChange()
+})
+
+function showVolume(){
+  volmixer.classList.add("volactive")
+}
+function hideVolume(){
+  volmixer.classList.remove("volactive")
+}
+
+ButtonEvent(playerbuttons[6], function(){
+  showVolume()
+})
+
+playerbuttons[6].addEventListener("focus", function(){
+  showVolume()
+})
+
+playerbuttons[6].addEventListener("mouseover", function(){
+  showVolume()
+})
+
+volmixer.addEventListener("mouseleave", function(){
+  hideVolume()
+})
+
+document.addEventListener("click", function(e){
+  if(e.target != volmixer && e.target != volumeslider){
+    hideVolume()
+  }
+})
+
+//WARNING, change this to a timeout cooldown!
+document.addEventListener("keydown", function(e){
+  if(e.key == "ArrowUp"){
+    showVolume()
+    volumeslider.value = volumeslider.value*1 + 4
+    appVolumeChange()
+    setTimeout(function(){
+      hideVolume()
+    }, 600);
+  }
+  if(e.key == "ArrowDown"){
+    showVolume()
+    volumeslider.value -= 4
+    appVolumeChange()
+    setTimeout(function(){
+      hideVolume()
+    }, 600);
+  }
 })
 
 //https://orangeable.com/javascript/equalizer-web-audio-api

@@ -51,6 +51,32 @@ sidepanel h1{
     text-align: center;
 }
 
+sidepanel .active{
+    color: #65baff;
+}
+sidepanel a{
+    cursor: pointer;
+    display: block;
+    background: #222;
+    padding: 12px;
+    margin: 10px -8px;
+    border-radius: 0 12px 12px 0;
+    width: 140px;
+    font-size: 20px;
+    transition: .2s;
+}
+sidepanel a:hover:not(.active){
+    color: #eee;
+    width: 145px;
+    padding-left: 16px;
+}
+
+sidepanel i{
+    float: left;
+    margin: 2px;
+}
+
+
 main{
     position: absolute;
     left: 280px;
@@ -68,6 +94,11 @@ main h1{
     margin-bottom: 20px;
 }
 
+library{
+    display: flex;
+    flex-flow: wrap;
+}
+
 .song{
     position: relative;
     cursor: pointer;
@@ -75,6 +106,8 @@ main h1{
     background: #353535;
     padding: 12px;
     border-radius: 12px;
+    margin: 0 25px 25px 0;
+    height: 180px;
 }
 .song:hover, .song:focus-visible{
     background: #444;
@@ -86,6 +119,24 @@ main h1{
     width: 100px;
     height: 100px;
     border-radius: 8px;/*50%*/
+}
+.album img{
+    border-radius: 50%;
+    transform: rotate(20deg);
+}
+.album ty{
+    z-index: 2;
+}
+.album dot{
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #353535;
+    outline: 3px solid #555;
+    border-radius: 50%;
+    top: 55px;
+    left: 50%;
+    transform: translateX(-50%);
 }
 .song ti{
     margin-top: 10px;
@@ -155,6 +206,55 @@ options div{
     position: absolute;
     right: 0;
 }
+
+.volactive{
+    opacity: 1;
+    visibility: visible;
+    transform: rotate(-90deg);
+}
+options volmixer{
+    opacity: 0;
+    visibility: hidden;
+    transition: .2s;
+    transform: rotate(-90deg)translateX(-10px);
+    position: absolute;
+    display: block;
+    background: #111;
+    /* box-shadow: 0 1px 1px #010101; */
+    padding: 8px;
+    border-radius: 99px;
+    left: -19px;
+    bottom: 90px;
+}
+options volmixer input {
+    margin: 0 5px 5px 0;
+    cursor: pointer;
+    height: 10px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: #111;
+    background: #333;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+options volmixer input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #65baff;
+    border: 2px solid #65baff;
+    box-shadow: -205px 0 0 200px #65baff;
+    transition: 0.2s;
+}
+
+options volmixer:hover input[type="range"]::-webkit-slider-thumb{
+    background: #65baff55;
+    border: 2px solid #fffcfccc;
+}
+
 
 controls{
     width: calc(100% - 600px);
