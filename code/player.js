@@ -32,14 +32,7 @@ app.appendChild(player)
 var playerbuttons = player.getElementsByTagName("i")
 
 ButtonEvent(playerbuttons[2], function(){
-    var button = playerbuttons[2]
-
-    if(button.innerText != "pause"){
-        button.innerText = "pause"
-    }
-    else{
-        button.innerText = "play_arrow"
-    }
+  toggleplayback()
 })
 
 function appVolumeChange(){
@@ -111,22 +104,27 @@ document.addEventListener("click", function(e){
 })
 
 //WARNING, change this to a timeout cooldown!
+var keyVolumeTimeout = null
+function keyVolume(up){
+  if(up==true){
+    volumeslider.value = volumeslider.value*1 + 4
+  }
+  else{
+    volumeslider.value -= 4
+  }
+  showVolume()
+  appVolumeChange()
+  clearTimeout(keyVolumeTimeout)
+  keyVolumeTimeout = setTimeout(function(){
+    hideVolume()
+  }, 600)
+}
 document.addEventListener("keydown", function(e){
   if(e.key == "ArrowUp"){
-    showVolume()
-    volumeslider.value = volumeslider.value*1 + 4
-    appVolumeChange()
-    setTimeout(function(){
-      hideVolume()
-    }, 600);
+    keyVolume(true)
   }
   if(e.key == "ArrowDown"){
-    showVolume()
-    volumeslider.value -= 4
-    appVolumeChange()
-    setTimeout(function(){
-      hideVolume()
-    }, 600);
+    keyVolume(false)
   }
 })
 
@@ -152,12 +150,43 @@ function formatTime(seconds) {
 }
 
 var songinfo = player.getElementsByTagName("song")[0]
-
+var slider = player.getElementsByTagName("slider")[0]
+var sliderinput = slider.getElementsByTagName("input")[0]
+var slidertimes = player.getElementsByTagName("a")
+var currentTime = slidertimes[0]
+var durationTime = slidertimes[1]
 var song = new Audio()
-  // song.ontimeupdate = function(){playbacktimeupdate()}
-  // song.onpause = function(){toggleplaybackstatus("paused")}
-  // song.onplay = function(){toggleplaybackstatus("playing")}
-  // idk if i can keep these outside of the function!
+
+
+function playbacktimeupdate(){
+  if(sliderinput != document.activeElement){
+    sliderinput.value = song.currentTime;
+  }
+  currentTime.innerText = formatTime(song.currentTime);
+}
+
+
+function toggleplayback(){
+  if(playerbuttons[2].innerText != 'play'){
+      playerbuttons[2].innerText = 'play'
+      song.pause()
+  }
+  else{
+      playerbuttons[2].innerText = 'pause'
+      song.play()
+  }
+}
+
+function toggleplaybackstatus(){
+  var button = playerbuttons[2]
+
+  if(button.innerText != "pause"){
+      button.innerText = "pause"
+  }
+  else{
+      button.innerText = "play_arrow"
+  }
+}
 function play(path, title, artist, image){
   if(song){
       song.pause();
@@ -165,16 +194,18 @@ function play(path, title, artist, image){
 
   songinfo.innerHTML = "<img src='"+image+"'><ti>"+ title +"</ti><ar>"+ artist +"</ar>"
 
-  // playButton.innerHTML = '<i class="fa fa-pause"></i>';
   song = new Audio(path);
+  song.ontimeupdate = function(){playbacktimeupdate()}
+  song.onplay = function(){toggleplaybackstatus(true)}
+  song.onpause = function(){toggleplaybackstatus(false)}
 
   song.onloadstart = function(){
     song.play()
   }
 
   song.ondurationchange = function(){
-    volumeSeek.max = song.duration;
-    duration.innerHTML = formatTime(song.duration);
+    sliderinput.max = song.duration;
+    durationTime.innerText = formatTime(song.duration);
   }
 }
 
