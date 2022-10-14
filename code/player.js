@@ -43,6 +43,7 @@ ButtonEvent(playerbuttons[2], function(){
 })
 
 function appVolumeChange(){
+  song.volume = volumeslider.value / 100
   if(volumeslider.value>75){
     playerbuttons[6].innerText = "volume_up"
   }
@@ -68,7 +69,7 @@ volmixer.addEventListener("wheel", function(e){
   appVolumeChange()
 })
 
-volumeslider.addEventListener("change", function(){
+volumeslider.addEventListener("input", function(){
   appVolumeChange()
 })
 
@@ -79,8 +80,16 @@ function hideVolume(){
   volmixer.classList.remove("volactive")
 }
 
+var lastvolumebeforemute = 100
 ButtonEvent(playerbuttons[6], function(){
-  showVolume()
+  if(volumeslider.value != 0){
+    lastvolumebeforemute = volumeslider.value
+    volumeslider.value = 0
+  }
+  else{
+    volumeslider.value = lastvolumebeforemute
+  }
+  appVolumeChange()
 })
 
 playerbuttons[6].addEventListener("focus", function(){
@@ -96,7 +105,7 @@ volmixer.addEventListener("mouseleave", function(){
 })
 
 document.addEventListener("click", function(e){
-  if(e.target != volmixer && e.target != volumeslider){
+  if(e.target != volmixer && e.target != volumeslider && e.target != playerbuttons[6]){
     hideVolume()
   }
 })
@@ -133,3 +142,39 @@ document.addEventListener("keydown", function(e){
 // <i class='m-i'>repeat</i>
 // <i class='m-i'>repeat_one</i>
 // <i class='m-i'>repeat_on</i>
+
+function formatTime(seconds) {
+  minutes = Math.floor(seconds / 60);
+  minutes = minutes;
+  seconds = Math.floor(seconds % 60);
+  seconds = (seconds >= 10) ? seconds : "0" + seconds;
+  return minutes + ":" + seconds;
+}
+
+var songinfo = player.getElementsByTagName("song")[0]
+
+var song = new Audio()
+  // song.ontimeupdate = function(){playbacktimeupdate()}
+  // song.onpause = function(){toggleplaybackstatus("paused")}
+  // song.onplay = function(){toggleplaybackstatus("playing")}
+  // idk if i can keep these outside of the function!
+function play(path, title, artist, image){
+  if(song){
+      song.pause();
+  }
+
+  songinfo.innerHTML = "<img src='"+image+"'><ti>"+ title +"</ti><ar>"+ artist +"</ar>"
+
+  // playButton.innerHTML = '<i class="fa fa-pause"></i>';
+  song = new Audio(path);
+
+  song.onloadstart = function(){
+    song.play()
+  }
+
+  song.ondurationchange = function(){
+    volumeSeek.max = song.duration;
+    duration.innerHTML = formatTime(song.duration);
+  }
+}
+

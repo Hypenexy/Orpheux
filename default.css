@@ -216,6 +216,8 @@ options volmixer{
     opacity: 0;
     visibility: hidden;
     transition: .2s;
+    -webkit-transform-origin: 50%  49%;
+    transform-origin: 50% 49%;
     transform: rotate(-90deg)translateX(-10px);
     position: absolute;
     display: block;

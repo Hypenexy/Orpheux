@@ -6,6 +6,9 @@ main.innerHTML = "<h1>Library</h1>"+
 "<div class='song'><ty>Song 2:35</ty><img src='songimage.png'><ti>distortion</ti><ar>Hypenexy</ar></div>"+
 "</library>"
 
+var songs = main.getElementsByClassName("song")
+
+ButtonEvent(songs[0], function(){play("calmplace.mp3", "Calm Place", "Hypenexy", "songimage.png")})
 
 //maybe make albums like folders!
 
