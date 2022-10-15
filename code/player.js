@@ -2,8 +2,8 @@ var player = document.createElement("player")
 player.innerHTML = `
 <song>
   <img src='songimage.png'>
-  <ti>Shattered</ti>
-  <ar>Hypenexy</ar>
+  <ti></ti>
+  <ar></ar>
 </song>
 <controls>
   <buttons>
@@ -32,11 +32,37 @@ app.appendChild(player)
 var playerbuttons = player.getElementsByTagName("i")
 
 ButtonEvent(playerbuttons[2], function(){
-  toggleplayback()
+  togglePlayback()
 })
 
+var repeat = 0
+var repeatbtn = playerbuttons[4]
+ButtonEvent(playerbuttons[4], function(){
+  switch (repeatbtn.innerText) {
+    case "repeat":
+      repeatbtn.classList.add("active")
+      repeatbtn.innerText = "repeat_one"
+      repeat = 1
+      break;
+    case "repeat_one":
+      repeatbtn.classList.add("active")
+      repeatbtn.innerText = "repeat_on"
+      repeat = 2
+      break;
+    case "repeat_on":
+      repeatbtn.classList.remove("active")
+      repeatbtn.innerText = "repeat"
+      repeat = 0
+      break;
+    default:
+      break;
+  }
+})
+
+var lastvolume = 1
 function appVolumeChange(){
   song.volume = volumeslider.value / 100
+  lastvolume = song.volume
   if(volumeslider.value>75){
     playerbuttons[6].innerText = "volume_up"
   }
@@ -146,6 +172,9 @@ function formatTime(seconds) {
   minutes = minutes;
   seconds = Math.floor(seconds % 60);
   seconds = (seconds >= 10) ? seconds : "0" + seconds;
+  if(romanNumerals){
+    return Romanize(minutes) + ":" + Romanize(seconds);
+  }
   return minutes + ":" + seconds;
 }
 
@@ -165,39 +194,50 @@ function playbacktimeupdate(){
   currentTime.innerText = formatTime(song.currentTime);
 }
 
+function seekplayback(){
+  song.currentTime = sliderinput.value;
+  document.activeElement.blur();
+}
 
-function toggleplayback(){
-  if(playerbuttons[2].innerText != 'play'){
-      playerbuttons[2].innerText = 'play'
-      song.pause()
+sliderinput.addEventListener("change", seekplayback);
+
+function togglePlayback(){
+  if(playerbuttons[2].innerText != 'play_arrow'){
+    playbackStatus(false)
+    song.pause()
   }
   else{
-      playerbuttons[2].innerText = 'pause'
-      song.play()
+    playbackStatus(true)
+    song.play()
   }
 }
 
-function toggleplaybackstatus(){
+function playbackStatus(playing){
   var button = playerbuttons[2]
 
-  if(button.innerText != "pause"){
+  if(playing==true){
       button.innerText = "pause"
   }
   else{
       button.innerText = "play_arrow"
   }
 }
+
 function play(path, title, artist, image){
   if(song){
-      song.pause();
+      song.pause()
   }
 
+  if(!image){
+    image = "disc.png"
+  }
   songinfo.innerHTML = "<img src='"+image+"'><ti>"+ title +"</ti><ar>"+ artist +"</ar>"
 
-  song = new Audio(path);
+  song = new Audio(path)
+  song.volume = lastvolume
   song.ontimeupdate = function(){playbacktimeupdate()}
-  song.onplay = function(){toggleplaybackstatus(true)}
-  song.onpause = function(){toggleplaybackstatus(false)}
+  song.onplay = function(){playbackStatus(true)}
+  song.onpause = function(){playbackStatus(false)}
 
   song.onloadstart = function(){
     song.play()
@@ -207,5 +247,27 @@ function play(path, title, artist, image){
     sliderinput.max = song.duration;
     durationTime.innerText = formatTime(song.duration);
   }
+
+  song.onended = function(){
+    song.currentTime = 0
+    if(repeat==1){
+      repeatbtn.classList.remove("active")
+      repeatbtn.innerText = "repeat"
+      repeat = 0
+      song.play()
+    }
+    if(repeat==2){
+      song.play()
+    }
+  }
 }
 
+document.addEventListener("keydown", function(e){
+  if(e.key == " "){
+    if(document.activeElement != playerbuttons[2]){
+      e.stopPropagation() //why doesn't this work :/
+      e.preventDefault()
+      togglePlayback()
+    }
+  }
+})

@@ -11,12 +11,48 @@ brand color idea 2: #65baff
 
 */
 *{font-family:'Roboto',sans-serif;margin:0;box-sizing: border-box;}
+:root{
+    --brand: #65baff;
+
+    --sidepanelbg: #070707;
+    --sidepaneltx: #bbb;
+    --sidepanelhover: #eee;
+    --sidepanelactivebg: linear-gradient(90deg, rgba(208,187,255) 0%, rgba(101,186,255) 100%);
+    --sidepanelactivebgf: rgb(208,187,255);
+
+    --mainbg: #2c2c2c;
+    --maintx: #eee;
+    
+    --songbg: #353535;
+    --songhoverbg: #444;
+    --songalbumdisc: #555; 
+    --songar: #ddd;
+    --songtyshadow: #111;
+
+    --playertx: #999;
+    --playerbg: #111;
+    --playerhovertx: #fff;
+    --songinfotx: #eee;
+    --songinfotishadow: #111;
+    --songinfoarshadow: #070707;
+    --playersliderbg: #333;
+    --playersliderdot: #65baff55;
+    --playersliderdoto: #fffcfccc;
+
+    --settingsbg: #222;
+    --settingsabg: #111;
+    --settingsatx: #bbb;
+    --settingsahoverbg: #1c1c1c;
+    --settingsahovertx: #fff;
+    --settingsaactivetx: #111;
+}
 ::-webkit-scrollbar{width:12px}
 ::-webkit-scrollbar-thumb{border-radius:8px;background:#aaa}
 ::-webkit-scrollbar-thumb:hover{background:#999}
 ::-webkit-scrollbar-thumb:active{background:#777}
 app, html, body{
-    background-color: #2c2c2c;
+    overflow: hidden;
+    background-color: var(--mainbg);
     height: 100%;
     width: 100%;
 }
@@ -40,33 +76,38 @@ sidepanel{
     width: 280px;
     height: calc(100% + 24px);
     border-radius: 0 24px 0 0;
-    background: #070707;
-    color: #bbb;
+    background: var(--sidepanelbg);
+    color: var(--sidepaneltx);
     padding: 8px;
     /* box-shadow: 1px 0 2px #020202; nah*/
 }
 
 sidepanel h1{
-    color: #2c2c2c;
+    color: var(--mainbg);
     text-align: center;
 }
 
 sidepanel .active{
-    color: #65baff;
+    font-weight: 600;
+    background: var(--sidepanelactivebgf);
+    background: var(--sidepanelactivebg);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 sidepanel a{
     cursor: pointer;
     display: block;
-    background: #222;
+    /* background: #222; */
     padding: 12px;
     margin: 10px -8px;
     border-radius: 0 12px 12px 0;
     width: 140px;
     font-size: 20px;
-    transition: .2s;
+    transition: .2s, font-weight 0s;
 }
 sidepanel a:hover:not(.active){
-    color: #eee;
+    color: var(--sidepanelhover);
     width: 145px;
     padding-left: 16px;
 }
@@ -75,8 +116,17 @@ sidepanel i{
     float: left;
     margin: 2px;
 }
-
-
+view .active{
+    visibility: visible;
+    transform: initial;
+    opacity: initial;
+}
+.library, .explore, .settings{
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-50px);
+    transition: .2s;
+}
 main{
     position: absolute;
     left: 280px;
@@ -84,10 +134,20 @@ main{
     width: calc(100% - 280px);
     height: calc(100% - 130px);
 
-    color: #eee;
+    color: var(--maintx);
     padding: 8px 20px;
     overflow-y: auto;
     overflow-x: visible;
+}
+
+@media screen and (max-width: 950px) {
+    sidepanel{
+        width: 160px;
+    }
+    main{
+        left: 160px;
+        width: calc(100% - 160px);
+    }
 }
 
 main h1{
@@ -99,18 +159,52 @@ library{
     flex-flow: wrap;
 }
 
+.settings div{
+    display: block;
+    padding: 12px;
+    background: var(--settingsbg);
+    margin-bottom: 16px;
+    border-radius: 12px;
+}
+.settings div:last-child{
+    margin-bottom: initial;
+}
+.settings p{
+    font-size: 24px;
+}
+.settings a{
+    user-select: none;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 16px;
+    padding: 12px;
+    margin: 4px 4px 0 0;
+    border-radius: 8px;
+    background: var(--settingsabg);
+    color: var(--settingsatx);
+    transition: .2s;
+}
+.settings a:hover:not(.active){
+    background: var(--settingsahoverbg);
+    color: var(--settingsahovertx);
+}
+.settings .active{
+    background: var(--brand);
+    color: var(--settingsaactivetx);
+}
+
 .song{
     position: relative;
     cursor: pointer;
     display: inline-block;
-    background: #353535;
+    background: var(--songbg);
     padding: 12px;
     border-radius: 12px;
     margin: 0 25px 25px 0;
     height: 180px;
 }
 .song:hover, .song:focus-visible{
-    background: #444;
+    background: var(--songhoverbg);
 }
 .song *{
     display: block;
@@ -131,26 +225,27 @@ library{
     position: absolute;
     width: 10px;
     height: 10px;
-    background: #353535;
-    outline: 3px solid #555;
+    background: var(--songbg);
+    outline: 3px solid var(--songalbumdisc);
     border-radius: 50%;
     top: 55px;
     left: 50%;
     transform: translateX(-50%);
 }
 .song ti{
+    width: 100px;
     margin-top: 10px;
     font-weight: 600;
 }
 .song ar{
-    color: #ddd;
+    color: var(--songar);
 }
 .song ty{
     position: absolute;
     opacity: 0.7;
     left: 16px;
     top: 16px;
-    text-shadow: 1px 2px 3px #111;
+    text-shadow: 1px 2px 3px var(--songtyshadow);
     font-size: 14px;
 }
 
@@ -163,9 +258,10 @@ player{
     height: 130px;
     width: 100%;
 
-    color: #999;
-    background-color: #111;
+    color: var(--playertx);
+    background: var(--playerbg);
 }
+
 
 song, controls, options{
     height: 130px;
@@ -186,11 +282,12 @@ song img{
 song ti, song ar{
     position: absolute;
     user-select: text;
+    max-width: 150px;
 }
 
 song ti{
-    top: 45px;
-    color: #eee;
+    bottom: 60px;
+    color: var(--songinfotx);
 }
 
 song ar{
@@ -221,7 +318,7 @@ options volmixer{
     transform: rotate(-90deg)translateX(-10px);
     position: absolute;
     display: block;
-    background: #111;
+    background: var(--playerbg);
     /* box-shadow: 0 1px 1px #010101; */
     padding: 8px;
     border-radius: 99px;
@@ -234,8 +331,8 @@ options volmixer input {
     height: 10px;
     -webkit-appearance: none;
     appearance: none;
-    background: #111;
-    background: #333;
+    background: var(--playerbg);
+    background: var(--playersliderbg);
     border-radius: 5px;
     overflow: hidden;
 }
@@ -246,15 +343,15 @@ options volmixer input::-webkit-slider-thumb {
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background: #65baff;
-    border: 2px solid #65baff;
-    box-shadow: -205px 0 0 200px #65baff;
+    background: var(--brand);
+    border: 2px solid var(--brand);
+    box-shadow: -205px 0 0 200px var(--brand);
     transition: 0.2s;
 }
 
 options volmixer:hover input[type="range"]::-webkit-slider-thumb{
-    background: #65baff55;
-    border: 2px solid #fffcfccc;
+    background: var(--playersliderdot);
+    border: 2px solid var(--playersliderdoto);
 }
 
 
@@ -267,7 +364,10 @@ controls buttons{
     text-align: center;
     margin: 19px;
 }
-
+controls buttons .active{
+    color: var(--brand);
+    transition: .2s;
+}
 controls buttons i, options i{
     cursor: pointer;
     vertical-align: middle;
@@ -284,7 +384,7 @@ controls buttons .biggest{
 }
 controls buttons i:hover,controls buttons i:focus-visible,
 options i:hover,options i:focus-visible{
-    color: #fff;
+    color: var(--playerhovertx);
 }
 
 slider{
@@ -303,8 +403,7 @@ controls input {
     height: 10px;
     -webkit-appearance: none;
     appearance: none;
-    background: #111;
-    background: #333;
+    background: var(--playersliderbg);
     border-radius: 5px;
     overflow: hidden;
 }
@@ -315,16 +414,161 @@ controls input::-webkit-slider-thumb {
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background: #65baff;
-    border: 2px solid #65baff;
-    box-shadow: -9005px 0 0 9000px #65baff;
+    background: var(--brand);
+    border: 2px solid var(--brand);
+    box-shadow: -9005px 0 0 9000px var(--brand);
     transition: 0.2s;
 }
 
-controls .wholeseek {
-    display: inline;
-}
 controls:hover input[type="range"]::-webkit-slider-thumb{
-    background: #65baff55;
-    border: 2px solid #fffcfccc;
+    background: var(--playersliderdot);
+    border: 2px solid var(--playersliderdoto);
 }
+
+@media screen and (max-width: 1000px) {
+    song{
+        width: 250px;
+    }
+    controls{
+        width: calc(100% - 350px);
+    }
+    options{
+        width: 100px;
+    }
+    options div{
+        margin: 52.75px 0;
+    }
+}
+@media screen and (max-width: 669px) {
+    song{
+        width: 120px;
+    }
+    controls{
+        width: calc(100% - 220px);
+    }
+    song ti{
+        left: 20px;
+        top: initial;
+        bottom: 43px;
+        max-width: 90px;
+        text-shadow: 1px 1px 1px var(--songinfotishadow);
+        /* background: #070707cc; */
+    }
+    song ar{
+        left: 20px;
+        top: 87px;
+        max-width: 90px;
+        text-shadow: 1px 1px 1px var(--songinfoarshadow);
+        /* background: #070707cc; */
+    }
+}
+@media screen and (max-width: 500px) {
+    /* controls{
+        width: calc(100% - 120px);
+    }
+    options{
+        display: none;
+    } */
+    player{
+        height: 200px;
+    }
+    main{
+        height: calc(100% - 200px);
+    }
+    view{
+        height: calc(100% - 200px);
+    }
+    controls{
+        width: 100%;
+    }
+    song{
+        position: absolute;
+        top: 0;
+    }
+    song img{
+        width: 50px;
+        height: 50px;
+    }
+    song ti{
+        font-size: 12px;
+        bottom: 90px;
+        max-width: 90px;
+    }
+    song ar{
+        font-size: 12px;
+        top: 40px;
+        max-width: 90px;
+    }
+    options{
+        position: absolute;
+        top: -24px;
+        right: 0;
+    }
+
+
+
+    main{
+        left: 0;
+        width: 100%;
+    }
+
+    /* library{
+        justify-content: center;
+    } */
+
+    sidepanel{
+        z-index: 99;
+        position: absolute;
+        bottom: 0;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        height: 90px;
+        border-radius: initial;
+        padding: initial;
+        border-radius: 24px 24px 0 0;
+        /* box-shadow: 1px 0 2px #020202; nah*/
+    }
+    
+    sidepanel h1{
+        display: none;
+    }
+    
+    sidepanel a{
+        text-align: center;
+        cursor: pointer;
+        display: inline-block;
+        background: initial;
+        border-radius: initial;
+        width: 120px;
+        font-size: 16px;
+    }
+    sidepanel a:hover:not(.active){
+        color: var(--sidepanelhover);
+        width: 120px;
+        padding-left: 12px;
+    }
+    
+    sidepanel i{
+        display: block;
+        float: initial;
+        margin: 0 auto;
+    }
+}
+
+
+@media screen and (max-width: 350px) {
+    controls buttons i{
+        margin-right: initial;
+    }
+}
+/* 
+@media screen and (max-width: 420px) {
+    controls{
+        width: 100%;
+    }
+    song{
+        display: none;
+    }
+}
+ */
