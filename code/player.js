@@ -21,12 +21,13 @@ player.innerHTML = `
 </controls>
 <options>
   <div>
-    <i class='m-i'>equalizer</i>
+    <i class='m-i'>queue_music</i>
     <i class='m-i'>volume_up</i>
     <volmixer><input type='range' value='100'></volmixer>
   </div>
 </options>
 `
+//dont forget the equalizer
 app.appendChild(player)
 
 var playerbuttons = player.getElementsByTagName("i")
@@ -158,14 +159,7 @@ document.addEventListener("keydown", function(e){
 
 //https://stackoverflow.com/questions/24895155/creating-an-equalizer-with-javascript-audio-api
 
-// <i class='m-i'>shuffle</i>
-// <i class='m-i'>skip_previous</i>
-// <i class='m-i'>play_arrow</i>
-// <i class='m-i'>pause</i>
-// <i class='m-i'>skip_next</i>
-// <i class='m-i'>repeat</i>
-// <i class='m-i'>repeat_one</i>
-// <i class='m-i'>repeat_on</i>
+// <i class='m-i'>shuffle_on</i>
 
 function formatTime(seconds) {
   minutes = Math.floor(seconds / 60);

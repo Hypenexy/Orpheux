@@ -21,13 +21,13 @@ function ShowMain(main){
 }
 
 window.addEventListener("load", function(){
-    ShowMain("settings")
+    ShowMain("library")
     sidepanel.getElementsByTagName("a")[0].classList.add("active")
 })
 
 
 mainexplore.innerHTML = "<h1>Explore</h1>"+
-""
+"<div class='artist'><img src='app/artist/5F1B2416-AF81-41FC-B7D1-24B91CF8A0B8.jpeg'><ar>Hypenexy</ar></div>"
 
 
 mainsettings.innerHTML = "<h1>Settings</h1>"+
