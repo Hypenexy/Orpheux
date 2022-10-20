@@ -1,7 +1,16 @@
 main.innerHTML = "<h1>Library</h1>"+
 "<library>"+
 "<div class='song'><ty>Song 0:41</ty><img src='songimage.png'><ti>Calm Place</ti><ar>Hypenexy</ar></div>"+
-"<div class='song album'><ty>Album</ty><img src='songimage.png'><dot></dot><ti>Destruction</ti><ar>Hypenexy</ar></div>"+
+`<div class='song album'>
+  <ty>Album</ty>
+  <img src='songimage.png'><dot></dot>
+  <ti>Destruction</ti>
+  <ar>Hypenexy</ar>
+  <songs>
+    <!--<i class='m-i'>close</i>
+    <div><ty>Song 1:21</ty><img src='songimage.png'><ti>Electric Growl</ti><ar>Hypenexy</ar></div>-->
+  </songs>
+</div>`+
 "<div class='song'><ty>Song 1:21</ty><img src='songimage.png'><ti>Electric Growl</ti><ar>Hypenexy</ar></div>"+
 "<div class='song'><ty>Song 2:35</ty><img src='songimage.png'><ti>distortion</ti><ar>Hypenexy</ar></div>"+
 "</library>"
@@ -9,6 +18,15 @@ main.innerHTML = "<h1>Library</h1>"+
 var songs = main.getElementsByClassName("song")
 
 ButtonEvent(songs[0], function(){play("calmplace.mp3", "Calm Place", "Hypenexy")})
+ButtonEvent(songs[1], OpenAlbum, songs[1])
+
+function OpenAlbum(element){
+  var eloffset = getOffset(element)
+  element.style.position = "absolute"//how does an absolute object take space?
+  // element.style.top = eloffset.top + "px"
+  // element.style.left = eloffset.left + "px"
+  element.classList.add("albumactive")
+}
 
 function ShowMain(main){
     var mains = view.getElementsByTagName("main")
@@ -31,51 +49,67 @@ mainexplore.innerHTML = "<h1>Explore</h1>"+
 
 
 mainsettings.innerHTML = "<h1>Settings</h1>"+
-"<div><p>Theme</p><a>Dark</a><a>Light</a></div>"+
+"<div><p>Theme</p><a>Dark</a><a>Light</a><a>Mint Green</a><a>Blood Red</a></div>"+
 "<div><p>Numerals</p><a>Arabic</a><a>Roman</a></div>"
 
-var optionbtns = mainsettings.getElementsByTagName("a")
+var optionsdivs = mainsettings.getElementsByTagName("div")
+var themebtns = optionsdivs[0].getElementsByTagName("a")
 
 function Theme(theme){
-  if(theme==0){
-    optionbtns[0].classList.add("active")
-    optionbtns[1].classList.remove("active")
-    try {
-      document.getElementById("themecss").remove()
-    } catch (error) {
-      
-    }
+  
+  for (let i = 0; i < themebtns.length; i++) {
+    themebtns[i].classList.remove("active")
   }
-  if(theme==1){
-    optionbtns[1].classList.add("active")
-    optionbtns[0].classList.remove("active")
-    try {
-      loadCSS("light.css", "themecss")
-    } catch (error) {
-      
-    }
+  theme.classList.add("active")
+
+  var execute = function(){}
+  switch (theme.innerText) {
+    case "Dark":
+      execute = function(){document.getElementById("themecss").remove()}
+      break;
+    case "Light":
+      execute = function(){loadCSS("light.css", "themecss")}
+      break;
+    case "Mint Green":
+      execute = function(){loadCSS("green.css", "themecss")}
+      break;
+    case "Blood Red":
+      execute = function(){loadCSS("red.css", "themecss")}
+      break;
+    default:
+      break;
   }
+  try {
+    var themecss = document.getElementById("themecss")
+    if(themecss){
+      themecss.remove()
+    }
+    execute()
+  } catch (error) {}
 }
 
-ButtonEvent(optionbtns[0], Theme, 0)
-ButtonEvent(optionbtns[1], Theme, 1)
+for (let i = 0; i < themebtns.length; i++) {
+  ButtonEvent(themebtns[i], Theme, themebtns[i])
+}
+
+var numeralsbtns = optionsdivs[1].getElementsByTagName("a")
 
 var romanNumerals = false
 function Numerals(numeral){
   if(numeral==0){
-    optionbtns[2].classList.add("active")
-    optionbtns[3].classList.remove("active")
+    numeralsbtns[0].classList.add("active")
+    numeralsbtns[1].classList.remove("active")
     romanNumerals = false
   }
   if(numeral==1){
-    optionbtns[3].classList.add("active")
-    optionbtns[2].classList.remove("active")
+    numeralsbtns[1].classList.add("active")
+    numeralsbtns[0].classList.remove("active")
     romanNumerals = true
   }
 }
 
-ButtonEvent(optionbtns[2], Numerals, 0)
-ButtonEvent(optionbtns[3], Numerals, 1)
+ButtonEvent(numeralsbtns[0], Numerals, 0)
+ButtonEvent(numeralsbtns[1], Numerals, 1)
 
 function Romanize(num){
   if(isNaN(num))
@@ -118,11 +152,3 @@ function ReadFile(file){
         }
     })
 }
-
-  
-
-
-
-
-//settings idea
-//roman numerals

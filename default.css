@@ -217,13 +217,14 @@ library{
     position: relative;
     cursor: pointer;
     display: inline-block;
-    background: var(--songbg);
+    /* background: var(--songbg); */
     padding: 12px;
     border-radius: 12px;
     margin: 0 25px 25px 0;
     height: 180px;
+    transition: background .1s;
 }
-.song:hover, .song:focus-visible{
+.song:hover:not(.albumactive), .song:focus-visible:not(.albumactive){
     background: var(--songhoverbg);
 }
 .song *{
@@ -252,8 +253,46 @@ library{
     left: 50%;
     transform: translateX(-50%);
 }
+.album songs{
+    display: none;
+}
+.albumactive{
+    cursor: initial;
+    z-index: 9;
+    left: 20px;
+    /* transform: translateX(-50%); */
+    width: calc(100% - 40px);
+    height: calc(100% - 90px);/*-90 is random*/
+    margin: 0;
+    background: var(--songbg);
+}
+.albumactive ty{
+    display: none;
+}
+.albumactive img{
+    display: inline-block;
+}
+.albumactive ti, .albumactive ar{
+    display: inline-block;
+    position: absolute;
+    left: 120px;
+    width: 85%;
+}
+.albumactive ti{ /*how to make only the first element?*/
+    font-size: 32px;
+}
+.albumactive ar{
+    font-size: 24px;
+    top: 50px;
+}
+.albumactive dot{
+    left: 60px;
+}
+.albumactive songs{
+    display: inline-block;
+}
 .song ti{
-    width: 100px;
+    min-width: 100px;
     margin-top: 10px;
     font-weight: 600;
 }
@@ -270,6 +309,7 @@ library{
 }
 
 player{
+    z-index: 10;
     user-select: none;
     position: fixed;
     bottom: 0;

@@ -8,23 +8,10 @@ var sidepanelbtns = sidepanel.getElementsByTagName("a")
 for (let i = 0; i < sidepanelbtns.length; i++) {
     const element = sidepanelbtns[i];
     ButtonEvent(element, function(){
-        var mainToSwitchTo
-        switch (i) {
-            case 0:
-                mainToSwitchTo = "library"
-                break
-            case 1:
-                mainToSwitchTo = "explore"
-                break
-            case 2:
-                mainToSwitchTo = "settings"
-                break
-        }
         for (let i = 0; i < sidepanelbtns.length; i++) {
             sidepanelbtns[i].classList.remove("active")
-            
         }
         element.classList.add("active")
-        ShowMain(mainToSwitchTo)
+        ShowMain(element.innerText.toLowerCase().split('\n\n')[1])
     })
 }
