@@ -7,8 +7,10 @@ main.innerHTML = "<h1>Library</h1>"+
   <ti>Destruction</ti>
   <ar>Hypenexy</ar>
   <songs>
-    <!--<i class='m-i'>close</i>
-    <div><ty>Song 1:21</ty><img src='songimage.png'><ti>Electric Growl</ti><ar>Hypenexy</ar></div>-->
+    <x class='m-i'>arrow_back</x>
+    <div><aimg style="--bg-image: url('songimage.png');"></aimg><ati>Electric Growl</ati><aar>Hypenexy</aar><aty>1:21</aty></div>
+    <div><aimg style="--bg-image: url('songimage.png');"></aimg><ati>Electric Growl</ati><aar>Hypenexy</aar><aty>1:21</aty></div>
+    <div><aimg style="--bg-image: url('songimage.png');"></aimg><ati>Electric Growl</ati><aar>Hypenexy</aar><aty>1:21</aty></div>
   </songs>
 </div>`+
 "<div class='song'><ty>Song 1:21</ty><img src='songimage.png'><ti>Electric Growl</ti><ar>Hypenexy</ar></div>"+
@@ -21,26 +23,47 @@ ButtonEvent(songs[0], function(){play("calmplace.mp3", "Calm Place", "Hypenexy")
 ButtonEvent(songs[1], OpenAlbum, songs[1])
 
 function OpenAlbum(element){
-  var eloffset = getOffset(element)
-  element.style.position = "absolute"//how does an absolute object take space?
-  // element.style.top = eloffset.top + "px"
-  // element.style.left = eloffset.left + "px"
-  element.classList.add("albumactive")
+  if(!element.classList.contains("albumactive")){
+    // var eloffset = getOffset(element)
+    // element.style.top = eloffset.top + "px"
+    // element.style.left = eloffset.left + "px"
+    element.classList.add("albumtransition")
+    element.classList.add("albumactive")
+    if(MotionAllowed){
+      setTimeout(() => {
+        element.classList.remove("albumtransition")
+      }, 10);
+    }
+    else{
+      element.classList.remove("albumtransition")
+    }
+  
+    ButtonEvent(element.getElementsByTagName("x")[0], function(event){
+      event.stopPropagation()
+      element.classList.remove("albumtransition")
+      element.classList.remove("albumactive")
+      var library = main.getElementsByTagName("library")[0]
+      library.classList.add("librarytransition")
+      setTimeout(() => {
+        library.classList.remove("librarytransition")
+      }, 10);
+    }, null, true)
+  }
 }
 
 function ShowMain(main){
-    var mains = view.getElementsByTagName("main")
-    for (let i = 0; i < mains.length; i++) {
-        if(mains[i].classList[1] == "active"){
-            mains[i].classList.remove("active")
-        }
+  var mains = view.getElementsByTagName("main")
+  for (let i = 0; i < mains.length; i++) {
+    if(mains[i].classList[1] == "active"){
+      mains[i].classList.remove("active")
     }
-    view.getElementsByClassName(main)[0].classList.add("active")
+  }
+  view.getElementsByClassName(main)[0].classList.add("active")
 }
 
 window.addEventListener("load", function(){
-    ShowMain("library")
-    sidepanel.getElementsByTagName("a")[0].classList.add("active")
+  ShowMain("library")
+  sidepanel.getElementsByTagName("a")[0].classList.add("active")
 })
 
 
@@ -49,11 +72,14 @@ mainexplore.innerHTML = "<h1>Explore</h1>"+
 
 
 mainsettings.innerHTML = "<h1>Settings</h1>"+
-"<div><p>Theme</p><a>Dark</a><a>Light</a><a>Mint Green</a><a>Blood Red</a></div>"+
-"<div><p>Numerals</p><a>Arabic</a><a>Roman</a></div>"
+"<div><p>Theme</p><a>Gradient</a><a>Dark</a><a>Light</a><a>Mint Green</a><a>Blood Red</a></div>"+
+"<div><p>Numerals</p><a>Arabic</a><a>Roman</a></div>"+
+"<div><p>Audio Visualizer</p><a>On</a><a>Off</a></div>"+
+"<div><p>UI Animations</p><a>On</a><a>Off</a></div>"
 
 var optionsdivs = mainsettings.getElementsByTagName("div")
 var themebtns = optionsdivs[0].getElementsByTagName("a")
+var backgroundEffect
 
 function Theme(theme){
   
@@ -62,10 +88,19 @@ function Theme(theme){
   }
   theme.classList.add("active")
 
+  if(theme.innerText!="Gradient"){
+    if(backgroundEffect && backgroundEffect.nodeType){
+      backgroundEffect.remove()
+      document.getElementById("themejs").remove()
+      backgroundEffect = null
+    }
+  }
   var execute = function(){}
   switch (theme.innerText) {
     case "Dark":
-      execute = function(){document.getElementById("themecss").remove()}
+      execute = function(){
+        document.getElementById("themecss").remove()
+      }
       break;
     case "Light":
       execute = function(){loadCSS("light.css", "themecss")}
@@ -75,6 +110,12 @@ function Theme(theme){
       break;
     case "Blood Red":
       execute = function(){loadCSS("red.css", "themecss")}
+      break;
+    case "Gradient":
+      execute = function(){
+        loadScript("code/backgroundfx.js", "themejs")
+        loadCSS("gradient.css", "themecss")
+      }
       break;
     default:
       break;
@@ -125,6 +166,45 @@ function Romanize(num){
   return Array(+digits.join("") + 1).join("M") + roman
 }
 
+var visualizerbtns = optionsdivs[2].getElementsByTagName("a")
+
+function showVisualizer(bool){
+  if(bool){
+    visualizerbtns[0].classList.add("active")
+    visualizerbtns[1].classList.remove("active")
+    AudioSpectrumEnabled = true
+  }
+  else{
+    visualizerbtns[1].classList.add("active")
+    visualizerbtns[0].classList.remove("active")
+    AudioSpectrumEnabled = false
+  }
+}
+
+ButtonEvent(visualizerbtns[0], showVisualizer, true)
+ButtonEvent(visualizerbtns[1], showVisualizer, false)
+
+
+var animationsbtns = optionsdivs[3].getElementsByTagName("a")
+var MotionAllowed = true
+
+function allowMotion(bool){
+  if(bool){
+    animationsbtns[0].classList.add("active")
+    animationsbtns[1].classList.remove("active")
+    MotionAllowed = true
+    app.classList.remove("MotionDisabled")
+  }
+  else{
+    animationsbtns[1].classList.add("active")
+    animationsbtns[0].classList.remove("active")
+    MotionAllowed = false
+    app.classList.add("MotionDisabled")
+  }
+}
+
+ButtonEvent(animationsbtns[0], allowMotion, true)
+ButtonEvent(animationsbtns[1], allowMotion, false)
 
 const jsmediatags = window.jsmediatags;
 

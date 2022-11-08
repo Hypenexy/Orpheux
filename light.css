@@ -15,6 +15,9 @@
     --songalbumdisc: #888;
     --songar: #555;
     --songtyshadow: #eee;
+    --songalbumbg: #eee;
+    --songalbumhoverbg: #ddd;
+    --songalbumactivebg: #65baff;
 
     --playertx: #000;
     --playerbg: #dedede;

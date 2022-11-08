@@ -26,6 +26,7 @@ player.innerHTML = `
     <volmixer><input type='range' value='100'></volmixer>
   </div>
 </options>
+<canvas id="AudioSpectrum"></canvas>
 `
 //dont forget the equalizer
 app.appendChild(player)
@@ -210,16 +211,75 @@ function playbackStatus(playing){
   var button = playerbuttons[2]
 
   if(playing==true){
-      button.innerText = "pause"
+    button.innerText = "pause"
+    if(AudioSpectrumEnabled){
+      player.classList.add("AudioSpectrum")
+      if (typeof(context) === "undefined") {
+          context = new AudioContext()
+          analyser = context.createAnalyser()
+          AudioSpectrum = document.getElementById("AudioSpectrum")
+          ctx = AudioSpectrum.getContext("2d")
+          source = context.createMediaElementSource(song)
+
+          AudioSpectrum.width = window.innerWidth * 0.80
+          AudioSpectrum.height = window.innerHeight * 0.60
+
+          source.connect(analyser)
+          analyser.connect(context.destination)
+      }
+      FrameLooper()
+    }
+    else{
+      if(player.classList.contains("AudioSpectrum")){
+        player.classList.remove("AudioSpectrum")
+      }
+    }
   }
   else{
-      button.innerText = "play_arrow"
+    button.innerText = "play_arrow"
+  }
+}
+
+var AudioSpectrumEnabled = true,
+  AudioSpectrum,
+  ctx,
+  source,
+  context,
+  analyser,
+  fbc_array,
+  bar_count,
+  bar_pos,
+  bar_width,
+  bar_height
+
+function FrameLooper() {
+  window.RequestAnimationFrame =
+      window.requestAnimationFrame(FrameLooper) ||
+      window.msRequestAnimationFrame(FrameLooper) ||
+      window.mozRequestAnimationFrame(FrameLooper) ||
+      window.webkitRequestAnimationFrame(FrameLooper)
+
+  fbc_array = new Uint8Array(analyser.frequencyBinCount)
+  bar_count = window.innerWidth / 2
+
+  analyser.getByteFrequencyData(fbc_array)
+
+  ctx.clearRect(0, 0, AudioSpectrum.width, AudioSpectrum.height)
+  ctx.fillStyle = "#999"
+
+  for (var i = 0; i < bar_count; i++) {
+      bar_pos = i * 4
+      bar_width = 2
+      bar_height = -(fbc_array[i] / 2)
+
+      ctx.fillRect(bar_pos, AudioSpectrum.height, bar_width, bar_height)
   }
 }
 
 function play(path, title, artist, image){
+  context = undefined
   if(song){
-      song.pause()
+    song.pause()
   }
 
   if(!image){

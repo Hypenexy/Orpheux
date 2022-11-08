@@ -28,6 +28,9 @@ brand color idea 2: #65baff
     --songalbumdisc: #555; 
     --songar: #ddd;
     --songtyshadow: #111;
+    --songalbumbg: #444;
+    --songalbumhoverbg: #555;
+    --songalbumactivebg: #65baff;
 
     --playertx: #999;
     --playerbg: #111;
@@ -56,6 +59,9 @@ app, html, body{
     height: 100%;
     width: 100%;
 }
+.MotionDisabled *{
+    transition: initial!important;
+}
 @font-face{
     font-family: 'Material Icons';
     font-style: normal;
@@ -64,6 +70,34 @@ app, html, body{
 }
 
 .m-i{font-family:'Material Icons';font-weight:normal;font-style:normal;font-size:24px;display:inline-block;line-height:1;text-transform:none;letter-spacing:normal;word-wrap:normal;white-space:nowrap;direction:ltr;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;-moz-osx-font-smoothing:grayscale;font-feature-settings:'liga'}
+
+x, .x {
+    z-index: 2;
+    user-select: none;
+    cursor: pointer;
+    position: absolute;
+    border-radius: 40%;
+    top: 15px;
+    padding: 10px;
+    right: 15px;
+    text-align: center;
+    transition: 0.2s;
+}
+
+x:hover, .x:hover {
+    background: #55555533;
+    border-radius: 50%;
+}
+
+x:focus-visible, .x:focus-visible {
+    outline: 1px solid #bbb;
+    border-radius: 50%;
+}
+
+x:active, .x:active {
+    background: #55555555;
+    border-radius: 45%;
+}
 
 view{
     display: inline-block;
@@ -212,7 +246,10 @@ library{
     background: var(--brand);
     color: var(--settingsaactivetx);
 }
-
+.librarytransition .song{
+    margin: 0;
+    transition: 0s;
+}
 .song{
     position: relative;
     cursor: pointer;
@@ -222,7 +259,7 @@ library{
     border-radius: 12px;
     margin: 0 25px 25px 0;
     height: 180px;
-    transition: background .1s;
+    transition: background .1s, margin .3s;
 }
 .song:hover:not(.albumactive), .song:focus-visible:not(.albumactive){
     background: var(--songhoverbg);
@@ -257,6 +294,7 @@ library{
     display: none;
 }
 .albumactive{
+    position: absolute;
     cursor: initial;
     z-index: 9;
     left: 20px;
@@ -265,32 +303,106 @@ library{
     height: calc(100% - 90px);/*-90 is random*/
     margin: 0;
     background: var(--songbg);
+    transition: background 0s;
+}
+.albumactive *{
+    transition: .3s;
+}
+.albumactive img{
+    transition: 1s;
+}
+.albumtransition *{
+    transition: initial!important;
+}
+.albumtransition img{
+    transform: rotate(-20deg);
 }
 .albumactive ty{
     display: none;
-}
-.albumactive img{
-    display: inline-block;
 }
 .albumactive ti, .albumactive ar{
     display: inline-block;
     position: absolute;
     left: 120px;
-    width: 85%;
+    width: calc(100% - 185px);
 }
-.albumactive ti{ /*how to make only the first element?*/
+.albumtransition ti{
+    transform: translateX(20px);
+}
+.albumtransition ar{
+    transform: translateX(30px);
+}
+.albumactive ti{
+    top: 25px;
     font-size: 32px;
 }
 .albumactive ar{
     font-size: 24px;
-    top: 50px;
+    top: 65px;
 }
 .albumactive dot{
     left: 60px;
 }
 .albumactive songs{
-    display: inline-block;
+    height: calc(100% - 113px);
+    margin-top: 10px;
+    display: block;
 }
+
+.albumactive div{
+    cursor: pointer;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    padding: 6px;
+    height: 52px;
+    width: 100%;
+    margin-bottom: 10px;
+    background: var(--songalbumbg);
+    border-radius: 4px;
+}
+.albumtransition div{
+    transform: translateY(-10px);
+    margin-bottom: 0;
+}
+.albumactive div:hover{
+    background: var(--songalbumhoverbg);
+}
+.albumactive .songactive{
+    box-shadow: 0 0 2px 1px var(--songalbumactivebg);
+}
+.albumactive div:last-child{
+    margin: 0;
+}
+
+.albumactive aimg{
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    background-image: var(--bg-image);
+    background-size: cover;
+    margin-right: 10px;
+}
+.albumactive ati{
+    width: 70%;
+}
+.albumactive aar{
+    width: 30%;
+}
+.albumactive aty{
+    width: 70px;
+}
+
+body{
+  counter-reset: section;
+}
+.albumactive div::before{
+  counter-increment: section;
+  content: counter(section);
+  margin: 0 12px 0 6px;
+  color: var(--playertx);
+}
+
 .song ti{
     min-width: 100px;
     margin-top: 10px;
@@ -321,7 +433,19 @@ player{
     color: var(--playertx);
     background: var(--playerbg);
 }
-
+.AudioSpectrum{
+    border-radius: initial;
+}
+player #AudioSpectrum{
+    display: none;
+    width: 100%;
+    position: absolute;
+    bottom: 130px;
+    pointer-events: none;
+}
+.AudioSpectrum #AudioSpectrum{
+    display: initial;
+}
 
 song, controls, options{
     height: 130px;
@@ -485,6 +609,16 @@ controls:hover input[type="range"]::-webkit-slider-thumb{
     border: 2px solid var(--playersliderdoto);
 }
 
+backgroundfx, backgroundfx video{
+    display: block;
+    position: fixed;
+    min-width: 100%;
+    min-height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
 @media screen and (max-width: 1000px) {
     song{
         width: 250px;
@@ -531,6 +665,9 @@ controls:hover input[type="range"]::-webkit-slider-thumb{
     } */
     player{
         height: 200px;
+    }
+    player #AudioSpectrum{
+        bottom: 200px;
     }
     main{
         height: calc(100% - 200px);
