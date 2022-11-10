@@ -80,53 +80,54 @@ mainsettings.innerHTML = "<h1>Settings</h1>"+
 var optionsdivs = mainsettings.getElementsByTagName("div")
 var themebtns = optionsdivs[0].getElementsByTagName("a")
 var backgroundEffect
+var activeTheme = "Dark"
 
 function Theme(theme){
+  if(activeTheme!=theme.innerText){
+    for (let i = 0; i < themebtns.length; i++) {
+      themebtns[i].classList.remove("active")
+    }
+    theme.classList.add("active")
   
-  for (let i = 0; i < themebtns.length; i++) {
-    themebtns[i].classList.remove("active")
-  }
-  theme.classList.add("active")
-
-  if(theme.innerText!="Gradient"){
-    if(backgroundEffect && backgroundEffect.nodeType){
-      backgroundEffect.remove()
-      document.getElementById("themejs").remove()
-      backgroundEffect = null
-    }
-  }
-  var execute = function(){}
-  switch (theme.innerText) {
-    case "Dark":
-      execute = function(){
-        document.getElementById("themecss").remove()
+    if(theme.innerText!="Gradient"){
+      if(backgroundEffect && backgroundEffect.nodeType){
+        backgroundEffect.remove()
+        document.getElementById("themejs").remove()
+        backgroundEffect = null
       }
-      break;
-    case "Light":
-      execute = function(){loadCSS("light.css", "themecss")}
-      break;
-    case "Mint Green":
-      execute = function(){loadCSS("green.css", "themecss")}
-      break;
-    case "Blood Red":
-      execute = function(){loadCSS("red.css", "themecss")}
-      break;
-    case "Gradient":
-      execute = function(){
-        loadScript("code/backgroundfx.js", "themejs")
-        loadCSS("gradient.css", "themecss")
-      }
-      break;
-    default:
-      break;
-  }
-  try {
-    var themecss = document.getElementById("themecss")
-    if(themecss){
-      themecss.remove()
     }
-    execute()
-  } catch (error) {}
+    var execute = function(){}
+    switch (theme.innerText) {
+      case "Dark":
+        execute = function(){document.getElementById("themecss").remove()}
+        break;
+      case "Light":
+        execute = function(){loadCSS("light.css", "themecss")}
+        break;
+      case "Mint Green":
+        execute = function(){loadCSS("green.css", "themecss")}
+        break;
+      case "Blood Red":
+        execute = function(){loadCSS("red.css", "themecss")}
+        break;
+      case "Gradient":
+        execute = function(){
+          loadScript("code/backgroundfx.js", "themejs")
+          loadCSS("gradient.css", "themecss")
+        }
+        break;
+      default:
+        break;
+    }
+    try {
+      var themecss = document.getElementById("themecss")
+      if(themecss){
+        themecss.remove()
+      }
+      execute()
+    } catch (error) {}
+    activeTheme = theme.innerHTML
+  }
 }
 
 for (let i = 0; i < themebtns.length; i++) {

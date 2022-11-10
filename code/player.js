@@ -65,6 +65,7 @@ var lastvolume = 1
 function appVolumeChange(){
   song.volume = volumeslider.value / 100
   lastvolume = song.volume
+  playerbuttons[6].style = ""
   if(volumeslider.value>75){
     playerbuttons[6].innerText = "volume_up"
   }
@@ -74,6 +75,7 @@ function appVolumeChange(){
     }
     else{
       playerbuttons[6].innerText = "volume_down"
+      playerbuttons[6].style.transform = "translateX(-2px)"
     }
   }
 }
