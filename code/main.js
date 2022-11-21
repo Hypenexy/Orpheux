@@ -15,7 +15,13 @@ main.innerHTML = "<h1>Library</h1>"+
 </div>`+
 "<div class='song'><ty>Song 1:21</ty><img src='songimage.png'><ti>Electric Growl</ti><ar>Hypenexy</ar></div>"+
 "<div class='song'><ty>Song 2:35</ty><img src='songimage.png'><ti>distortion</ti><ar>Hypenexy</ar></div>"+
-"</library>"
+"</library>" +
+`<h1>Tools</h1>
+<tools>
+  <div><i class='m-i'>mic</i><info><ti>Audio Recorder</ti><desc>Record input with your microphone</desc></info></div>
+  <div><i class='m-i'>equalizer</i><info><ti>White Noise</ti><desc>A mixer for calming noises</desc></info></div>
+  <div><i class='m-i'>subtitles</i><info><ti>Caption Generator</ti><desc>Listen to any audio with subtitles</desc></info></div>
+</tools>`
 
 var songs = main.getElementsByClassName("song")
 

@@ -193,6 +193,48 @@ library{
     flex-flow: wrap;
 }
 
+tools{
+    display: flex;
+    flex-flow: wrap;
+}
+
+tools div{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;/*think bour it*/
+    border-radius: 8px;
+    background: #65baff; /*think about colors rgb(167 107 130);*/
+    color: #111;
+    padding: 12px;
+    margin: 0 12px 12px 0;
+    transition: .1s;
+}
+tools i{
+    text-shadow: 2px 2px #11111155;
+    font-size: 64px!important;
+}
+tools info{
+    display: inline-block;
+}
+tools ti{
+    font-weight: 600;
+}
+tools ti, tools desc{
+    display: block;
+}
+tools div:hover, tools div:focus-visible{
+    transform: translate(-3px, -3px);
+    box-shadow: 3px 3px 0 #65baff55;
+}
+tools div:active{
+    transform: initial;
+    box-shadow: 0 0 2px #65baff55;
+    /* transition: initial; */
+    background: #111;
+    color: #65baff;
+}
+
 .artist{
     display: inline-block;
     margin: 0 25px 25px 0;
