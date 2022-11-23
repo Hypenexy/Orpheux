@@ -18,9 +18,10 @@ main.innerHTML = "<h1>Library</h1>"+
 "</library>" +
 `<h1>Tools</h1>
 <tools>
-  <div><i class='m-i'>mic</i><info><ti>Audio Recorder</ti><desc>Record input with your microphone</desc></info></div>
-  <div><i class='m-i'>equalizer</i><info><ti>White Noise</ti><desc>A mixer for calming noises</desc></info></div>
+  <div data-action='audiogen'><i class='m-i'>mic</i><info><ti>Audio Recorder</ti><desc>Record input with your microphone</desc></info></div>
+  <div data-action='whitenoise'><i class='m-i'>equalizer</i><info><ti>White Noise</ti><desc>A mixer for calming noises</desc></info></div>
   <div><i class='m-i'>subtitles</i><info><ti>Caption Generator</ti><desc>Listen to any audio with subtitles</desc></info></div>
+  <div><i class='m-i'>speaker</i><info><ti>Simple Audio Generator</ti><desc>Generate a sound</desc></info></div><!--infrared looks better but i havent updated material icons-->
 </tools>`
 
 var songs = main.getElementsByClassName("song")

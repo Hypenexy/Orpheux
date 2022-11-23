@@ -99,6 +99,16 @@ x:active, .x:active {
     border-radius: 45%;
 }
 
+button{
+	background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+    outline: 0;
+}
+
 view{
     display: inline-block;
     height: calc(100% - 130px);
@@ -233,6 +243,100 @@ tools div:active{
     /* transition: initial; */
     background: #111;
     color: #65baff;
+}
+
+.tool{
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: #111;
+    color: #bbb;
+    z-index: 12;
+    opacity: 0;
+}
+
+.tooltransition{
+    opacity: 0;
+}
+
+.tooltransitioned{
+    opacity: 1;
+}
+
+.tool toolheader{
+    display: block;
+    height: 46px;
+}
+.tool toolheader a{
+    display: block;
+    text-align: center;
+    padding: 14px;
+}
+.tool toolheader .x{
+    top: 2px;
+    right: 2px;
+}
+
+.tool tool{
+    display: block;
+    overflow-y: auto;
+    height: calc(100% - 46px);
+}
+
+.tool .error{
+    font-size: 28px;
+    text-align: center;
+    padding: 0 24px;
+}
+
+.tool .micrecord{
+    user-select: none;
+    font-size: 48px;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 20px;
+    background: #eee;
+    color: #111;
+    border-radius: 50%;
+    padding: 8px;
+    transition: .2s;
+}
+
+.tool .micrecord:hover, .tool .micrecord:focus-visible{
+    transform: translate(-50%, -3px);
+    box-shadow: 0 3px 0 #eeeeee55;
+}
+.tool .micrecordactive:hover{
+    box-shadow: 0 3px 4px #65baff;
+}
+.tool .micrecord:active, .tool .micrecordactive{
+    transform: translateX(-50%);
+    box-shadow: 0 0 3px 1px #eeeeee55;
+    background: #111;
+    color: #eee;
+    transition: .1s;
+}
+.tool .micrecordactive{
+    color: #65baff;
+    box-shadow: 0 0 3px 3px #65baff;
+}
+
+.tool .mictimer{
+    position: absolute;
+    left: 50%;
+    top: 140px;
+    transform: translateX(-50%);
+    visibility: hidden;
+    opacity: 0;
+    transition: .2s;
+}
+.tool .mictimeractive{
+    visibility: visible;
+    opacity: 1
 }
 
 .artist{
@@ -756,7 +860,7 @@ backgroundfx, backgroundfx video{
     } */
 
     sidepanel{
-        z-index: 99;
+        z-index: 11;
         position: absolute;
         bottom: 0;
         display: flex;
