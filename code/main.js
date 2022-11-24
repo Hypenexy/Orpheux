@@ -22,6 +22,11 @@ main.innerHTML = "<h1>Library</h1>"+
   <div data-action='whitenoise'><i class='m-i'>equalizer</i><info><ti>White Noise</ti><desc>A mixer for calming noises</desc></info></div>
   <div><i class='m-i'>subtitles</i><info><ti>Caption Generator</ti><desc>Listen to any audio with subtitles</desc></info></div>
   <div><i class='m-i'>speaker</i><info><ti>Simple Audio Generator</ti><desc>Generate a sound</desc></info></div><!--infrared looks better but i havent updated material icons-->
+  <h2>Enthusiasts' visuals</h2>
+  <div><i class='m-i'>microwave</i><info><ti>Oscilloscope Emulator</ti><desc>Visualizer for audio in the oscilloscope form</desc></info></div>
+  <div><i class='m-i'>water</i><info><ti>Water Visualizer</ti><desc>Learn how certain frequencies interact with water</desc></info></div>
+  <h2>Artists' tools</h2>
+  <div><i class='m-i'>lyrics</i><info><ti>Lyrics Generator</ti><desc>Using AI generates lyrics and title for a song</desc></info></div>
 </tools>`
 
 var songs = main.getElementsByClassName("song")
@@ -89,7 +94,8 @@ mainsettings.innerHTML = "<h1>Settings</h1>"+
 "<div><p>Theme</p><a>Gradient</a><a>Dark</a><a>Light</a><a>Mint Green</a><a>Blood Red</a></div>"+
 "<div><p>Numerals</p><a>Arabic</a><a>Roman</a></div>"+
 "<div><p>Audio Visualizer</p><a>On</a><a>Off</a></div>"+
-"<div><p>UI Animations</p><a>On</a><a>Off</a></div>"
+"<div><p>UI Animations</p><a>On</a><a>Off</a></div>"+
+"<div><p>Volume Gain Multiplier</p><input></div>"
 
 var optionsdivs = mainsettings.getElementsByTagName("div")
 var themebtns = optionsdivs[0].getElementsByTagName("a")
@@ -220,6 +226,18 @@ function allowMotion(bool){
 
 ButtonEvent(animationsbtns[0], allowMotion, true)
 ButtonEvent(animationsbtns[1], allowMotion, false)
+
+var VolumeGainMultiplier = null
+var volumegaininput = optionsdivs[4].getElementsByTagName("input")[0]
+volumegaininput.addEventListener("change",function(){
+  var value = volumegaininput.value
+  if(value==1){
+    VolumeGainMultiplier = null
+  }
+  else{
+    VolumeGainMultiplier = volumegaininput.value
+  }
+})
 
 const jsmediatags = window.jsmediatags;
 

@@ -61,10 +61,10 @@ function loadCSS(url, id, onload){
 
 /**
  * Sets an event of an element.
- * @param {Element} element Any element
- * @param {Function} action A function
- * @param {Variable} param A parameter to call the function with
- * @param {Boolean} event A bool to decide if the event is passed as the first parameter 
+ * @param {*} element Any element
+ * @param {*} action A function
+ * @param {*} param A parameter to call the function with
+ * @param {*} event A bool to decide if the event is passed as the first parameter 
  */
 function ButtonEvent(element, action, param, event){
     element.tabIndex = 0
@@ -93,8 +93,8 @@ function ButtonEvent(element, action, param, event){
  * Warning: WIP Function do not use in production builds. 
  * Sets an event of an element with styling.
  * By default it uses one of my styles for buttons. 
- * @param {Element} element Any element
- * @param {Function} action A function
+ * @param {*} element Any element
+ * @param {*} action A function
  * @param {*} hoverstyle CSS to use on mouse over element
  * @param {*} clickstyle CSS to use momentarily when clicking on the element
  */
@@ -160,10 +160,10 @@ function ButtonEventStyled(element, action, hoverstyle, clickstyle){
 
 /**
  * A function to foreach an array with a delay!
- * @param {Array} array Any array.
- * @param {Function} action A function to execute. The current element is a paramater.
- * @param {Integer} delay The delay in milliseconds.
- * @param {Boolean} startInstant Bool to decide if the first element should be immediately executed.
+ * @param {*} array Any array.
+ * @param {*} action A function to execute. The current element is a paramater.
+ * @param {*} delay The delay in milliseconds.
+ * @param {*} startInstant Bool to decide if the first element should be immediately executed.
  */
  function foreachDelayed(array, action, delay, startInstant){
     var i = 0
@@ -340,3 +340,36 @@ function roughSizeOfObject(object){
     }
     return bytes;
 }
+
+
+/**
+ * Format bytes as human-readable text.
+ * 
+ * @param bytes Number of bytes.
+ * @param si True to use metric (SI) units, aka powers of 1000. False to use 
+ *           binary (IEC), aka powers of 1024.
+ * @param dp Number of decimal places to display.
+ * 
+ * @return Formatted string.
+ */
+ function humanFileSize(bytes, si=true, dp=1) {
+    const thresh = si ? 1000 : 1024;
+  
+    if (Math.abs(bytes) < thresh) {
+      return bytes + ' B';
+    }
+  
+    const units = si 
+      ? ['kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'] 
+      : ['KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
+    let u = -1;
+    const r = 10**dp;
+  
+    do {
+      bytes /= thresh;
+      ++u;
+    } while (Math.round(Math.abs(bytes) * r) / r >= thresh && u < units.length - 1);
+  
+  
+    return bytes.toFixed(dp) + ' ' + units[u];
+  }

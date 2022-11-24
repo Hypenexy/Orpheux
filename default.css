@@ -211,6 +211,11 @@ tools{
     flex-flow: wrap;
 }
 
+tools h2{
+    flex-basis: 100%;
+    margin-bottom: 10px;
+}
+
 tools div{
     display: flex;
     align-items: center;
@@ -378,7 +383,7 @@ tools div:active{
 .settings p{
     font-size: 24px;
 }
-.settings a{
+.settings a, .settings input{
     user-select: none;
     cursor: pointer;
     display: inline-block;
@@ -390,7 +395,12 @@ tools div:active{
     color: var(--settingsatx);
     transition: .2s;
 }
-.settings a:hover:not(.active){
+.settings input{
+    cursor: auto;
+    border: 0;
+    outline: 0;
+}
+.settings a:hover:not(.active), .settings a:focus-visible:not(.active), .settings input:focus{
     background: var(--settingsahoverbg);
     color: var(--settingsahovertx);
 }
