@@ -1,5 +1,4 @@
 # ChordTune
+Everything to do with sound and music!
 
-A better way to listen to your music.
-
-# COMING SOON!
+#Yea it's still coming really soon
