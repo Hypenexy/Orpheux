@@ -31,6 +31,7 @@ ButtonEvent(songs[1], OpenAlbum, songs[1])
 
 function OpenAlbum(element){
   if(!element.classList.contains("albumactive")){
+    StaticMain()
     // var eloffset = getOffset(element)
     // element.style.top = eloffset.top + "px"
     // element.style.left = eloffset.left + "px"
@@ -46,6 +47,7 @@ function OpenAlbum(element){
     }
   
     ButtonEvent(element.getElementsByTagName("x")[0], function(event){
+      main.classList.remove("staticmain")
       event.stopPropagation()
       element.classList.remove("albumtransition")
       element.classList.remove("albumactive")
@@ -58,10 +60,15 @@ function OpenAlbum(element){
   }
 }
 
+function StaticMain(){
+  main.scrollTop = 0
+  main.classList.add("staticmain")
+}
+
 function ShowMain(main){
   var mains = view.getElementsByTagName("main")
   for (let i = 0; i < mains.length; i++) {
-    if(mains[i].classList[1] == "active"){
+    if(mains[i].classList.contains("active")){
       mains[i].classList.remove("active")
     }
   }

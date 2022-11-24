@@ -1,13 +1,23 @@
-function showTool(element){
+function showTool(element, title){
     var tool = document.createElement("div")
-    tool.classList.add("tooltransitioned")
-    tool.innerHTML = "<toolheader><a>Audio Recorder</a><i class='x m-i'>close</></toolheader>"
+    tool.innerHTML = "<toolheader><a>"+title+"</a><i class='x m-i'>close</></toolheader>"
     ButtonEvent(tool.getElementsByClassName("x")[0], function(){
-        tool.remove()
+        tool.classList.remove("tooltransitioned")
+        setTimeout(() => {
+            tool.remove()
+            main.classList.remove("staticmain")
+            player.classList.remove("AudioSpectrum")
+        }, 300);
     })
     tool.classList.add("tool")
+    tool.classList.add("tooltransition")
     tool.appendChild(element)
-    app.appendChild(tool)
+    main.appendChild(tool)
+    StaticMain()
+    player.classList.add("AudioSpectrum")
+    setTimeout(function(){
+        tool.classList.add("tooltransitioned")
+    }, 10);
 }
 
 function AudioRecorderHTML(){
@@ -75,7 +85,7 @@ function AudioRecorderHTML(){
     return element;
 }
 
-ButtonEvent(document.querySelector('[data-action="audiogen"]'), function(){showTool(AudioRecorderHTML())})
+ButtonEvent(document.querySelector('[data-action="audiogen"]'), function(){showTool(AudioRecorderHTML(), "Audio Recorder")})
 
 function WhiteNoiseHTML(){
     var element = document.createElement("tool")
@@ -83,4 +93,4 @@ function WhiteNoiseHTML(){
     return element
 }
 
-ButtonEvent(document.querySelector('[data-action="whitenoise"]'), function(){showTool(WhiteNoiseHTML())})
+ButtonEvent(document.querySelector('[data-action="whitenoise"]'), function(){showTool(WhiteNoiseHTML(), "White Noise")})

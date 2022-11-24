@@ -50,7 +50,7 @@ brand color idea 2: #65baff
     --settingsaactivetx: #111;
 }
 ::-webkit-scrollbar{width:12px}
-::-webkit-scrollbar-thumb{border-radius:8px;background:#aaa}
+::-webkit-scrollbar-thumb{border-radius:8px;background:var(--sidepaneltx)}
 ::-webkit-scrollbar-thumb:hover{background:#999}
 ::-webkit-scrollbar-thumb:active{background:#777}
 app, html, body{
@@ -171,6 +171,9 @@ view .active{
     transform: translateY(-50px);
     transition: .2s;
 }
+.staticmain{
+    overflow: hidden;
+}
 main{
     position: absolute;
     left: 280px;
@@ -214,8 +217,8 @@ tools div{
     cursor: pointer;
     user-select: none;/*think bour it*/
     border-radius: 8px;
-    background: #65baff; /*think about colors rgb(167 107 130);*/
-    color: #111;
+    background: var(--brand); /*think about colors rgb(167 107 130);*/
+    color: var(--sidepanelbg);
     padding: 12px;
     margin: 0 12px 12px 0;
     transition: .1s;
@@ -235,14 +238,14 @@ tools ti, tools desc{
 }
 tools div:hover, tools div:focus-visible{
     transform: translate(-3px, -3px);
-    box-shadow: 3px 3px 0 #65baff55;
+    box-shadow: 3px 3px 0 var(--playersliderdot);
 }
 tools div:active{
     transform: initial;
-    box-shadow: 0 0 2px #65baff55;
+    box-shadow: 0 0 2px var(--playersliderdot);
     /* transition: initial; */
-    background: #111;
-    color: #65baff;
+    background: var(--sidepanelbg);
+    color: var(--brand);
 }
 
 .tool{
@@ -252,18 +255,21 @@ tools div:active{
     right: 0;
     width: 100%;
     height: 100%;
-    background: #111;
-    color: #bbb;
-    z-index: 12;
-    opacity: 0;
+    background: var(--sidepanelbg);
+    color: var(--sidepaneltx);
+    border-radius: 24px 0 0 0;
+    z-index: 4;
 }
 
 .tooltransition{
     opacity: 0;
+    transform: translateY(50px);
+    transition: .3s;
 }
 
 .tooltransitioned{
     opacity: 1;
+    transform: initial;
 }
 
 .tool toolheader{
@@ -299,8 +305,8 @@ tools div:active{
     left: 50%;
     transform: translateX(-50%);
     margin-top: 20px;
-    background: #eee;
-    color: #111;
+    background: var(--maintx);
+    color: var(--sidepanelbg);
     border-radius: 50%;
     padding: 8px;
     transition: .2s;
@@ -311,18 +317,18 @@ tools div:active{
     box-shadow: 0 3px 0 #eeeeee55;
 }
 .tool .micrecordactive:hover{
-    box-shadow: 0 3px 4px #65baff;
+    box-shadow: 0 3px 4px var(--brand);
 }
 .tool .micrecord:active, .tool .micrecordactive{
     transform: translateX(-50%);
     box-shadow: 0 0 3px 1px #eeeeee55;
-    background: #111;
-    color: #eee;
+    background: var(--sidepanelbg);
+    color: var(--maintx);
     transition: .1s;
 }
 .tool .micrecordactive{
-    color: #65baff;
-    box-shadow: 0 0 3px 3px #65baff;
+    color: var(--brand);
+    box-shadow: 0 0 3px 3px var(--brand);
 }
 
 .tool .mictimer{
@@ -896,6 +902,10 @@ backgroundfx, backgroundfx video{
         display: block;
         float: initial;
         margin: 0 auto;
+    }
+
+    .tool{
+        border-radius: initial;
     }
 }
 
