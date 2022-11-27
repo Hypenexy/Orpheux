@@ -29,6 +29,8 @@ main.innerHTML = "<h1>Library</h1>"+
   <div><i class='m-i'>lyrics</i><info><ti>Lyrics Generator</ti><desc>Using AI generates lyrics and title for a song</desc></info></div>
 </tools>`
 
+// var server stuff here
+
 var songs = main.getElementsByClassName("song")
 
 ButtonEvent(songs[0], function(){play("calmplace.mp3", "Calm Place", "Hypenexy")})
@@ -73,11 +75,11 @@ function StaticMain(){
 function ShowMain(main){
   var mains = view.getElementsByTagName("main")
   for (let i = 0; i < mains.length; i++) {
-    if(mains[i].classList.contains("active")){
-      mains[i].classList.remove("active")
+    if(mains[i].classList.contains("activeview")){
+      mains[i].classList.remove("activeview")
     }
   }
-  view.getElementsByClassName(main)[0].classList.add("active")
+  view.getElementsByClassName(main)[0].classList.add("activeview")
 }
 
 window.addEventListener("load", function(){
@@ -87,22 +89,122 @@ window.addEventListener("load", function(){
 
 
 mainexplore.innerHTML = "<h1>Explore</h1>"+
-"<div class='artist'><img src='app/artist/5F1B2416-AF81-41FC-B7D1-24B91CF8A0B8.jpeg'><ar>Hypenexy</ar></div>"
+"<h2>Artists</h2>"+
+"<div class='artist'><img src='app/artist/5F1B2416-AF81-41FC-B7D1-24B91CF8A0B8.jpeg'><ar>Hypenexy</ar></div>"+
+'<div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>'
 
+var aritstsButtons = mainexplore.getElementsByClassName("artist")
+for (let i = 0; i < aritstsButtons.length; i++) {
+  ButtonEvent(aritstsButtons[i], function(){showArtist(aritstsButtons[i].getElementsByTagName("ar")[0].innerText)})
+}
+
+mainexplore.getElementsByClassName("lds-ellipsis")[0].remove() //remove it when it loads
+
+function showArtist(name){
+  $.ajax({
+      url: server + "app/artist/",
+      type: "post",
+      data: {"artist" : name},
+      success: function (response) {
+        response = JSON.parse(response)
+        var artistEl = document.createElement("div")
+        artistEl.classList.add("viewArtist")
+        artistEl.innerHTML = "<i class='x m-i'>arrow_back_ios</i><h1>"+response.name+"</h1>"+
+        "<h2>Tracks</h2>"
+        ButtonEvent(artistEl.getElementsByClassName("x")[0], function(){
+          //close
+          artistEl.remove()
+        })
+        mainexplore.appendChild(artistEl)
+      },
+      error: function() {
+      }
+  })
+}
 
 mainsettings.innerHTML = "<h1>Settings</h1>"+
+"<h2>Account</h2>"+
+"<div><p>Midelight Account</p><a>Login</a><a>Register</a></div>"+
+"<h2>Visual</h2>"+
 "<div><p>Theme</p><a>Gradient</a><a>Dark</a><a>Light</a><a>Mint Green</a><a>Blood Red</a></div>"+
 "<div><p>Numerals</p><a>Arabic</a><a>Roman</a></div>"+
 "<div><p>Audio Visualizer</p><a>On</a><a>Off</a></div>"+
 "<div><p>UI Animations</p><a>On</a><a>Off</a></div>"+
-"<div><p>Volume Gain Multiplier</p><input></div>"
+"<h2>Sound</h2>"+
+"<div><p>Volume Gain Multiplier</p><input type='number' value=1><err></err></div>"+
+"<div><p>Playback Speed Multiplier</p><input type='number' value=1><err></err></div>"+
+"<a data-action='resetOptions'>Reset options</a><a class='undoreset' data-action='undoReset'>Undo reset</a>"
+
+var settings = {}
+if(localStorage.getItem("options")){
+  try {
+    settings = JSON.parse(localStorage.getItem("options"))
+  } catch {
+    console.log("WARN: Something errored during parsing of options. Resetting options.")
+    localStorage.removeItem("options")
+    settings = {}
+  }
+}
+function saveSettings(){
+  localStorage.setItem("options", JSON.stringify(settings))
+}
+var undoSettings = {}
+var undoBtn = document.querySelector('[data-action="undoReset"]')
+ButtonEvent(document.querySelector('[data-action="resetOptions"]'), function(){
+  undoBtn.classList.remove("undoreset")
+  localStorage.removeItem("options")
+  undoSettings = settings
+  settings = {}
+  themebtns[1].click()
+  numeralsbtns[0].click()
+  visualizerbtns[1].click()
+  animationsbtns[0].click()
+  volumegaininput.value = 1
+  VolumeGainMultiplier = volumegaininput.value
+  volumeplaybackinput.value = 1
+  song.playbackRate = 1
+})
+ButtonEvent(undoBtn, function(){
+  undoBtn.classList.add("undoreset")
+  settings = undoSettings
+  loadSettings(settings)
+  saveSettings()
+})
 
 var optionsdivs = mainsettings.getElementsByTagName("div")
-var themebtns = optionsdivs[0].getElementsByTagName("a")
+var themebtns = optionsdivs[1].getElementsByTagName("a")
 var backgroundEffect
 var activeTheme = "Dark"
 
+function switchToCSS(Text){
+  var execute = function(){}
+  switch (Text) {
+    case "Dark":
+      execute = function(){document.getElementById("themecss").remove()}
+      break;
+    case "Light":
+      execute = function(){loadCSS("assets/themes/light.css", "themecss")}
+      break;
+    case "Mint Green":
+      execute = function(){loadCSS("assets/themes/green.css", "themecss")}
+      break;
+    case "Blood Red":
+      execute = function(){loadCSS("assets/themes/red.css", "themecss")}
+      break;
+    case "Gradient":
+      execute = function(){
+        loadScript("code/backgroundfx.js", "themejs")
+        loadCSS("assets/themes/gradient.css", "themecss")
+      }
+      break;
+    default:
+      break;
+  }
+  return execute;
+}
+
 function Theme(theme){
+  var execute
   if(activeTheme!=theme.innerText){
     for (let i = 0; i < themebtns.length; i++) {
       themebtns[i].classList.remove("active")
@@ -116,45 +218,26 @@ function Theme(theme){
         backgroundEffect = null
       }
     }
-    var execute = function(){}
-    switch (theme.innerText) {
-      case "Dark":
-        execute = function(){document.getElementById("themecss").remove()}
-        break;
-      case "Light":
-        execute = function(){loadCSS("light.css", "themecss")}
-        break;
-      case "Mint Green":
-        execute = function(){loadCSS("green.css", "themecss")}
-        break;
-      case "Blood Red":
-        execute = function(){loadCSS("red.css", "themecss")}
-        break;
-      case "Gradient":
-        execute = function(){
-          loadScript("code/backgroundfx.js", "themejs")
-          loadCSS("gradient.css", "themecss")
-        }
-        break;
-      default:
-        break;
-    }
-    try {
-      var themecss = document.getElementById("themecss")
-      if(themecss){
-        themecss.remove()
-      }
-      execute()
-    } catch (error) {}
-    activeTheme = theme.innerHTML
+    execute = switchToCSS(theme.innerText)
   }
+  try {
+    var themecss = document.getElementById("themecss")
+    if(themecss){
+      themecss.remove()
+    }
+    execute()
+  } catch (error) {}
+  activeTheme = theme.innerHTML
+  if(activeTheme!="Dark"){
+    settings.theme = activeTheme
+  }
+  else{
+    delete settings.theme
+  }
+  saveSettings()
 }
 
-for (let i = 0; i < themebtns.length; i++) {
-  ButtonEvent(themebtns[i], Theme, themebtns[i])
-}
-
-var numeralsbtns = optionsdivs[1].getElementsByTagName("a")
+var numeralsbtns = optionsdivs[2].getElementsByTagName("a")
 
 var romanNumerals = false
 function Numerals(numeral){
@@ -162,12 +245,15 @@ function Numerals(numeral){
     numeralsbtns[0].classList.add("active")
     numeralsbtns[1].classList.remove("active")
     romanNumerals = false
+    delete settings.romanNumerals
   }
   if(numeral==1){
     numeralsbtns[1].classList.add("active")
     numeralsbtns[0].classList.remove("active")
     romanNumerals = true
+    settings.romanNumerals = romanNumerals
   }
+  saveSettings()
 }
 
 ButtonEvent(numeralsbtns[0], Numerals, 0)
@@ -187,26 +273,28 @@ function Romanize(num){
   return Array(+digits.join("") + 1).join("M") + roman
 }
 
-var visualizerbtns = optionsdivs[2].getElementsByTagName("a")
+var visualizerbtns = optionsdivs[3].getElementsByTagName("a")
 
 function showVisualizer(bool){
   if(bool){
     visualizerbtns[0].classList.add("active")
     visualizerbtns[1].classList.remove("active")
     AudioSpectrumEnabled = true
+    settings.audioVisualizer = true
   }
   else{
     visualizerbtns[1].classList.add("active")
     visualizerbtns[0].classList.remove("active")
     AudioSpectrumEnabled = false
+    delete settings.audioVisualizer
   }
+  saveSettings()
 }
 
 ButtonEvent(visualizerbtns[0], showVisualizer, true)
 ButtonEvent(visualizerbtns[1], showVisualizer, false)
 
-
-var animationsbtns = optionsdivs[3].getElementsByTagName("a")
+var animationsbtns = optionsdivs[4].getElementsByTagName("a")
 var MotionAllowed = true
 
 function allowMotion(bool){
@@ -215,29 +303,136 @@ function allowMotion(bool){
     animationsbtns[1].classList.remove("active")
     MotionAllowed = true
     app.classList.remove("MotionDisabled")
+    delete settings.allowMotion
   }
   else{
     animationsbtns[1].classList.add("active")
     animationsbtns[0].classList.remove("active")
     MotionAllowed = false
     app.classList.add("MotionDisabled")
+    settings.allowMotion = false
   }
+  saveSettings()
 }
 
 ButtonEvent(animationsbtns[0], allowMotion, true)
 ButtonEvent(animationsbtns[1], allowMotion, false)
 
 var VolumeGainMultiplier = null
-var volumegaininput = optionsdivs[4].getElementsByTagName("input")[0]
-volumegaininput.addEventListener("change",function(){
-  var value = volumegaininput.value
-  if(value==1){
-    VolumeGainMultiplier = null
+var volumegaininput = optionsdivs[5].getElementsByTagName("input")[0]
+var volumegaininputerror = optionsdivs[5].getElementsByTagName("err")[0]
+volumegaininput.addEventListener("input", function(){
+  if(volumegaininput.value<0.01){
+    if(volumegaininput.value<= 0){
+      volumegaininputerror.innerText = "0 and below the sound is muted"
+    }
+    else{
+      volumegaininputerror.innerText = "You might not be able to hear anything if the multiplier is below 0.01"
+    }
   }
   else{
-    VolumeGainMultiplier = volumegaininput.value
+    volumegaininputerror.innerText = ""
   }
 })
+volumegaininput.addEventListener("change",function(){
+  var value = volumegaininput.value
+  if(value>0){
+    if(value==1){
+      VolumeGainMultiplier = null
+      delete settings.volumeMultiplier
+    }
+    else{
+      VolumeGainMultiplier = volumegaininput.value
+      settings.volumeMultiplier = VolumeGainMultiplier
+    }
+    saveSettings()
+    volumegaininputerror.innerText = "You need to restart the audio to affect changes"
+  }
+  else{
+    if(VolumeGainMultiplier!=null){
+      volumegaininput.value = VolumeGainMultiplier
+    }
+    else{
+      volumegaininput.value = 1
+    }
+    volumegaininputerror.innerText = "You need to restart the audio to affect changes"
+  }
+})
+
+var volumeplaybackinput = optionsdivs[6].getElementsByTagName("input")[0]
+var volumeplaybackinputerror = optionsdivs[6].getElementsByTagName("err")[0]
+volumeplaybackinput.addEventListener("input", function(){
+  if(0.0625<=volumeplaybackinput.value&&volumeplaybackinput.value<=16){//might be .5 and 4 cuz it mutes otherwise?
+    song.playbackRate = volumeplaybackinput.value
+    // song.mozPreservesPitch = false
+    // song.preservesPitch = false dont work. ;(
+    settings.playbackRate = volumeplaybackinput.value
+    volumeplaybackinput.classList.remove("inputwrong")
+    volumeplaybackinputerror.innerText = ""
+  }
+  else{
+    volumeplaybackinput.classList.add("inputwrong")
+    volumeplaybackinputerror.innerText = "Value can only be between 0.0625 and 16"
+  }
+  if(volumeplaybackinput.value==1){
+
+  }
+  saveSettings()
+})
+
+function loadSettings(settings){
+  for (let i = 0; i < themebtns.length; i++) {
+    ButtonEvent(themebtns[i], Theme, themebtns[i])
+  }
+  
+  if(settings.theme){
+    for (let i = 0; i < themebtns.length; i++) {
+      if(themebtns[i].innerHTML == settings.theme){
+        Theme(themebtns[i])
+        switchToCSS(themebtns[i].innerHTML)()
+      } 
+    }
+  }
+  else{
+    Theme(themebtns[1])
+  }
+
+
+  if(settings.romanNumerals){
+    numeralsbtns[1].click()
+  }
+  else{
+    numeralsbtns[0].classList.add("active")
+  }
+
+
+  if(settings.audioVisualizer == true){
+    AudioSpectrumEnabled = true
+    visualizerbtns[0].classList.add("active")
+  }else{
+    visualizerbtns[1].classList.add("active")
+  }
+
+
+  if(settings.allowMotion==false){
+    animationsbtns[1].click()
+  }else{
+    animationsbtns[0].classList.add("active")
+  }
+
+
+  if(settings.volumeMultiplier){
+    VolumeGainMultiplier = settings.volumeMultiplier
+    volumegaininput.value = VolumeGainMultiplier
+  }
+
+
+  if(settings.playbackRate){
+    volumeplaybackinput.value = settings.playbackRate
+  }
+}
+
+loadSettings(settings)
 
 const jsmediatags = window.jsmediatags;
 

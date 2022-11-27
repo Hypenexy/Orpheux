@@ -242,7 +242,7 @@ function playbackStatus(playing){
   }
 }
 
-var AudioSpectrumEnabled = true,
+var AudioSpectrumEnabled = false,
   AudioSpectrum,
   ctx,
   source,
@@ -315,6 +315,10 @@ function play(path, title, artist, image){
   song.onloadstart = function(){
     if(VolumeGainMultiplier){
       amplifyMedia(song, VolumeGainMultiplier)
+    }
+    volumegaininputerror.innerText = ""
+    if(settings.playbackRate){
+      song.playbackRate = settings.playbackRate
     }
     song.play()
   }

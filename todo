@@ -1,3 +1,6 @@
 Fix - player.js:224 Uncaught DOMException: Failed to execute 'createMediaElementSource' on 'AudioContext': HTMLMediaElement already connected previously to a different MediaElementSourceNode.
 Implement accounts
 Add song importer with metadata
+Add a warning for the multiplier on startup
+Fix iphone issue
+https://developer.musixmatch.com/documentation/api-reference/track-search

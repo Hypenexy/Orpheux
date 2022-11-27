@@ -1,0 +1,38 @@
+:root{
+    --brand: #65baff;
+
+    --sidepanelbg: #eee;
+    --sidepaneltx: #666;
+    --sidepanelhover: #111;
+    --sidepanelactivebg: linear-gradient(90deg, rgb(196, 170, 255) 0%, rgb(30, 154, 255) 100%);
+    --sidepanelactivebgf: rgb(208,187,255);
+
+    --mainbg: #fff;
+    --maintx: #222;
+    
+    --songbg: #fff;
+    --songhoverbg: #eee;
+    --songalbumdisc: #888;
+    --songar: #555;
+    --songtyshadow: #eee;
+    --songalbumbg: #eee;
+    --songalbumhoverbg: #ddd;
+    --songalbumactivebg: #65baff;
+
+    --playertx: #000;
+    --playerbg: #dedede;
+    --playerhovertx: #333;
+    --songinfotx: #111;
+    --songinfotishadow: #111;
+    --songinfoarshadow: #070707;
+    --playersliderbg: #111;
+    --playersliderdot: #65baff55;
+    --playersliderdoto: #fffcfccc;
+
+    --settingsbg: #eee;
+    --settingsabg: #bbb;
+    --settingsatx: #222;
+    --settingsahoverbg: #1c1c1c;
+    --settingsahovertx: #fff;
+    --settingsaactivetx: #111;
+}

@@ -1,0 +1,45 @@
+:root{
+    /*pallete used:
+    --h: #99ffb2;
+    --h: #7acc8f;
+    --h: #5c996b;
+    --h: #3d6647;
+    --h: #1f3324;*/
+
+    --brand: #99ffb2;
+
+    --sidepanelbg: #3d6647;
+    --sidepaneltx: #5c996b;
+    --sidepanelhover: #7acc8f;
+    --sidepanelactivebg: linear-gradient(90deg, rgb(170, 255, 211) 0%, rgb(30, 255, 56) 100%);
+    --sidepanelactivebgf: rgb(170, 255, 211);
+
+    --mainbg: #99ffb2;
+    --maintx: #222;
+    
+    --songbg: #7acc8f;
+    --songhoverbg: #7acc8f;
+    --songalbumdisc: #5c996b;
+    --songar: #555;
+    --songtyshadow: #eee;
+    --songalbumbg: #5c996b;
+    --songalbumhoverbg: #99ffb2;
+    --songalbumactivebg: #65baff;
+
+    --playertx: #1f3324;
+    --playerbg: #5c996b;
+    --playerhovertx: #3d6647;
+    --songinfotx: #1f3324;
+    --songinfotishadow: #1f3324;
+    --songinfoarshadow: #070707;
+    --playersliderbg: #1f3324;
+    --playersliderdot: #81ff6555;
+    --playersliderdoto: #fffcfccc;
+
+    --settingsbg: #7acc8f;
+    --settingsabg: #3d6647;
+    --settingsatx: #eee;
+    --settingsahoverbg: #5c996b;
+    --settingsahovertx: #fff;
+    --settingsaactivetx: #1f3324;
+}

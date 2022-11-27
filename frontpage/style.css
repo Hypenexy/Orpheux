@@ -1,0 +1,253 @@
+*{box-sizing: border-box;margin: 0;outline: 0;font-family: "Roboto", sans-serif;}
+body{
+    background: #111;
+    color: #fff;
+}
+a{
+    color: inherit;
+    text-decoration: initial;
+}
+.mdblock {
+	width: 90%;
+	/* padding-right: 15px;
+	padding-left: 15px; */
+	margin-right: auto;
+	margin-left: auto;
+}
+@media (min-width: 576px) {
+	.mdblock {
+		max-width: 540px;
+	}
+}
+@media (min-width: 768px) {
+	.mdblock {
+		max-width: 720px;
+	}
+}
+@media (min-width: 992px) {
+	.mdblock {
+		max-width: 960px;
+	}
+}
+@media (min-width: 1200px) {
+	.mdblock {
+		max-width: 1140px;
+	}
+}
+@media (min-width: 1400px) {
+	.mdblock {
+		max-width: 1340px;
+	}
+}
+.relative{
+    position: relative;
+}
+
+::-webkit-scrollbar {width: 15px}
+::-webkit-scrollbar-track {
+    box-shadow: 0 0 5px #fff;
+    background-color: #111
+}
+::-webkit-scrollbar-thumb {background-color: #444}
+::-webkit-scrollbar-thumb:hover {background-color: #303030}
+
+header{
+    position: relative;
+    padding: 24px 0;
+    box-shadow: 0 0 2px #111;
+}
+header a{
+    color: #ddd;
+    text-decoration: initial;
+    font-size: 18px;
+}
+header a:hover, header a:focus-visible{
+    color: #fff;
+    text-decoration: underline;
+}
+header a:first-of-type{
+    color: #eee;
+    font-weight: 600;
+    margin-left: 50px;
+    margin-right: 15px;
+}
+
+header img{
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.main{
+    padding-bottom: 50px;
+    background: linear-gradient(90deg, #d0bbff 0%, #65baff 100%);
+}
+
+.main h1{
+    color: #111;
+    font-weight: 600;
+    text-align: center;
+    padding: 40px 0;
+}
+.main h1 a{
+    display: inline-block;
+}
+.main .black{
+    background-color: #111
+}
+.main .download img{
+    width: 128px;
+}
+.main .download{
+    box-shadow: 0 0 2px #111;
+    width: 100%;
+    height: 400px;
+    margin: 20px 0;
+
+    padding: 32px;
+    border-radius: 12px;
+}
+.main .download h2{
+    text-align: center;
+    font-size: 36px;
+    font-weight: 300;
+}
+.downloadbuttons a{
+    cursor: pointer;
+    text-align: center;
+    display: block;
+    padding: 16px;
+    border-radius: 4px;
+    font-size: 18px;
+    font-weight: 300;
+    margin: 10px 0;
+    width: 300px;
+}
+.downloadbuttons a:first-of-type{
+    background: linear-gradient(90deg, #d0bbff 0%, #65baff 100%);
+}
+.downloadbuttons a:first-of-type:hover, .downloadbuttons a:first-of-type:focus-visible{
+    background: #65baff;
+}
+.downloadbuttons a:first-of-type:active{
+    transition: .1s;
+    background: #d0bbff;
+}
+.downloadbuttons a:last-child{
+    border: 1px solid #65baff;
+}
+.downloadbuttons p{
+    color: #ddd;
+    font-size: 16px;
+}
+.other{
+    font-size: 14px;
+    background: #111;
+    padding: 8px;
+    border-radius: 8px;
+    text-align: center;
+}
+.other a{
+    cursor: pointer;
+    color: #65baff;
+}
+.other a:hover{
+    text-decoration: underline;
+}
+.main .writenote{
+    display: inline-block;
+    height: 500px;
+    width: calc(100% - 350px);
+}
+.main .writenote .header{
+    border-radius: 4px 4px 0 0;
+    background: #1a1a1a;
+    box-shadow: 0 0 2px #111;
+    padding: 5px 5px;
+    height: 60px;
+}
+.main .writenote .notearea{
+    box-shadow: 0 0 2px #111;
+    border-radius: 0 0 4px 4px;
+    font-size: 24px;
+    padding: 8px 4px;
+    width: 100%;
+    height: calc(100% - 60px);
+    background: #222238;
+}
+
+
+.header a, .header c{
+    cursor: pointer;
+    margin-left: 5px;
+    float: left;
+}
+
+.header c svg {
+    margin-right: 6px;
+    margin-left: 2px;
+    margin-top: 8px;
+    fill: #969696;
+}
+
+.header c:hover svg, .header c:focus-visible svg {
+    fill: #fff;
+}
+
+.header a{
+    color: #c8c8c8;
+    padding: 12px;
+    text-decoration: none;
+    font-size: 20px;
+    border-radius: 5px;
+    border: 1px solid #1a1a1a;
+    font-weight: 400;
+    /* position: relative; //If I ever decide to center it.
+    top:50%;
+    transform: translateY(-50%); */
+}
+
+.header a:hover, .header a:focus-visible{
+    stroke: #fff;
+    color: #fff;
+    fill: #fff;
+    background-color: #101010;
+}
+
+@media (max-width: 768px) {
+    .main .download{
+        float: initial;
+        margin: auto;
+    }
+    .main .writenote {
+        /* position: absolute;
+        width: 90%;
+        top: 0; */
+        display: block;
+        height: 600px;
+        width: 100%;
+        margin-top: 20px;
+    }
+}
+
+
+.features{
+    box-shadow: 0 0 2px #111;
+}
+.features div{
+    padding: 12px 0;
+}
+.features div h1{
+    padding: 12px 0;
+}
+.features div h1:focus-visible{
+    text-decoration: underline;
+}
+.features div p{
+    font-size: 20px;
+    color: #ddd;
+}
+.features div:nth-child(2n){
+    background: #1c1c1c;
+}
