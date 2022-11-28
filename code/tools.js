@@ -2,6 +2,9 @@ function showTool(element, title){
     var tool = document.createElement("div")
     tool.innerHTML = "<toolheader><a>"+title+"</a><i class='x m-i'>close</i></toolheader>"
     ButtonEvent(tool.getElementsByClassName("x")[0], function(){
+        if(element.closeCommand){
+            element.closeCommand()
+        }
         tool.classList.remove("tooltransitioned")
         document.body.classList.remove("toolactive")
         setTimeout(() => {
@@ -197,7 +200,7 @@ function AudioRecorderHTML(){
     return element;
 }
 
-ButtonEvent(document.querySelector('[data-action="audiogen"]'), function(){showTool(AudioRecorderHTML(), "Audio Recorder")})
+ButtonEvent(document.querySelector('[data-action="audiorecorder"]'), function(){showTool(AudioRecorderHTML(), "Audio Recorder")})
 
 function WhiteNoiseHTML(){
     var element = document.createElement("tool")
@@ -210,7 +213,103 @@ function WhiteNoiseHTML(){
     </div>`
 
     noisesInputs = element.getElementsByTagName("input")
+    var noisesAudio = []
+    noisesAudio.length = noisesInputs.length
+    noisesAudio[0] = new Audio("assets/whitenoise/rain.wav") //there are birds in there i might wanna remove that
+    noisesAudio[1] = new Audio("assets/whitenoise/thunder.mp3") //and there is rain in the thunder sooo idk, also loop is not perfect u might wanna cross fade that
+    for (let i = 0; i < noisesInputs.length; i++) {
+        noisesAudio[i].onended = function(){
+            noisesAudio[i].play()
+        }
+        const element = noisesInputs[i];
+        element.addEventListener("input", function(){
+            if(element.value!=0){
+                if(noisesAudio[i].paused){
+                    noisesAudio[i].play()
+                }
+                noisesAudio[i].volume = element.value / 100
+            }
+            else{
+                noisesAudio[i].pause()
+            }
+        })
+    }
+    element.closeCommand = function(){
+        for (let i = 0; i < noisesAudio.length; i++) {
+            noisesAudio[i].pause()
+            delete noisesAudio[i]
+        }
+        delete noisesAudio // I think this leaves the audio object in the memory
+    }
     return element
 }
 
 ButtonEvent(document.querySelector('[data-action="whitenoise"]'), function(){showTool(WhiteNoiseHTML(), "White Noise")})
+
+
+function simpleAudioGen(){
+    /**
+     * Plays a single sound
+     * @param {String} wavetype Either "sine", "square", "sawtooth" or "triangle"
+     * @param {Int} frequency The frequency of the sound (pitch) 
+     * @param {Int} length The length of the sound in seconds (duration)
+     * @param {Int} volume The volume of the sound. A number where 1 is a 100% multiplier.
+     */
+    function playGenerator(wavetype, frequency, length, volume){
+        var context = new (window.AudioContext || window.webkitAudioContext)()
+        var osc = context.createOscillator()
+        osc.type = wavetype
+        osc.frequency.value = frequency
+        if(volume){
+            var vol = context.createGain()
+            vol.gain.value = volume
+            osc.connect(vol)
+        }
+        vol.connect(context.destination)
+        osc.start()
+        osc.stop(context.currentTime + length);
+    }
+
+    playGenerator("square", 200, .3, .02)
+
+    var wavetype = "sine",
+    frequency = 300,
+    duration = 0.5,
+    volume = 1
+
+    var element = document.createElement("tool")
+    element.innerHTML = "<div class='genwavetype'><p>Wave type</p><button class='active'>Sine</button><button>Square</button><button>Sawtooth</button><button>Triangle</button></div>"+
+    "<div class='genwavetype'><p>Frequency</p><input value='300' type='number'></div>"+
+    "<div class='genwavetype'><p>Duration</p><input value='0.5' type='number'></div>"+
+    "<div class='genwavetype'><p>Volume</p><input value='1' type='number'></div>"+
+    "<div class='genwavetype'><button>Play sound</button></div>"
+
+    var genElements = element.getElementsByClassName("genwavetype")
+    var wavetypebtns = genElements[0].getElementsByTagName("button")
+    for (let i = 0; i < wavetypebtns.length; i++) {
+        const element = wavetypebtns[i];
+        ButtonEvent(element, function(){
+            for (let i = 0; i < wavetypebtns.length; i++) {
+                wavetypebtns[i].classList.remove("active")
+            }
+            wavetype = wavetypebtns[i].innerText.toLowerCase()
+            element.classList.add("active")
+        })
+    }
+    
+    genElements[1].getElementsByTagName("input")[0].addEventListener("change", function(){
+        frequency = this.value
+    })
+    genElements[2].getElementsByTagName("input")[0].addEventListener("change", function(){
+        duration = this.value 
+    })
+    genElements[3].getElementsByTagName("input")[0].addEventListener("change", function(){
+        volume = this.value
+    })
+    genElements[4].getElementsByTagName("button")[0].addEventListener("click", function(){
+        playGenerator(wavetype, frequency, duration, volume)
+    })
+
+    return element
+}
+ButtonEvent(document.querySelector('[data-action="audiogen"]'), function(){showTool(simpleAudioGen(), "Simple Audio Generator")})

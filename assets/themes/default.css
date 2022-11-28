@@ -469,6 +469,25 @@ tools div:active{
     border-radius: 12px;
 }
 
+.tool .genwavetype{
+    padding: 12px;
+}
+.tool .genwavetype button, .tool .genwavetype input{
+    background: var(--playersliderbg);
+    border-radius: 4px;
+    margin-right: 10px;
+    margin-top: 4px;
+    padding: 12px;
+}
+
+.tool .genwavetype button:hover:not(.active), .tool .genwavetype button:focus-visible, .tool .genwavetype input:focus{
+    background: var(--songhoverbg);
+}
+.tool .genwavetype .active{
+    color: var(--sidepanelbg);
+    background: var(--brand);
+}
+
 .artist{
     cursor: pointer;
     display: inline-block;
