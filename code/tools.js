@@ -313,3 +313,127 @@ function simpleAudioGen(){
     return element
 }
 ButtonEvent(document.querySelector('[data-action="audiogen"]'), function(){showTool(simpleAudioGen(), "Simple Audio Generator")})
+
+
+
+
+
+
+function oscilloscopeVisual(){ // finish this!
+    var Oscilloscope = Oscilloscope || function(target, context){
+        var _drawWave, _bufferLength, _dataArray;
+
+        this.target = document.querySelector(target);
+
+        this.width = this.target.offsetWidth;
+        this.height = this.target.offsetHeight;
+
+        this.wave = document.createElementNS("http://www.w3.org/2000/svg", 'path');
+        this.wave.setAttribute('class', 'oscilloscope__wave');
+
+        this.svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        this.svg.setAttribute('width', this.width);
+        this.svg.setAttribute('height', this.height);
+        this.svg.setAttribute('class', 'oscilloscope__svg');
+        this.svg.appendChild(this.wave);
+
+        this.target.appendChild(this.svg);
+
+        this.audioContext = context || new window.AudioContext();
+
+        this.running = false;
+
+        this.hasAudio = false;
+
+        this.analyserNode = this.audioContext.createAnalyser();
+        this.analyserNode.fftSize = 128;
+        _bufferLength = this.analyserNode.frequencyBinCount;
+        _dataArray = new Uint8Array(_bufferLength);
+
+        _drawWave = function() {
+            var path = 'M';
+
+            this.analyserNode.getByteTimeDomainData(_dataArray);
+
+            _dataArray.forEach(function(point, i) {
+                path += (((this.width + (this.width / _bufferLength))/ _bufferLength) * i) + ' ' + ((this.height / 2) * (point / 128.0)) + ', ';
+            }.bind(this));
+
+            this.wave.setAttribute('d', path);
+
+            if (this.running) {
+                window.requestAnimationFrame(_drawWave);
+            }
+        }.bind(this);
+
+        
+        this.start = function() {
+            this.running = true;
+
+            window.requestAnimationFrame(_drawWave);
+        }.bind(this);
+    }
+
+
+    Oscilloscope.prototype.stop = function() {
+        this.running = false;
+    };
+
+    Oscilloscope.prototype.connect = function(node) {
+        this.analyserNode.connect(node);
+    };
+
+    Oscilloscope.prototype.toggleAudio = function() {
+        if (!!this.hasAudio) {
+            this.analyserNode.disconnect();
+        } else {
+            this.analyserNode.connect(this.audioContext.destination);
+        }
+        this.hasAudio = !this.hasAudio;
+    };
+
+
+
+
+
+    var wavetype = "sine",
+    frequency = 300,
+    duration = 0.5,
+    volume = 1
+
+    var element = document.createElement("tool")
+    element.innerHTML = "<div class='genwavetype'><p>Wave type</p><button class='active'>Sine</button><button>Square</button><button>Sawtooth</button><button>Triangle</button></div>"+
+    "<div class='genwavetype'><p>Frequency</p><input value='300' type='number'></div>"+
+    "<div class='genwavetype'><p>Duration</p><input value='0.5' type='number'></div>"+
+    "<div class='genwavetype'><p>Volume</p><input value='1' type='number'></div>"+
+    "<div class='genwavetype'><button>Play sound</button></div>"
+
+    var genElements = element.getElementsByClassName("genwavetype")
+    var wavetypebtns = genElements[0].getElementsByTagName("button")
+    for (let i = 0; i < wavetypebtns.length; i++) {
+        const element = wavetypebtns[i];
+        ButtonEvent(element, function(){
+            for (let i = 0; i < wavetypebtns.length; i++) {
+                wavetypebtns[i].classList.remove("active")
+            }
+            wavetype = wavetypebtns[i].innerText.toLowerCase()
+            element.classList.add("active")
+        })
+    }
+    
+    genElements[1].getElementsByTagName("input")[0].addEventListener("change", function(){
+        frequency = this.value
+    })
+    genElements[2].getElementsByTagName("input")[0].addEventListener("change", function(){
+        duration = this.value 
+    })
+    genElements[3].getElementsByTagName("input")[0].addEventListener("change", function(){
+        volume = this.value
+    })
+    genElements[4].getElementsByTagName("button")[0].addEventListener("click", function(){
+        playGenerator(wavetype, frequency, duration, volume)
+    })
+
+    return element
+}
+ButtonEvent(document.querySelector('[data-action="audiogen"]'), function(){showTool(simpleAudioGen(), "Simple Audio Generator")})

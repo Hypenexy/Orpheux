@@ -469,6 +469,33 @@ tools div:active{
     border-radius: 12px;
 }
 
+.tool .noises input {
+    margin: 0 5px 5px 0;
+    cursor: pointer;
+    height: 10px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: var(--playerbg);
+    background: var(--playersliderbg);
+    border-radius: 5px;
+    overflow: hidden;
+}
+.tool .noises input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--brand);
+    border: 2px solid var(--brand);
+    box-shadow: -205px 0 0 200px var(--brand);
+    transition: 0.2s;
+}
+.tool .noises div:hover input[type="range"]::-webkit-slider-thumb{
+    background: var(--playersliderdot);
+    border: 2px solid var(--playersliderdoto);
+}
+
 .tool .genwavetype{
     padding: 12px;
 }
@@ -486,6 +513,13 @@ tools div:active{
 .tool .genwavetype .active{
     color: var(--sidepanelbg);
     background: var(--brand);
+}
+
+.tool .oscilloscope__wave {
+	fill: none;
+
+    stroke: #000000;
+    stroke-width: 2px;
 }
 
 .artist{

@@ -8,13 +8,13 @@ main.innerHTML = "<h1>Library</h1>"+
   <ar>Hypenexy</ar>
   <songs>
     <x class='m-i'>arrow_back</x>
-    <div><aimg style="--bg-image: url('songimage.png');"></aimg><ati>Electric Growl</ati><aar>Hypenexy</aar><aty>1:21</aty></div>
-    <div><aimg style="--bg-image: url('songimage.png');"></aimg><ati>Electric Growl</ati><aar>Hypenexy</aar><aty>1:21</aty></div>
-    <div><aimg style="--bg-image: url('songimage.png');"></aimg><ati>Electric Growl</ati><aar>Hypenexy</aar><aty>1:21</aty></div>
+    <div><aimg style="--bg-image: url('../../songimage.png');"></aimg><ati>Electric Growl</ati><aar>Hypenexy</aar><aty>1:21</aty></div>
+    <div><aimg style="--bg-image: url('../../songimage.png');"></aimg><ati>Electric Growl</ati><aar>Hypenexy</aar><aty>1:21</aty></div>
+    <div><aimg style="--bg-image: url('../../songimage.png');"></aimg><ati>Electric Growl</ati><aar>Hypenexy</aar><aty>1:21</aty></div>
   </songs>
 </div>`+
-"<div class='song'><ty>Song 1:21</ty><img src='songimage.png'><ti>Electric Growl</ti><ar>Hypenexy</ar></div>"+
-"<div class='song'><ty>Song 2:35</ty><img src='songimage.png'><ti>distortion</ti><ar>Hypenexy</ar></div>"+
+"<div class='song'><ty>Song 1:21</ty><img src='../../songimage.png'><ti>Electric Growl</ti><ar>Hypenexy</ar></div>"+
+"<div class='song'><ty>Song 2:35</ty><img src='../../songimage.png'><ti>distortion</ti><ar>Hypenexy</ar></div>"+
 "</library>" +
 `<h1>Tools</h1>
 <tools>
