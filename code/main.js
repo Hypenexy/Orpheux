@@ -1,5 +1,28 @@
-main.innerHTML = "<h1>Library</h1>"+
-"<library>"+
+$.ajax({
+  url: server + "app/startup/",
+  type: "post",
+  //timeout: 1500,
+  timeout: 2300,
+  success: function (response) {
+      try {
+          response = JSON.parse(response)
+      } catch (error) {
+          WelcomeGui({status:"error"})
+      }
+      WelcomeGui(response)
+  },
+  error: function() {
+      var response = {status:"offline"}
+      WelcomeGui(response)
+  }
+})
+
+function WelcomeGui(response){
+  console.log(response)
+}
+
+main.innerHTML = "<div class='libraryselector'><h1 class='active'>Library</h1><h1>Tools</h1><h1>Profile</h1></div>"+
+"<library class='libmenu active'>"+
 "<div class='song'><ty>Song 0:41</ty><img src='songimage.png'><ti>Calm Place</ti><ar>Hypenexy</ar></div>"+
 `<div class='song album'>
   <ty>Album</ty>
@@ -15,19 +38,74 @@ main.innerHTML = "<h1>Library</h1>"+
 </div>`+
 "<div class='song'><ty>Song 1:21</ty><img src='../../songimage.png'><ti>Electric Growl</ti><ar>Hypenexy</ar></div>"+
 "<div class='song'><ty>Song 2:35</ty><img src='../../songimage.png'><ti>distortion</ti><ar>Hypenexy</ar></div>"+
-"</library>" +
-`<h1>Tools</h1>
-<tools>
+"<div class='song songadd'><i class='m-i'>add</i><ti>Add a song</ti></div>"+
+"<div class='songimporter'></div>"+
+"</library>"+
+`<tools class='libmenu'>
+  <h2>Everydays</h2>
   <div data-action='audiorecorder'><i class='m-i'>mic</i><info><ti>Audio Recorder</ti><desc>Record input with your microphone</desc></info></div>
   <div data-action='whitenoise'><i class='m-i'>equalizer</i><info><ti>White Noise</ti><desc>A mixer for calming noises</desc></info></div>
   <div><i class='m-i'>subtitles</i><info><ti>Caption Generator</ti><desc>Listen to any audio with subtitles</desc></info></div>
-  <div data-action='audiogen'><i class='m-i'>speaker</i><info><ti>Simple Audio Generator</ti><desc>Generate a sound</desc></info></div><!--infrared looks better but i havent updated material icons-->
+  <div data-action='audiogen'><i class='m-i'>speaker</i><info><ti>Simple Audio Generator</ti><desc>Generate a sound</desc></info></div><!--I updated material icons but it still isnt there-->
   <h2>Enthusiasts' visuals</h2>
   <div data-action="oscilloscopeemu"><i class='m-i'>microwave</i><info><ti>Oscilloscope Emulator</ti><desc>Visualizer for audio in the oscilloscope form</desc></info></div>
   <div><i class='m-i'>water</i><info><ti>Water Visualizer</ti><desc>Learn how certain frequencies interact with water</desc></info></div>
   <h2>Artists' tools</h2>
   <div><i class='m-i'>lyrics</i><info><ti>Lyrics Generator</ti><desc>Using AI generates lyrics and title for a song</desc></info></div>
-</tools>`
+</tools>
+<profile class='libmenu'>
+  <div class='artist'><img src='app/artist/5F1B2416-AF81-41FC-B7D1-24B91CF8A0B8.jpeg'><ar>Hypenexy</ar></div>
+</profile>
+`
+
+librarybtnsdiv = main.getElementsByClassName("libraryselector")[0]
+librarybtns = librarybtnsdiv.getElementsByTagName("h1")
+
+var library = main.getElementsByTagName("library")[0]
+var tools = main.getElementsByTagName("tools")[0]
+var profile = main.getElementsByTagName("profile")[0]
+
+for (let i = 0; i < librarybtns.length; i++) {
+  const element = librarybtns[i]
+  const spaces = [library, tools, profile]
+  ButtonEvent(element, function(){
+    var lastnmenu, lasti
+    for (let i = 0; i < spaces.length; i++) {
+      const element = spaces[i];
+      if(element.classList.contains("active")){
+        lastnmenu = element
+        lasti = i
+        librarybtns[i].classList.remove("active")
+      }
+    }
+    element.classList.add("active")
+    
+    var transtion1 = "transitionright",
+    transtion2 = "transitionleft"
+    if(lasti>i){
+      var temp = transtion1
+      transtion1 = transtion2
+      transtion2 = temp
+    }
+  
+    lastnmenu.classList.remove("active")
+    lastnmenu.classList.add(transtion1)
+    spaces[i].classList.add(transtion2)
+    spaces[i].classList.add("notime")
+    setTimeout(() => {
+      spaces[i].classList.remove("notime")
+      setTimeout(() => {
+        spaces[i].classList.remove(transtion2)
+        spaces[i].classList.add("active")
+      }, 10);
+    }, 10);
+    setTimeout(() => {
+      // spaces[i].classList.remove(transtion2)
+      
+    lastnmenu.classList.remove(transtion1)
+    }, 300);
+  })
+}
 
 // var server stuff here
 
@@ -58,7 +136,6 @@ function OpenAlbum(element){
       event.stopPropagation()
       element.classList.remove("albumtransition")
       element.classList.remove("albumactive")
-      var library = main.getElementsByTagName("library")[0]
       library.classList.add("librarytransition")
       setTimeout(() => {
         library.classList.remove("librarytransition")
@@ -109,7 +186,7 @@ function showArtist(name){
         response = JSON.parse(response)
         var artistEl = document.createElement("div")
         artistEl.classList.add("viewArtist")
-        artistEl.innerHTML = "<i class='x m-i'>arrow_back_ios</i><h1>"+response.name+"</h1>"+
+        artistEl.innerHTML = "<div class='artistidentity'><i class='x m-i'>arrow_back_ios</i><div style=\"--bg-image: url('../../app/artist/5F1B2416-AF81-41FC-B7D1-24B91CF8A0B8.jpeg');\" class='banner'></div><h1>"+response.name+"</h1></div>"+
         "<h2>Tracks</h2>"
         ButtonEvent(artistEl.getElementsByClassName("x")[0], function(){
           //close
@@ -132,7 +209,7 @@ mainsettings.innerHTML = "<h1>Settings</h1>"+
 "<div><p>UI Animations</p><a>On</a><a>Off</a></div>"+
 "<h2>Sound</h2>"+
 "<div><p>Volume Gain Multiplier</p><input type='number' value=1><err></err></div>"+
-"<div><p>Playback Speed Multiplier</p><input type='number' value=1><err></err></div>"+
+"<div><p>Playback Speed Multiplier</p><input type='number' value=1><err></err><p>Preserve Pitch</p><a>On</a><a>Off</a></div>"+
 "<a data-action='resetOptions'>Reset options</a><a class='undoreset' data-action='undoReset'>Undo reset</a>"
 
 var settings = {}
@@ -159,6 +236,7 @@ ButtonEvent(document.querySelector('[data-action="resetOptions"]'), function(){
   numeralsbtns[0].click()
   visualizerbtns[1].click()
   animationsbtns[0].click()
+  volplaybackbtns[1].click()
   volumegaininput.value = 1
   VolumeGainMultiplier = volumegaininput.value
   volumeplaybackinput.value = 1
@@ -375,8 +453,24 @@ volumeplaybackinput.addEventListener("input", function(){
     volumeplaybackinputerror.innerText = "Value can only be between 0.0625 and 16"
   }
   if(volumeplaybackinput.value==1){
-
+    delete settings.playbackRate
   }
+  saveSettings()
+})
+
+var volplaybackbtns = optionsdivs[6].getElementsByTagName("a")
+ButtonEvent(volplaybackbtns[0], function(){
+  volplaybackbtns[1].classList.remove("active")
+  volplaybackbtns[0].classList.add("active")
+  settings.preservesPitch = true
+  song.preservesPitch = true
+  saveSettings()
+})
+ButtonEvent(volplaybackbtns[1], function(){
+  volplaybackbtns[0].classList.remove("active")
+  volplaybackbtns[1].classList.add("active")
+  delete settings.preservesPitch
+  song.preservesPitch = false
   saveSettings()
 })
 
@@ -429,6 +523,12 @@ function loadSettings(settings){
 
   if(settings.playbackRate){
     volumeplaybackinput.value = settings.playbackRate
+  }
+  if(settings.preservesPitch){
+    volplaybackbtns[0].classList.add("active")
+  }
+  else{
+    volplaybackbtns[1].classList.add("active")
   }
 }
 

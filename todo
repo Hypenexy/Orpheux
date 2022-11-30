@@ -1,6 +1,10 @@
 Fix - player.js:224 Uncaught DOMException: Failed to execute 'createMediaElementSource' on 'AudioContext': HTMLMediaElement already connected previously to a different MediaElementSourceNode.
 Implement accounts
-Add song importer with metadata
+Add song importer with metadata https://www.npmjs.com/package/fs-jetpack
 Add a warning for the multiplier on startup
 Fix iphone issue
 https://developer.musixmatch.com/documentation/api-reference/track-search
+https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement
+Think about an equalizer https://stackoverflow.com/questions/29110380/web-audio-api-setting-treble-and-bass
+https://www.electronjs.org/docs/latest/api/safe-storage
+Make a test user for ntit

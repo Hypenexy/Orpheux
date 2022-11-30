@@ -1,8 +1,8 @@
-function showTool(element, title) {
+function showTool(element, title){
     var tool = document.createElement("div")
-    tool.innerHTML = "<toolheader><a>" + title + "</a><i class='x m-i'>close</i></toolheader>"
-    ButtonEvent(tool.getElementsByClassName("x")[0], function () {
-        if (element.closeCommand) {
+    tool.innerHTML = "<toolheader><a>"+title+"</a><i class='x m-i'>close</i></toolheader>"
+    ButtonEvent(tool.getElementsByClassName("x")[0], function(){
+        if(element.closeCommand){
             element.closeCommand()
         }
         tool.classList.remove("tooltransitioned")
@@ -18,7 +18,7 @@ function showTool(element, title) {
     main.appendChild(tool)
     document.body.classList.add("toolactive")
     StaticMain()
-    setTimeout(function () {
+    setTimeout(function(){
         tool.classList.add("tooltransitioned")
     }, 10);
 }
@@ -40,45 +40,45 @@ function visualizeMicrophone(stream, canvas) {
     draw()
 
     function draw() {
-        const WIDTH = canvas.width
-        const HEIGHT = canvas.height;
-
-        requestAnimationFrame(draw);
-
-        analyser.getByteTimeDomainData(dataArray);
-
-        canvasCtx.clearRect(0, 0, canvas.width, canvas.height)
-
-        canvasCtx.lineWidth = 2;
-        canvasCtx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--maintx');;
-
-        canvasCtx.beginPath();
-
-        let sliceWidth = WIDTH * 1.0 / bufferLength;
-        let x = 0;
-
-
-        for (let i = 0; i < bufferLength; i++) {
-
-            let v = dataArray[i] / 128.0;
-            let y = v * HEIGHT / 2;
-
-            if (i === 0) {
-                canvasCtx.moveTo(x, y);
-            } else {
-                canvasCtx.lineTo(x, y);
-            }
-
-            x += sliceWidth;
+      const WIDTH = canvas.width
+      const HEIGHT = canvas.height;
+  
+      requestAnimationFrame(draw);
+  
+      analyser.getByteTimeDomainData(dataArray);
+  
+      canvasCtx.clearRect(0, 0, canvas.width, canvas.height)
+  
+      canvasCtx.lineWidth = 2;
+      canvasCtx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--maintx');;
+  
+      canvasCtx.beginPath();
+  
+      let sliceWidth = WIDTH * 1.0 / bufferLength;
+      let x = 0;
+  
+  
+      for(let i = 0; i < bufferLength; i++) {
+  
+        let v = dataArray[i] / 128.0;
+        let y = v * HEIGHT/2;
+  
+        if(i === 0) {
+          canvasCtx.moveTo(x, y);
+        } else {
+          canvasCtx.lineTo(x, y);
         }
-
-        canvasCtx.lineTo(canvas.width, canvas.height / 2);
-        canvasCtx.stroke();
-
+  
+        x += sliceWidth;
+      }
+  
+      canvasCtx.lineTo(canvas.width, canvas.height/2);
+      canvasCtx.stroke();
+  
     }
 }
 
-function AudioRecorderHTML() {
+function AudioRecorderHTML(){
     var element = document.createElement("tool")
     element.innerHTML = ""
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -86,123 +86,123 @@ function AudioRecorderHTML() {
             audio: true,
         })
 
-            .then((stream) => {
-                const mediaRecorder = new MediaRecorder(stream);
+        .then((stream) => {
+            const mediaRecorder = new MediaRecorder(stream);
 
-                element.innerHTML = `
+            element.innerHTML = `
                 <canvas class='miccanvas'></canvas>
                 <button class='micrecord m-i'>mic</button>
                 <a class='mictimer'>00:00</a>
                 <div class='recordings'></div>
             `
-                var canvas = element.getElementsByTagName("canvas")[0]
-                var micrecord = element.getElementsByClassName("micrecord")[0]
-                var mictimer = element.getElementsByClassName("mictimer")[0]
-                var recordings = document.getElementsByClassName("recordings")[0]
-                var currentlyRecording = false
-                ButtonEvent(micrecord, function () {
-                    if (!micrecord.classList.contains("micrecordactive")) {
-                        mediaRecorder.start()
-                        visualizeMicrophone(stream, canvas)
+            var canvas = element.getElementsByTagName("canvas")[0]
+            var micrecord = element.getElementsByClassName("micrecord")[0]
+            var mictimer = element.getElementsByClassName("mictimer")[0]
+            var recordings = document.getElementsByClassName("recordings")[0]
+            var currentlyRecording = false
+            ButtonEvent(micrecord, function(){
+                if(!micrecord.classList.contains("micrecordactive")){
+                    mediaRecorder.start()
+                    visualizeMicrophone(stream, canvas)
 
-                        let chunks = [];
-                        mediaRecorder.ondataavailable = (e) => {
-                            chunks.push(e.data)
-                        }
-
-                        mediaRecorder.onstop = (e) => {
-                            const clipContainer = document.createElement("div")
-                            clipContainer.classList.add("audiorecording")
-                            const clipLabel = document.createElement("input")
-                            const audio = document.createElement("audio")
-                            const playButton = document.createElement("button")
-                            const deleteButton = document.createElement("button")
-                            var allRecordings = recordings.getElementsByClassName("audiorecording")
-                            var allRecordingsNames = []
-                            allRecordingsNames.length = allRecordings.length
-                            for (let i = 0; i < allRecordingsNames.length; i++) {
-                                allRecordingsNames[i] = allRecordings[i].getElementsByTagName("input")[0].value
-                            }
-                            var name = "My recording"
-                            if (allRecordingsNames.includes(name)) {
-                                var n = 2
-                                while (allRecordingsNames.includes(name + " " + n)) {
-                                    n++
-                                }
-                                name = name + " " + n
-                            }
-
-                            playButton.innerHTML = "<i class='m-i'>play_arrow</i>"
-                            deleteButton.innerHTML = "<i class='m-i'>delete</i>"
-                            clipLabel.value = name
-
-                            clipContainer.appendChild(audio)
-                            clipContainer.appendChild(playButton)
-                            clipContainer.appendChild(clipLabel)
-                            clipContainer.appendChild(deleteButton)
-                            recordings.appendChild(clipContainer)
-
-                            const blob = new Blob(chunks, { type: "audio/ogg; codecs=opus" })
-                            chunks = []
-                            const audioURL = window.URL.createObjectURL(blob)
-                            audio.src = audioURL
-
-                            playButton.onclick = function () {
-                                play(audio.src, clipLabel.value, "")
-                            }
-                            deleteButton.onclick = function (e) {
-                                let evtTgt = e.target
-                                evtTgt.parentNode.parentNode.removeChild(evtTgt.parentNode)
-                            }
-                        }
-
-                        micrecord.classList.add("micrecordactive")
-                        mictimer.classList.add("mictimeractive")
-                        //start recording here
-                        currentlyRecording = true
-                        var recordingTime = 0
-                        function incrementSeconds() {
-                            recordingTime++
-                            mictimer.innerText = formatTime(recordingTime)
-                            if (currentlyRecording != false) { // this way of stopping it is not a good idea but idk how else! maybe learn to make a proper timer retard
-                                setTimeout(() => {
-                                    incrementSeconds()
-                                }, 1000);
-                            }
-                            else {
-                                //finalize recording
-                            }
-                        }
-                        incrementSeconds()
-
+                    let chunks = [];
+                    mediaRecorder.ondataavailable = (e) => {
+                        chunks.push(e.data)
                     }
-                    else {
-                        mediaRecorder.stop();
-                        currentlyRecording = false
-                        micrecord.classList.remove("micrecordactive")
-                        mictimer.classList.remove("mictimeractive")
-                    }
-                })
-            })
 
-            .catch((err) => {
-                if (err.toString() == "NotAllowedError: Permission denied" || err.toString() == "NotAllowedError: Permission dismissed") {//Idk if there are other errors in a similiar nature
-                    element.innerHTML = `
-                    <h1 class='error'>You need to give permission to access your microphone.</h1>
-                `
+                    mediaRecorder.onstop = (e) => {
+                        const clipContainer = document.createElement("div")
+                        clipContainer.classList.add("audiorecording")
+                        const clipLabel = document.createElement("input")
+                        const audio = document.createElement("audio")
+                        const playButton = document.createElement("button")
+                        const deleteButton = document.createElement("button")
+                        var allRecordings = recordings.getElementsByClassName("audiorecording")
+                        var allRecordingsNames = []
+                        allRecordingsNames.length = allRecordings.length
+                        for (let i = 0; i < allRecordingsNames.length; i++) {
+                            allRecordingsNames[i] = allRecordings[i].getElementsByTagName("input")[0].value
+                        }
+                        var name = "My recording"
+                        if(allRecordingsNames.includes(name)){
+                            var n = 2
+                            while(allRecordingsNames.includes(name + " " + n)){
+                                n++
+                            }
+                            name = name + " " + n
+                        }
+
+                        playButton.innerHTML = "<i class='m-i'>play_arrow</i>"
+                        deleteButton.innerHTML = "<i class='m-i'>delete</i>"
+                        clipLabel.value = name
+
+                        clipContainer.appendChild(audio)
+                        clipContainer.appendChild(playButton)
+                        clipContainer.appendChild(clipLabel)
+                        clipContainer.appendChild(deleteButton)
+                        recordings.appendChild(clipContainer)
+
+                        const blob = new Blob(chunks, { type: "audio/ogg; codecs=opus" })
+                        chunks = []
+                        const audioURL = window.URL.createObjectURL(blob)
+                        audio.src = audioURL
+
+                        playButton.onclick = function(){
+                            play(audio.src, clipLabel.value, "")
+                        }
+                        deleteButton.onclick = function(e){
+                            let evtTgt = e.target
+                            evtTgt.parentNode.parentNode.removeChild(evtTgt.parentNode)
+                        }
+                    }
+
+                    micrecord.classList.add("micrecordactive")
+                    mictimer.classList.add("mictimeractive")
+                    //start recording here
+                    currentlyRecording = true
+                    var recordingTime = 0
+                    function incrementSeconds(){
+                        recordingTime++
+                        mictimer.innerText = formatTime(recordingTime)
+                        if(currentlyRecording != false){ // this way of stopping it is not a good idea but idk how else! maybe learn to make a proper timer retard
+                            setTimeout(() => {
+                                incrementSeconds()
+                            }, 1000);
+                        }
+                        else{
+                            //finalize recording
+                        }
+                    }
+                    incrementSeconds()
+
+                }
+                else{
+                    mediaRecorder.stop();
+                    currentlyRecording = false
+                    micrecord.classList.remove("micrecordactive")
+                    mictimer.classList.remove("mictimeractive")
                 }
             })
+        })
+
+        .catch((err) => {
+            if(err.toString()=="NotAllowedError: Permission denied"||err.toString()=="NotAllowedError: Permission dismissed"){//Idk if there are other errors in a similiar nature
+                element.innerHTML = `
+                    <h1 class='error'>You need to give permission to access your microphone.</h1>
+                `
+            }
+        })
     }
-    else {
+    else{
         console.log("getUserMedia not supported on your browser!");
     }
 
     return element;
 }
 
-ButtonEvent(document.querySelector('[data-action="audiorecorder"]'), function () { showTool(AudioRecorderHTML(), "Audio Recorder") })
+ButtonEvent(document.querySelector('[data-action="audiorecorder"]'), function(){showTool(AudioRecorderHTML(), "Audio Recorder")})
 
-function WhiteNoiseHTML() {
+function WhiteNoiseHTML(){
     var element = document.createElement("tool")
     element.innerHTML = `
     <div class='noises'>
@@ -218,23 +218,23 @@ function WhiteNoiseHTML() {
     noisesAudio[0] = new Audio("assets/whitenoise/rain.wav") //there are birds in there i might wanna remove that
     noisesAudio[1] = new Audio("assets/whitenoise/thunder.mp3") //and there is rain in the thunder sooo idk, also loop is not perfect u might wanna cross fade that
     for (let i = 0; i < noisesInputs.length; i++) {
-        noisesAudio[i].onended = function () {
+        noisesAudio[i].onended = function(){
             noisesAudio[i].play()
         }
         const element = noisesInputs[i];
-        element.addEventListener("input", function () {
-            if (element.value != 0) {
-                if (noisesAudio[i].paused) {
+        element.addEventListener("input", function(){
+            if(element.value!=0){
+                if(noisesAudio[i].paused){
                     noisesAudio[i].play()
                 }
                 noisesAudio[i].volume = element.value / 100
             }
-            else {
+            else{
                 noisesAudio[i].pause()
             }
         })
     }
-    element.closeCommand = function () {
+    element.closeCommand = function(){
         for (let i = 0; i < noisesAudio.length; i++) {
             noisesAudio[i].pause()
             delete noisesAudio[i]
@@ -244,10 +244,10 @@ function WhiteNoiseHTML() {
     return element
 }
 
-ButtonEvent(document.querySelector('[data-action="whitenoise"]'), function () { showTool(WhiteNoiseHTML(), "White Noise") })
+ButtonEvent(document.querySelector('[data-action="whitenoise"]'), function(){showTool(WhiteNoiseHTML(), "White Noise")})
 
 
-function simpleAudioGen() {
+function simpleAudioGen(){
     /**
      * Plays a single sound
      * @param {String} wavetype Either "sine", "square", "sawtooth" or "triangle"
@@ -255,12 +255,12 @@ function simpleAudioGen() {
      * @param {Int} length The length of the sound in seconds (duration)
      * @param {Int} volume The volume of the sound. A number where 1 is a 100% multiplier.
      */
-    function playGenerator(wavetype, frequency, length, volume) {
+    function playGenerator(wavetype, frequency, length, volume){
         var context = new (window.AudioContext || window.webkitAudioContext)()
         var osc = context.createOscillator()
         osc.type = wavetype
         osc.frequency.value = frequency
-        if (volume) {
+        if(volume){
             var vol = context.createGain()
             vol.gain.value = volume
             osc.connect(vol)
@@ -273,22 +273,22 @@ function simpleAudioGen() {
     playGenerator("square", 200, .3, .02)
 
     var wavetype = "sine",
-        frequency = 300,
-        duration = 0.5,
-        volume = 1
+    frequency = 300,
+    duration = 0.5,
+    volume = 1
 
     var element = document.createElement("tool")
-    element.innerHTML = "<div class='genwavetype'><p>Wave type</p><button class='active'>Sine</button><button>Square</button><button>Sawtooth</button><button>Triangle</button></div>" +
-        "<div class='genwavetype'><p>Frequency</p><input value='300' type='number'></div>" +
-        "<div class='genwavetype'><p>Duration</p><input value='0.5' type='number'></div>" +
-        "<div class='genwavetype'><p>Volume</p><input value='1' type='number'></div>" +
-        "<div class='genwavetype'><button>Play sound</button></div>"
+    element.innerHTML = "<div class='genwavetype'><p>Wave type</p><button class='active'>Sine</button><button>Square</button><button>Sawtooth</button><button>Triangle</button></div>"+
+    "<div class='genwavetype'><p>Frequency</p><input value='300' type='number'></div>"+
+    "<div class='genwavetype'><p>Duration</p><input value='0.5' type='number'></div>"+
+    "<div class='genwavetype'><p>Volume</p><input value='1' type='number'></div>"+
+    "<div class='genwavetype'><button>Play sound</button></div>"
 
     var genElements = element.getElementsByClassName("genwavetype")
     var wavetypebtns = genElements[0].getElementsByTagName("button")
     for (let i = 0; i < wavetypebtns.length; i++) {
         const element = wavetypebtns[i];
-        ButtonEvent(element, function () {
+        ButtonEvent(element, function(){
             for (let i = 0; i < wavetypebtns.length; i++) {
                 wavetypebtns[i].classList.remove("active")
             }
@@ -296,139 +296,123 @@ function simpleAudioGen() {
             element.classList.add("active")
         })
     }
-
-    genElements[1].getElementsByTagName("input")[0].addEventListener("change", function () {
+    
+    genElements[1].getElementsByTagName("input")[0].addEventListener("change", function(){
         frequency = this.value
     })
-    genElements[2].getElementsByTagName("input")[0].addEventListener("change", function () {
-        duration = this.value
+    genElements[2].getElementsByTagName("input")[0].addEventListener("change", function(){
+        duration = this.value 
     })
-    genElements[3].getElementsByTagName("input")[0].addEventListener("change", function () {
+    genElements[3].getElementsByTagName("input")[0].addEventListener("change", function(){
         volume = this.value
     })
-    genElements[4].getElementsByTagName("button")[0].addEventListener("click", function () {
+    genElements[4].getElementsByTagName("button")[0].addEventListener("click", function(){
         playGenerator(wavetype, frequency, duration, volume)
     })
 
     return element
 }
-ButtonEvent(document.querySelector('[data-action="audiogen"]'), function () { showTool(simpleAudioGen(), "Simple Audio Generator") })
+ButtonEvent(document.querySelector('[data-action="audiogen"]'), function(){showTool(simpleAudioGen(), "Simple Audio Generator")})
 
 
 
 
 
 
-function oscilloscopeVisual() { // finish this!
-    let oscillator, isPlaying, pixelRatio, sizeOnScreen, segmentWidth;
+function oscilloscopeVisual(){ // finish this!
+    var Oscilloscope = Oscilloscope || function(target, context){
+        var _drawWave, _bufferLength, _dataArray;
 
-    const canvas = document.createElement("canvas"),
-        c = canvas.getContext("2d"),
-        ac = new AudioContext(),
-        powerBtn = document.getElementById("on-off"),
-        oscType = document.getElementById("osc-type"),
-        freqSlider = document.getElementById("frequency"),
-        gainSlider = document.getElementById("gain"),
-        gainNode = new GainNode(ac, {
-            gain: 0.5
-        }),
-        analyser = new AnalyserNode(ac, {
-            smoothingTimeConstant: 1,
-            fftSize: 2048
-        }),
-        dataArray = new Uint8Array(analyser.frequencyBinCount);
+        this.target = document.querySelector(target);
 
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    pixelRatio = window.devicePixelRatio;
-    sizeOnScreen = canvas.getBoundingClientRect();
-    canvas.width = sizeOnScreen.width * pixelRatio;
-    canvas.height = sizeOnScreen.height * pixelRatio;
-    canvas.style.width = canvas.width / pixelRatio + "px";
-    canvas.style.height = canvas.height / pixelRatio + "px";
-    c.fillStyle = "#181818";
-    c.fillRect(0, 0, canvas.width, canvas.height);
-    c.strokeStyle = "#33ee55";
-    c.beginPath();
-    c.moveTo(0, canvas.height / 2);
-    c.lineTo(canvas.width, canvas.height / 2);
-    c.stroke();
+        this.width = this.target.offsetWidth;
+        this.height = this.target.offsetHeight;
 
-    function on() {
-        if (isPlaying) {
-            if (oscillator) oscillator.stop()
-            powerBtn.innerHTML = "Turn On"
-        } else {
-            oscillator = new OscillatorNode(ac, {
-                type: oscType.value,
-                frequency: freqSlider.value
-            })
-            oscillator.connect(gainNode)
-            gainNode.connect(analyser)
-            analyser.connect(ac.destination)
-            oscillator.start()
-            draw()
-        }
-        isPlaying = !isPlaying;
+        this.wave = document.createElementNS("http://www.w3.org/2000/svg", 'path');
+        this.wave.setAttribute('class', 'oscilloscope__wave');
+
+        this.svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        this.svg.setAttribute('width', this.width);
+        this.svg.setAttribute('height', this.height);
+        this.svg.setAttribute('class', 'oscilloscope__svg');
+        this.svg.appendChild(this.wave);
+
+        this.target.appendChild(this.svg);
+
+        this.audioContext = context || new window.AudioContext();
+
+        this.running = false;
+
+        this.hasAudio = false;
+
+        this.analyserNode = this.audioContext.createAnalyser();
+        this.analyserNode.fftSize = 128;
+        _bufferLength = this.analyserNode.frequencyBinCount;
+        _dataArray = new Uint8Array(_bufferLength);
+
+        _drawWave = function() {
+            var path = 'M';
+
+            this.analyserNode.getByteTimeDomainData(_dataArray);
+
+            _dataArray.forEach(function(point, i) {
+                path += (((this.width + (this.width / _bufferLength))/ _bufferLength) * i) + ' ' + ((this.height / 2) * (point / 128.0)) + ', ';
+            }.bind(this));
+
+            this.wave.setAttribute('d', path);
+
+            if (this.running) {
+                window.requestAnimationFrame(_drawWave);
+            }
+        }.bind(this);
+
+        
+        this.start = function() {
+            this.running = true;
+
+            window.requestAnimationFrame(_drawWave);
+        }.bind(this);
     }
 
-    // freqSlider.addEventListener("input", (event) => {
-    //     let freq = event.target.value;
-    //     document.getElementById("frequencyValue").innerHTML = freq;
-    //     if (oscillator && isPlaying) {
-    //         oscillator.frequency.value = freq;
-    //     }
-    // });
 
-    // oscType.addEventListener("change", (event) => {
-    //     if (oscillator && isPlaying) {
-    //         oscillator.type = event.target.value;
-    //     }
-    // });
+    Oscilloscope.prototype.stop = function() {
+        this.running = false;
+    };
 
-    // gainSlider.addEventListener("input", (event) => {
-    //     let gain = event.target.value;
-    //     document.getElementById("gainValue").innerHTML = gain;
-    //     if (oscillator && isPlaying) {
-    //         gainNode.gain.value = gain;
-    //     }
-    // });
+    Oscilloscope.prototype.connect = function(node) {
+        this.analyserNode.connect(node);
+    };
 
-    const draw = () => {
-        analyser.getByteTimeDomainData(dataArray);
-        segmentWidth = canvas.width / analyser.frequencyBinCount;
-        c.fillRect(0, 0, canvas.width, canvas.height);
-        c.beginPath();
-        c.moveTo(-100, canvas.height / 2);
-        if (isPlaying) {
-            for (let i = 1; i < analyser.frequencyBinCount; i += 1) {
-                let x = i * segmentWidth;
-                let v = dataArray[i] / 128.0;
-                let y = (v * canvas.height) / 2;
-                c.lineTo(x, y);
-            }
+    Oscilloscope.prototype.toggleAudio = function() {
+        if (!!this.hasAudio) {
+            this.analyserNode.disconnect();
+        } else {
+            this.analyserNode.connect(this.audioContext.destination);
         }
-        c.lineTo(canvas.width + 100, canvas.height / 2);
-        c.stroke();
-        requestAnimationFrame(draw);
+        this.hasAudio = !this.hasAudio;
     };
 
 
-    var element = document.createElement("tool")
-    element.appendChild(canvas)
 
-    on()
+
 
     var wavetype = "sine",
-        frequency = 300,
-        duration = 0.5,
-        volume = 1
+    frequency = 300,
+    duration = 0.5,
+    volume = 1
+
+    var element = document.createElement("tool")
+    element.innerHTML = "<div class='genwavetype'><p>Wave type</p><button class='active'>Sine</button><button>Square</button><button>Sawtooth</button><button>Triangle</button></div>"+
+    "<div class='genwavetype'><p>Frequency</p><input value='300' type='number'></div>"+
+    "<div class='genwavetype'><p>Duration</p><input value='0.5' type='number'></div>"+
+    "<div class='genwavetype'><p>Volume</p><input value='1' type='number'></div>"+
+    "<div class='genwavetype'><button>Play sound</button></div>"
 
     var genElements = element.getElementsByClassName("genwavetype")
     var wavetypebtns = genElements[0].getElementsByTagName("button")
     for (let i = 0; i < wavetypebtns.length; i++) {
         const element = wavetypebtns[i];
-        ButtonEvent(element, function () {
+        ButtonEvent(element, function(){
             for (let i = 0; i < wavetypebtns.length; i++) {
                 wavetypebtns[i].classList.remove("active")
             }
@@ -436,20 +420,20 @@ function oscilloscopeVisual() { // finish this!
             element.classList.add("active")
         })
     }
-
-    genElements[1].getElementsByTagName("input")[0].addEventListener("change", function () {
+    
+    genElements[1].getElementsByTagName("input")[0].addEventListener("change", function(){
         frequency = this.value
     })
-    genElements[2].getElementsByTagName("input")[0].addEventListener("change", function () {
-        duration = this.value
+    genElements[2].getElementsByTagName("input")[0].addEventListener("change", function(){
+        duration = this.value 
     })
-    genElements[3].getElementsByTagName("input")[0].addEventListener("change", function () {
+    genElements[3].getElementsByTagName("input")[0].addEventListener("change", function(){
         volume = this.value
     })
-    genElements[4].getElementsByTagName("button")[0].addEventListener("click", function () {
+    genElements[4].getElementsByTagName("button")[0].addEventListener("click", function(){
         playGenerator(wavetype, frequency, duration, volume)
     })
 
     return element
 }
-ButtonEvent(document.querySelector('[data-action="oscilloscopeemu"]'), function () { showTool(oscilloscopeVisual(), "Oscilloscope Emulator") })
+ButtonEvent(document.querySelector('[data-action="audiogen"]'), function(){showTool(simpleAudioGen(), "Simple Audio Generator")})

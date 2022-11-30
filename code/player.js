@@ -320,6 +320,9 @@ function play(path, title, artist, image){
     if(settings.playbackRate){
       song.playbackRate = settings.playbackRate
     }
+    if(!settings.preservesPitch){
+      song.preservesPitch = settings.preservesPitch
+    }
     song.play()
   }
 
