@@ -316,6 +316,7 @@ function play(path, title, artist, image){
     if(VolumeGainMultiplier){
       amplifyMedia(song, VolumeGainMultiplier)
     }
+    visualizererr.innerText = ""
     volumegaininputerror.innerText = ""
     if(settings.playbackRate){
       song.playbackRate = settings.playbackRate

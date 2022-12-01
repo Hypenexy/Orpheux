@@ -39,7 +39,7 @@ main.innerHTML = "<div class='libraryselector'><h1 class='active'>Library</h1><h
 "<div class='song'><ty>Song 1:21</ty><img src='../../songimage.png'><ti>Electric Growl</ti><ar>Hypenexy</ar></div>"+
 "<div class='song'><ty>Song 2:35</ty><img src='../../songimage.png'><ti>distortion</ti><ar>Hypenexy</ar></div>"+
 "<div class='song songadd'><i class='m-i'>add</i><ti>Add a song</ti></div>"+
-"<div class='songimporter'></div>"+
+"<div class='songimporter'><i class='m-i x'>close</i><div class='importfile active'><label><h3>Add a song</h3><div class='drop'><a>Drop here</a></div><p>Drop a file or <input type='file'></p></label></div><div class='processfile'><h3>Choose details</h3><input type='text' placeholder='Name'><div><button>Save to Hypenexy</button><button>Save to PC</button></div><p>brr brr computer is thinkin</p></div></div>"+
 "</library>"+
 `<tools class='libmenu'>
   <h2>Everydays</h2>
@@ -51,6 +51,7 @@ main.innerHTML = "<div class='libraryselector'><h1 class='active'>Library</h1><h
   <div data-action="oscilloscopeemu"><i class='m-i'>microwave</i><info><ti>Oscilloscope Emulator</ti><desc>Visualizer for audio in the oscilloscope form</desc></info></div>
   <div><i class='m-i'>water</i><info><ti>Water Visualizer</ti><desc>Learn how certain frequencies interact with water</desc></info></div>
   <h2>Artists' tools</h2>
+  <div><i class='m-i'>speed</i><info><ti>Metronome</ti><desc>Playbacks a sound at a specified tempo</desc></info></div>
   <div><i class='m-i'>lyrics</i><info><ti>Lyrics Generator</ti><desc>Using AI generates lyrics and title for a song</desc></info></div>
 </tools>
 <profile class='libmenu'>
@@ -69,6 +70,10 @@ for (let i = 0; i < librarybtns.length; i++) {
   const element = librarybtns[i]
   const spaces = [library, tools, profile]
   ButtonEvent(element, function(){
+    if(i==2){
+      profile.appendChild(showArtist)
+    }
+    
     var lastnmenu, lasti
     for (let i = 0; i < spaces.length; i++) {
       const element = spaces[i];
@@ -87,6 +92,10 @@ for (let i = 0; i < librarybtns.length; i++) {
       transtion1 = transtion2
       transtion2 = temp
     }
+    if(Math.abs(lasti - i)>1){
+      transtion1 = transtion1 + "more"
+      transtion2 = transtion2 + "more"
+    }
   
     lastnmenu.classList.remove("active")
     lastnmenu.classList.add(transtion1)
@@ -100,14 +109,57 @@ for (let i = 0; i < librarybtns.length; i++) {
       }, 10);
     }, 10);
     setTimeout(() => {
-      // spaces[i].classList.remove(transtion2)
-      
-    lastnmenu.classList.remove(transtion1)
+      lastnmenu.classList.remove(transtion1)
     }, 300);
   })
 }
 
-// var server stuff here
+var songimporter = main.getElementsByClassName("songimporter")[0]
+songimporter.addEventListener("dragover", function(e){
+  e.preventDefault()
+  songimporter.classList.add("hovered")
+})
+songimporter.addEventListener("dragleave", function(){
+  songimporter.classList.remove("hovered")
+})
+function processFile(file){
+  songimporter.getElementsByClassName("importfile")[0].classList.remove("active")
+  songimporter.getElementsByClassName("processfile")[0].classList.add("active")
+
+  console.log(file)
+}
+songimporter.addEventListener("drop", function(e){
+  e.preventDefault()
+  if (e.dataTransfer.items){
+    [...e.dataTransfer.items].forEach((item, i) => {
+      if (item.kind === 'file') {
+        const file = item.getAsFile()
+        processFile(file)
+      }
+    })
+  } else {
+    // Use DataTransfer interface to access the file(s)
+    [...e.dataTransfer.files].forEach((file, i) => {
+      processFile(file)
+      console.log("what situation is this?")
+    })
+  }
+})
+songimporter.getElementsByTagName("input")[0].addEventListener("change", function(){
+  processFile(this.value)
+})
+
+var songadd = main.getElementsByClassName("songadd")[0]
+ButtonEvent(songadd, function(){
+  songimporter.classList.add("active")
+})
+ButtonEvent(songimporter.getElementsByClassName("x")[0], function(){
+  songimporter.classList.remove("active")
+  setTimeout(() => {
+    songimporter.getElementsByClassName("processfile")[0].classList.remove("active")
+    songimporter.getElementsByClassName("importfile")[0].classList.add("active")
+  }, 300);
+})
 
 var songs = main.getElementsByClassName("song")
 
@@ -172,7 +224,7 @@ mainexplore.innerHTML = "<h1>Explore</h1>"+
 
 var aritstsButtons = mainexplore.getElementsByClassName("artist")
 for (let i = 0; i < aritstsButtons.length; i++) {
-  ButtonEvent(aritstsButtons[i], function(){showArtist(aritstsButtons[i].getElementsByTagName("ar")[0].innerText)})
+  ButtonEvent(aritstsButtons[i], function(){mainexplore.appendChild(showArtist(aritstsButtons[i].getElementsByTagName("ar")[0].innerText))})//test this at home
 }
 
 mainexplore.getElementsByClassName("lds-ellipsis")[0].remove() //remove it when it loads
@@ -192,6 +244,7 @@ function showArtist(name){
           //close
           artistEl.remove()
         })
+        return artistEl;
         mainexplore.appendChild(artistEl)
       },
       error: function() {
@@ -205,7 +258,7 @@ mainsettings.innerHTML = "<h1>Settings</h1>"+
 "<h2>Visual</h2>"+
 "<div><p>Theme</p><a>Gradient</a><a>Dark</a><a>Light</a><a>Mint Green</a><a>Blood Red</a></div>"+
 "<div><p>Numerals</p><a>Arabic</a><a>Roman</a></div>"+
-"<div><p>Audio Visualizer</p><a>On</a><a>Off</a></div>"+
+"<div><p>Audio Visualizer</p><a>On</a><a>Off</a><err></err></div>"+
 "<div><p>UI Animations</p><a>On</a><a>Off</a></div>"+
 "<h2>Sound</h2>"+
 "<div><p>Volume Gain Multiplier</p><input type='number' value=1><err></err></div>"+
@@ -352,19 +405,26 @@ function Romanize(num){
 }
 
 var visualizerbtns = optionsdivs[3].getElementsByTagName("a")
-
+var visualizererr = optionsdivs[3].getElementsByTagName("err")[0]
 function showVisualizer(bool){
   if(bool){
-    visualizerbtns[0].classList.add("active")
-    visualizerbtns[1].classList.remove("active")
-    AudioSpectrumEnabled = true
-    settings.audioVisualizer = true
+    if(settings.volumeMultiplier){
+      visualizererr.innerText = "Visualizer doesn't work with Volume Gain Multiplier being other than '1'"
+    }
+    else{
+      visualizerbtns[0].classList.add("active")
+      visualizerbtns[1].classList.remove("active")
+      AudioSpectrumEnabled = true
+      settings.audioVisualizer = true
+      visualizererr.innerText = "You need to restart the audio to affect changes"
+    }
   }
   else{
     visualizerbtns[1].classList.add("active")
     visualizerbtns[0].classList.remove("active")
     AudioSpectrumEnabled = false
     delete settings.audioVisualizer
+    visualizererr.innerText = "You need to restart the audio to affect changes"
   }
   saveSettings()
 }
@@ -422,6 +482,10 @@ volumegaininput.addEventListener("change",function(){
     else{
       VolumeGainMultiplier = volumegaininput.value
       settings.volumeMultiplier = VolumeGainMultiplier
+      if(settings.audioVisualizer){
+        visualizerbtns[1].click()
+        visualizererr.innerText = "Visualizer doesn't work with Volume Gain Multiplier being other than '1'"
+      }
     }
     saveSettings()
     volumegaininputerror.innerText = "You need to restart the audio to affect changes"

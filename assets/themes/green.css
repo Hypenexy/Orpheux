@@ -43,3 +43,9 @@
     --settingsahovertx: #fff;
     --settingsaactivetx: #1f3324;
 }
+.libraryselector .active{
+    color: var(--maintx);
+}
+.libraryselector h1{
+    color: var(--sidepaneltx);
+}
