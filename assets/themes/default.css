@@ -557,6 +557,19 @@ tools div:active{
     stroke-width: 2px;
 }
 
+.tool .watertutorial{
+    padding: 32px;
+}
+.tool .watertutorial h1, .tool .watertutorial h2{
+    margin: 16px 0;
+}
+.tool .watertutorial h3{
+    margin: 10px 20px;
+}
+.tool .watertutorial img{
+    width: 50%;
+}
+
 .artist{
     cursor: pointer;
     display: inline-block;

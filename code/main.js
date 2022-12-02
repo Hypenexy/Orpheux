@@ -47,15 +47,15 @@ main.innerHTML = "<div class='libraryselector'><h1 class='active'>Library</h1><h
   <div data-action='whitenoise'><i class='m-i'>equalizer</i><info><ti>White Noise</ti><desc>A mixer for calming noises</desc></info></div>
   <div><i class='m-i'>subtitles</i><info><ti>Caption Generator</ti><desc>Listen to any audio with subtitles</desc></info></div>
   <div data-action='audiogen'><i class='m-i'>speaker</i><info><ti>Simple Audio Generator</ti><desc>Generate a sound</desc></info></div><!--I updated material icons but it still isnt there-->
-  <h2>Enthusiasts' visuals</h2>
+  <h2>Learners' visuals</h2>
   <div data-action="oscilloscopeemu"><i class='m-i'>microwave</i><info><ti>Oscilloscope Emulator</ti><desc>Visualizer for audio in the oscilloscope form</desc></info></div>
-  <div><i class='m-i'>water</i><info><ti>Water Visualizer</ti><desc>Learn how certain frequencies interact with water</desc></info></div>
+  <div data-action='water'><i class='m-i'>water</i><info><ti>Water Visualizer</ti><desc>Learn how certain frequencies interact with water</desc></info></div>
   <h2>Artists' tools</h2>
   <div><i class='m-i'>speed</i><info><ti>Metronome</ti><desc>Playbacks a sound at a specified tempo</desc></info></div>
   <div><i class='m-i'>lyrics</i><info><ti>Lyrics Generator</ti><desc>Using AI generates lyrics and title for a song</desc></info></div>
 </tools>
 <profile class='libmenu'>
-  <div class='artist'><img src='app/artist/5F1B2416-AF81-41FC-B7D1-24B91CF8A0B8.jpeg'><ar>Hypenexy</ar></div>
+<div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
 </profile>
 `
 
@@ -71,7 +71,12 @@ for (let i = 0; i < librarybtns.length; i++) {
   const spaces = [library, tools, profile]
   ButtonEvent(element, function(){
     if(i==2){
-      profile.appendChild(showArtist)
+      const asyncFunc = async () => {
+        const result = await showArtist("Hypenexy")
+        profile.innerHTML = ''
+        profile.appendChild(result)
+      }
+      asyncFunc()
     }
     
     var lastnmenu, lasti
@@ -219,17 +224,22 @@ window.addEventListener("load", function(){
 
 mainexplore.innerHTML = "<h1>Explore</h1>"+
 "<h2>Artists</h2>"+
-"<div class='artist'><img src='app/artist/5F1B2416-AF81-41FC-B7D1-24B91CF8A0B8.jpeg'><ar>Hypenexy</ar></div>"+
-'<div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>'
+"<div class='artist'><img src='app/artist/5F1B2416-AF81-41FC-B7D1-24B91CF8A0B8.jpeg'><ar>Hypenexy</ar></div>"
 
 var aritstsButtons = mainexplore.getElementsByClassName("artist")
 for (let i = 0; i < aritstsButtons.length; i++) {
-  ButtonEvent(aritstsButtons[i], function(){mainexplore.appendChild(showArtist(aritstsButtons[i].getElementsByTagName("ar")[0].innerText))})//test this at home
+  ButtonEvent(aritstsButtons[i], function(){
+    const asyncFunc = async () => {
+      const result = await showArtist(aritstsButtons[i].getElementsByTagName("ar")[0].innerText)
+      mainexplore.appendChild(result)
+    }
+    asyncFunc()
+  })
 }
 
-mainexplore.getElementsByClassName("lds-ellipsis")[0].remove() //remove it when it loads
-
+var loadingAnim = '<div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>'
 function showArtist(name){
+  return new Promise(resolve => {
   $.ajax({
       url: server + "app/artist/",
       type: "post",
@@ -241,14 +251,13 @@ function showArtist(name){
         artistEl.innerHTML = "<div class='artistidentity'><i class='x m-i'>arrow_back_ios</i><div style=\"--bg-image: url('../../app/artist/5F1B2416-AF81-41FC-B7D1-24B91CF8A0B8.jpeg');\" class='banner'></div><h1>"+response.name+"</h1></div>"+
         "<h2>Tracks</h2>"
         ButtonEvent(artistEl.getElementsByClassName("x")[0], function(){
-          //close
           artistEl.remove()
         })
-        return artistEl;
-        mainexplore.appendChild(artistEl)
+          resolve(artistEl)
       },
       error: function() {
       }
+  })
   })
 }
 

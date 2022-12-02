@@ -437,3 +437,25 @@ function oscilloscopeVisual(){ // finish this!
     return element
 }
 ButtonEvent(document.querySelector('[data-action="audiogen"]'), function(){showTool(simpleAudioGen(), "Simple Audio Generator")})
+
+
+
+
+function Water(){
+    var element = document.createElement("tool")
+    element.innerHTML = `<div class='watertutorial'>
+    <h1>Learn how to see sound frequencies using water</h1>
+    <h2>You'll need:</h2>
+    <h3>• A speaker</h3>
+    <h3>• A tray of water</h3>
+    <img src='assets/water/speaker.jpg'>
+    <h2>1. Open Orpheux</h2>
+    <h2>2. Go to Tools and open "Simple Audio Generator"</h2>
+    <h2>3. Set the tray in direct contact with the speaker</h2>
+    <h2>4. Set the frequency to 80 and the duration to something longer</h2>
+    <img style='width:initial' src='assets/water/settings2.png'>
+    <h2>5. Click "Play sound" and watch water ripple</h2>
+    </div>`
+    return element
+}
+ButtonEvent(document.querySelector('[data-action="water"]'), function(){showTool(Water(), "Water")})
