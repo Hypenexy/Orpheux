@@ -1,4 +1,4 @@
-# ChordTune
+# Orpheux
 Everything to do with sound and music!
 
 You can view the project at
